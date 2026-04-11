@@ -1,0 +1,9 @@
+.idea/
+*.iml
+out/
+/data/
+*.json
+!**/src/main/**/out/
+!**/src/test/**/out/
+target
+logs/
