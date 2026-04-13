@@ -15,21 +15,22 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "locations")
+@Table(name = "locations",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"id", "branch_name"}))
 public class Location {
 
     @Id
     @Column(nullable = false)
     private String id;
-    @Column
-    private String name;
+    @Column(name = "branch_name")
+    private String branchName;
     @Column
     private String address;
     @Column
     private String city;
-    @Column
+    @Column(name = "open_time")
     private LocalTime openingTime;
-    @Column
+    @Column(name = "close_time")
     private LocalTime closingTime;
     @Column(name = "contact_phone")
     private String contactPhone;
@@ -43,7 +44,7 @@ public class Location {
                 openingTime.isAfter(closingTime)) {
             throw new IllegalArgumentException("Opening time must be before closing time");
         }
-        this.name = name;
+        this.branchName = name;
         this.address = address;
         this.city = city;
         this.openingTime = openingTime;

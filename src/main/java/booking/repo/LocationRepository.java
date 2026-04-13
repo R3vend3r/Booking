@@ -11,8 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, String> {
-    Optional<Location> findByName(String name);
+    Optional<Location> findByBranchName(String name);
     List<Location> findByCity(String city);
+    Optional<Location> findByBranchNameAndAddressAndCity(String name, String address, String city);
 
     @Query("SELECT DISTINCT l FROM Location l LEFT JOIN FETCH l.workplaces WHERE l.city = :city")
     List<Location> findByCityWithWorkplaces(@Param("city") String city);

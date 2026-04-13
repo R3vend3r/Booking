@@ -5,6 +5,12 @@ spring:
     password: qwerty123
     driver-class-name: org.postgresql.Driver
 
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: ADMIN
+
   jpa:
     hibernate:
       ddl-auto: update
