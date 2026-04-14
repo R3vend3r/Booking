@@ -7,6 +7,7 @@ import booking.entity.Location;
 import booking.exception.ServiceException;
 import booking.repo.LocationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -22,6 +23,7 @@ public class LocationService {
         this.locationMapper = locationMapper;
     }
 
+    @Transactional
     public LocationResponse add(LocationRequest request){
         Location existingLocation = locationRepository
                 .findByBranchNameAndAddressAndCity(
@@ -49,23 +51,26 @@ public class LocationService {
         return locationMapper.toResponse(saved);
     }
 
+    @Transactional(readOnly = true)
     public LocationResponse findById(String id){
         Location location = locationRepository.findById(id)
                 .orElseThrow(()-> new ServiceException("Локация с таким id не найдена"));
         return locationMapper.toResponse(location);
     }
+    @Transactional(readOnly = true)
     public List<LocationResponse> getAll(){
         return locationRepository.findAll().stream()
                 .map(locationMapper::toResponse)
                 .collect(Collectors.toList());
     }
-
+    @Transactional(readOnly = true)
     public List<LocationResponse> findByCity(String city){
         return locationRepository.findByCity(city).stream()
                 .map(locationMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public LocationResponse update(String id, LocationRequest request){
         Location location = locationRepository.findById(id)
                 .orElseThrow(()-> new ServiceException("Локация с таким id не найдена"));
@@ -89,6 +94,7 @@ public class LocationService {
         return locationMapper.toResponse(locationRepository.save(location));
     }
 
+    @Transactional
     public void delete(String id) {
         Location location = locationRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Локация с таким id не найдена"));
@@ -97,10 +103,18 @@ public class LocationService {
         }
         locationRepository.delete(location);
     }
-
+    @Transactional(readOnly = true)
     public boolean isOpenNow(String id){
         Location location = locationRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Локация с таким id не найдена"));
         return location.isOpenAt(LocalTime.now());
     }
+    @Transactional(readOnly = true)
+    public int getWorkplacesCount(String id) {
+        Location location = locationRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Локация не найдена"));
+        return location.getWorkplaces() != null ? location.getWorkplaces().size() : 0;
+    }
+
+    //посмотреть нужна ли пагинация
 }

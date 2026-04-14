@@ -63,4 +63,10 @@ public class LocationController {
         boolean isOpen = locationService.isOpenNow(id);
         return ResponseEntity.ok(isOpen);
     }
+
+    @GetMapping("/{id}/workplaces-count")
+    public ResponseEntity<Integer> getWorkplacesCount(@PathVariable String id) {
+        int count = locationService.getWorkplacesCount(id);
+        return ResponseEntity.ok(count);
+    }
 }
