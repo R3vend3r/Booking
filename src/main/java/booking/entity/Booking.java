@@ -57,22 +57,31 @@ public class Booking {
         }
     }
 
-    public void addService(Service service, int quantity, int priceAtBookingTime) {
+    public void addService(AdditionalService service, int quantity, int priceAtBookingTime) {
         BookingServiceId id = new BookingServiceId(this.id, service.getId());
         BookingService bs = new BookingService(id, this, service, quantity, priceAtBookingTime);
         bookingServices.add(bs);
         service.getBookingServices().add(bs);
     }
 
-    public void removeService(Service service) {
+    public void removeService(AdditionalService service) {
         bookingServices.removeIf(bs -> bs.getService().equals(service));
         service.getBookingServices().removeIf(bs -> bs.getBooking().equals(this));
     }
 
     public Long getTotalAmount() {
-        return bookingServices.stream()
+        long servicesTotal = bookingServices.stream()
                 .mapToLong(BookingService::getTotalPrice)
                 .sum();
+
+        long workplaceTotal = 0L;
+        if (workPlace != null && startTime != null && endTime != null) {
+            long hours = java.time.Duration.between(startTime, endTime).toHours();
+            if (hours < 1) hours = 1;
+            workplaceTotal = workPlace.getPriceForHour() * hours;
+        }
+
+        return servicesTotal + workplaceTotal;
     }
 
     public Contract createContract() {
@@ -83,9 +92,5 @@ public class Booking {
             this.contract = newContract;
         }
         return this.contract;
-    }
-
-    public void setWorkplace(WorkPlace workPlace) {
-        this.workPlace = workPlace;
     }
 }

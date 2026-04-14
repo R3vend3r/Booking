@@ -1,6 +1,7 @@
 package booking.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalTime;
@@ -20,5 +21,7 @@ public class LocationRequest {
 
     private LocalTime closingTime;
 
+    @NotBlank(message = "Телефон обязателен")
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Неверный формат телефона")
     private String contactPhone;
 }

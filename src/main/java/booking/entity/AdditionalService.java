@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "services")
-public class Service {
+public class AdditionalService {
 
     @Id
     @Column(nullable = false)

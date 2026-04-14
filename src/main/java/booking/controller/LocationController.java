@@ -22,25 +22,25 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity<LocationResponse> createLocation(@Valid @RequestBody LocationRequest request) {
-        LocationResponse response = locationService.add(request);
+        LocationResponse response = locationService.addLocation(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<LocationResponse> findLocationById(@PathVariable String id) {
-        LocationResponse response = locationService.findById(id);
+        LocationResponse response = locationService.findLocationById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<List<LocationResponse>> getAllLocations() {
-        List<LocationResponse> locations = locationService.getAll();
+        List<LocationResponse> locations = locationService.getAllLocation();
         return ResponseEntity.ok(locations);
     }
 
     @GetMapping("/city/{city}")
     public ResponseEntity<List<LocationResponse>> findLocationsByCity(@PathVariable String city) {
-        List<LocationResponse> locations = locationService.findByCity(city);
+        List<LocationResponse> locations = locationService.findLocationByCity(city);
         return ResponseEntity.ok(locations);
     }
 

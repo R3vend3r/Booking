@@ -24,7 +24,7 @@ public class BookingService {
     @MapsId("serviceId")
     @JoinColumn(name = "service_id")
     @ToString.Exclude
-    private Service service;
+    private AdditionalService service;
 
     @Column(name = "price_at_booking_time", nullable = false)
     private int priceAtBookingTime;
@@ -32,7 +32,7 @@ public class BookingService {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    public BookingService(BookingServiceId id, Booking booking, Service service,
+    public BookingService(BookingServiceId id, Booking booking, AdditionalService service,
                           int quantity, int priceAtBookingTime) {
         this.id = id;
         this.booking = booking;

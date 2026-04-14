@@ -24,7 +24,7 @@ public class LocationService {
     }
 
     @Transactional
-    public LocationResponse add(LocationRequest request){
+    public LocationResponse addLocation(LocationRequest request){
         Location existingLocation = locationRepository
                 .findByBranchNameAndAddressAndCity(
                         request.getBranchName(),
@@ -52,19 +52,19 @@ public class LocationService {
     }
 
     @Transactional(readOnly = true)
-    public LocationResponse findById(String id){
+    public LocationResponse findLocationById(String id){
         Location location = locationRepository.findById(id)
                 .orElseThrow(()-> new ServiceException("Локация с таким id не найдена"));
         return locationMapper.toResponse(location);
     }
     @Transactional(readOnly = true)
-    public List<LocationResponse> getAll(){
+    public List<LocationResponse> getAllLocation(){
         return locationRepository.findAll().stream()
                 .map(locationMapper::toResponse)
                 .collect(Collectors.toList());
     }
     @Transactional(readOnly = true)
-    public List<LocationResponse> findByCity(String city){
+    public List<LocationResponse> findLocationByCity(String city){
         return locationRepository.findByCity(city).stream()
                 .map(locationMapper::toResponse)
                 .collect(Collectors.toList());

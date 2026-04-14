@@ -62,6 +62,6 @@ public class WorkPlace {
 
     public void addBooking(Booking booking) {
         bookings.add(booking);
-        booking.setWorkplace(this);
+        booking.setWorkPlace(this);
     }
 }
