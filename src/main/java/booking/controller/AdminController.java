@@ -3,12 +3,14 @@ package booking.controller;
 import booking.dto.auth.UserResponse;
 import booking.service.AdminService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     private final AdminService adminService;

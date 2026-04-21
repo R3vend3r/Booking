@@ -9,6 +9,9 @@ import booking.enums.Role;
 import booking.exception.ServiceException;
 import booking.repo.ClientRepository;
 import booking.repo.UserRepository;
+import booking.security.CustomUserDetailsService;
+import booking.security.JwtUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +23,19 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ClientRepository clientRepository;
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtUtils jwtUtils;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, ClientRepository clientRepository) {
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       ClientRepository clientRepository,
+                       CustomUserDetailsService userDetailsService,
+                       JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.clientRepository = clientRepository;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtils = jwtUtils;
     }
 
     @Transactional
@@ -61,10 +72,14 @@ public class AuthService {
         client.setUser(savedUser);
         clientRepository.save(client);
 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getLogin());
+        String token = jwtUtils.generateJwtToken(userDetails);
+
         return new AuthResponse(
                 savedUser.getId().toString(),
                 savedUser.getLogin(),
-                savedUser.getRole().name()
+                savedUser.getRole().name(),
+                token
         );
     }
 
@@ -80,10 +95,14 @@ public class AuthService {
             throw new ServiceException("Аккаунт заблокирован");
         }
 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getLogin());
+        String token = jwtUtils.generateJwtToken(userDetails);
+
         return new AuthResponse(
                 user.getId().toString(),
                 user.getLogin(),
-                user.getRole().name()
+                user.getRole().name(),
+                token
         );
     }
 }

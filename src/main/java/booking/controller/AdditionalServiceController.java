@@ -6,6 +6,7 @@ import booking.service.AdditionalServiceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class AdditionalServiceController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<ServiceResponse> createService(@Valid @RequestBody ServiceRequest request) {
         ServiceResponse response = additionalServiceService.addService(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -44,6 +46,7 @@ public class AdditionalServiceController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<ServiceResponse> updateService(
             @PathVariable String id,
             @Valid @RequestBody ServiceRequest request) {
@@ -52,6 +55,7 @@ public class AdditionalServiceController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<Void> deleteService(@PathVariable String id) {
         additionalServiceService.deleteService(id);
         return ResponseEntity.noContent().build();

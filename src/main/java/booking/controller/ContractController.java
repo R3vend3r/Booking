@@ -7,6 +7,7 @@ import booking.service.ContractService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ContractController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<ContractResponse> createContract(@Valid @RequestBody ContractRequest request) {
         ContractResponse response = contractService.createContract(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -46,24 +48,28 @@ public class ContractController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<ContractResponse>> getAllContracts() {
         List<ContractResponse> responses = contractService.getAllContracts();
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/with-bookings")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<ContractResponse>> getAllContractsWithBookings() {
         List<ContractResponse> responses = contractService.getAllContractsWithBookings();
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/pending")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<List<ContractResponse>> getPendingContracts() {
         List<ContractResponse> responses = contractService.getPendingContracts();
         return ResponseEntity.ok(responses);
     }
 
     @PostMapping("/{contractId}/pay")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ContractResponse> payContract(
             @PathVariable String contractId,
             @RequestParam PaymentMethod method) {
@@ -72,12 +78,14 @@ public class ContractController {
     }
 
     @PostMapping("/{contractId}/cancel")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ContractResponse> cancelContract(@PathVariable String contractId) {
         ContractResponse response = contractService.cancelContract(contractId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/total-income")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> getTotalIncome() {
         Long total = contractService.getTotalIncome();
         return ResponseEntity.ok(total);

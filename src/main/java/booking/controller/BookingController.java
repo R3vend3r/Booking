@@ -6,6 +6,7 @@ import booking.service.BookingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class BookingController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookingRequest request) {
         BookingResponse response = bookingService.createBooking(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -40,30 +42,42 @@ public class BookingController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BookingResponse>> getAllBookings() {
         List<BookingResponse> responses = bookingService.getAllBookings();
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/my")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
+    public ResponseEntity<List<BookingResponse>> getMyBookings() {
+        List<BookingResponse> responses = bookingService.getMyBookings();
+        return ResponseEntity.ok(responses);
+    }
+
     @GetMapping("/client/{clientId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BookingResponse>> getBookingsByClient(@PathVariable String clientId) {
         List<BookingResponse> responses = bookingService.getBookingsByClient(clientId);
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/workplace/{workPlaceId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<List<BookingResponse>> getBookingsByWorkPlace(@PathVariable String workPlaceId) {
         List<BookingResponse> responses = bookingService.getBookingsByWorkPlace(workPlaceId);
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/active")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<List<BookingResponse>> getActiveBookings() {
         List<BookingResponse> responses = bookingService.getActiveBookings();
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/date-range")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<List<BookingResponse>> getBookingsByDateRange(
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end) {
@@ -72,6 +86,7 @@ public class BookingController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<BookingResponse> updateBooking(
             @PathVariable String id,
             @Valid @RequestBody BookingRequest request) {
@@ -80,6 +95,7 @@ public class BookingController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<Void> deleteBooking(@PathVariable String id) {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();

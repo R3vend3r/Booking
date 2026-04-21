@@ -6,6 +6,7 @@ import booking.service.LocationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class LocationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<LocationResponse> createLocation(@Valid @RequestBody LocationRequest request) {
         LocationResponse response = locationService.addLocation(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -45,6 +47,7 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<LocationResponse> updateLocation(
             @PathVariable String id,
             @Valid @RequestBody LocationRequest request) {
@@ -53,6 +56,7 @@ public class LocationController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<Void> deleteLocation(@PathVariable String id) {
         locationService.delete(id);
         return ResponseEntity.noContent().build();

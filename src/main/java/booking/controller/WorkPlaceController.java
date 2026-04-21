@@ -6,6 +6,7 @@ import booking.service.WorkPlaceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class WorkPlaceController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<WorkPlaceResponse> createWorkPlace(@Valid @RequestBody WorkPlaceRequest request) {
         WorkPlaceResponse response = workPlaceService.add(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -43,12 +45,15 @@ public class WorkPlaceController {
         List<WorkPlaceResponse> responses = workPlaceService.findByLocationId(locationId);
         return ResponseEntity.ok(responses);
     }
+
     @GetMapping("/location/{locationId}/available")
     public ResponseEntity<List<WorkPlaceResponse>> getAvailableWorkPlacesByLocation(@PathVariable String locationId) {
         List<WorkPlaceResponse> responses = workPlaceService.findAvailableByLocationId(locationId);
         return ResponseEntity.ok(responses);
     }
+
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<WorkPlaceResponse> updateWorkPlace(
             @PathVariable String id,
             @Valid @RequestBody WorkPlaceRequest request) {
@@ -57,12 +62,14 @@ public class WorkPlaceController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<Void> deleteWorkPlace(@PathVariable String id) {
         workPlaceService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/toggle-availability")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<WorkPlaceResponse> toggleAvailability(@PathVariable String id) {
         WorkPlaceResponse response = workPlaceService.toggleAvailability(id);
         return ResponseEntity.ok(response);

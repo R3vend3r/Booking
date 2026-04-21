@@ -6,6 +6,7 @@ import booking.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,24 +22,35 @@ public class ClientController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ClientResponse> createClient(@Valid @RequestBody ClientRequest request) {
         ClientResponse response = clientService.createClient(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity<ClientResponse> getCurrentClient() {
+        ClientResponse response = clientService.getCurrentClient();
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ClientResponse> getClientById(@PathVariable String id) {
         ClientResponse response = clientService.getClientById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/phone/{phone}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ClientResponse> getClientByPhone(@PathVariable String phone) {
         ClientResponse response = clientService.getClientByPhone(phone);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<List<ClientResponse>> getAllClients() {
         List<ClientResponse> responses = clientService.getAllClients();
         return ResponseEntity.ok(responses);
@@ -53,6 +65,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteClient(@PathVariable String id) {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();

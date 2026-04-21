@@ -5,11 +5,15 @@ import booking.dto.request.BookingRequest;
 import booking.dto.response.BookingResponse;
 import booking.entity.Booking;
 import booking.entity.Client;
+import booking.entity.User;
 import booking.entity.WorkPlace;
 import booking.exception.ServiceException;
 import booking.repo.BookingRepository;
 import booking.repo.ClientRepository;
+import booking.repo.UserRepository;
 import booking.repo.WorkPlaceRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,16 +27,37 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final ClientRepository clientRepository;
     private final WorkPlaceRepository workPlaceRepository;
+    private final UserRepository userRepository;
     private final BookingMapper bookingMapper;
 
     public BookingService(BookingRepository bookingRepository,
                           ClientRepository clientRepository,
                           WorkPlaceRepository workPlaceRepository,
+                          UserRepository userRepository,
                           BookingMapper bookingMapper) {
         this.bookingRepository = bookingRepository;
         this.clientRepository = clientRepository;
         this.workPlaceRepository = workPlaceRepository;
+        this.userRepository = userRepository;
         this.bookingMapper = bookingMapper;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookingResponse> getMyBookings() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String login = auth.getName();
+
+        User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+
+        Client client = user.getClient();
+        if (client == null) {
+            throw new ServiceException("Клиент не найден");
+        }
+
+        return bookingRepository.findByClientId(client.getId()).stream()
+                .map(bookingMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -122,6 +147,8 @@ public class BookingService {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
 
+        checkBookingOwnership(booking);
+
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw new ServiceException("Время начала не может быть позже времени окончания");
         }
@@ -157,11 +184,25 @@ public class BookingService {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
 
+        checkBookingOwnership(booking);
+
         if (booking.getStartTime().isBefore(LocalDateTime.now())) {
             throw new ServiceException("Нельзя отменить уже начавшееся бронирование");
         }
 
         bookingRepository.delete(booking);
+    }
+
+    private void checkBookingOwnership(Booking booking) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String login = auth.getName();
+
+        User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+
+        if (user.getClient() != null && !user.getClient().getId().equals(booking.getClient().getId())) {
+            throw new ServiceException("Вы можете редактировать только свои бронирования");
+        }
     }
 
     @Transactional(readOnly = true)
