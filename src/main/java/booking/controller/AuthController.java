@@ -20,12 +20,12 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public AuthResponse registration(@Valid @RequestBody RegistrationRequest request){
+    public AuthResponse registration(@Valid @RequestBody RegistrationRequest request) {
         return authService.registrationUser(request);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
+    public AuthResponse login(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
     }
 }

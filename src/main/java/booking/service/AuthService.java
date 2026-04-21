@@ -28,9 +28,19 @@ public class AuthService {
     }
 
     @Transactional
-    public AuthResponse registrationUser(RegistrationRequest request){
-        if (userRepository.findByLogin(request.getLogin()).isPresent()){
-            throw new SecurityException("Пользователь с таким логином уже существует");
+    public AuthResponse registrationUser(RegistrationRequest request) {
+        if (userRepository.findByLogin(request.getLogin()).isPresent()) {
+            throw new ServiceException("Пользователь с таким логином уже существует");
+        }
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new ServiceException("Пользователь с таким email уже существует");
+        }
+
+        if (request.getPhone() != null && !request.getPhone().isEmpty()) {
+            if (clientRepository.findByPhone(request.getPhone()).isPresent()) {
+                throw new ServiceException("Клиент с таким номером телефона уже существует");
+            }
         }
 
         User user = new User();
@@ -48,7 +58,6 @@ public class AuthService {
                 request.getPhone(),
                 request.getBirthday()
         );
-
         client.setUser(savedUser);
         clientRepository.save(client);
 
@@ -59,14 +68,18 @@ public class AuthService {
         );
     }
 
-    public AuthResponse login(LoginRequest request){
-        User user = userRepository.findByLogin(request.getLogin()).orElseThrow(() -> new ServiceException("неверный логин или пароль"));
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
-            throw new SecurityException("Неверный логин или пароль");
+    public AuthResponse login(LoginRequest request) {
+        User user = userRepository.findByLogin(request.getLogin())
+                .orElseThrow(() -> new ServiceException("Неверный логин или пароль"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ServiceException("Неверный логин или пароль");
         }
+
         if (!user.isEnabled()) {
             throw new ServiceException("Аккаунт заблокирован");
         }
+
         return new AuthResponse(
                 user.getId().toString(),
                 user.getLogin(),

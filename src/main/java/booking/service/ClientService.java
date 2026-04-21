@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -49,7 +50,9 @@ public class ClientService {
 
     @Transactional(readOnly = true)
     public List<ClientResponse> getAllClients() {
-        return clientMapper.toResponseList(clientRepository.findAll());
+        return clientRepository.findAll().stream()
+                .map(clientMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional

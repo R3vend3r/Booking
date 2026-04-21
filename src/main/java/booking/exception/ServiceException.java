@@ -1,6 +1,6 @@
 package booking.exception;
 
-public class ServiceException extends RuntimeException {
+public class ServiceException extends BookingException {
     public ServiceException(String message, Throwable cause) {
         super(message, cause);
     }
