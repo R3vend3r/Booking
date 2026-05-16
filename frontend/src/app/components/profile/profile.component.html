@@ -1,0 +1,156 @@
+<div class="container profile-container">
+  <h1 class="profile-title">Профиль</h1>
+  
+  <div class="card">
+    <div class="avatar-wrap">
+      <div class="avatar">
+        <span class="avatar-initial">
+          {{ profile?.login?.charAt(0)?.toUpperCase() }}
+        </span>
+      </div>
+    </div>
+    
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-label">Логин</span>
+        <span>{{ profile?.login }}</span>
+      </div>
+      
+      <div class="info-row">
+        <span class="info-label">Роль</span>
+        <span [style.color]="getRoleColor()">{{ getRoleName() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-mt">
+    <h2 class="section-title">Редактирование профиля</h2>
+    
+    <form (ngSubmit)="saveProfile()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="editForm.email" name="email" required />
+      </div>
+
+      <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
+        <label>ФИО</label>
+        <input type="text" [(ngModel)]="editForm.fullName" name="fullName" />
+      </div>
+
+      <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
+        <label>Телефон</label>
+        <input type="tel" [(ngModel)]="editForm.phone" name="phone" />
+      </div>
+
+      <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
+        <label>Дата рождения</label>
+        <input type="date" [(ngModel)]="editForm.birthday" name="birthday" />
+      </div>
+      
+      <div *ngIf="profileError" class="error error-mb">
+        {{ profileError }}
+      </div>
+      
+      <div *ngIf="profileSuccess" class="success-msg">
+        {{ profileSuccess }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="profileLoading">
+        {{ profileLoading ? 'Сохранение...' : 'Сохранить изменения' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="card card-mt">
+    <h2 class="section-title">Смена пароля</h2>
+    
+    <form (ngSubmit)="changePassword()">
+      <div class="form-group">
+        <label>Старый пароль</label>
+        <input type="password" [(ngModel)]="pwForm.oldPassword" name="oldPassword" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Новый пароль</label>
+        <input type="password" [(ngModel)]="pwForm.newPassword" name="newPassword" required minlength="6" />
+      </div>
+      
+      <div class="form-group">
+        <label>Повторите новый пароль</label>
+        <input type="password" [(ngModel)]="pwForm.confirmPassword" name="confirmPassword" required />
+      </div>
+      
+      <div *ngIf="pwError" class="error error-mb">
+        {{ pwError }}
+      </div>
+      
+      <div *ngIf="pwSuccess" class="success-msg">
+        {{ pwSuccess }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="pwLoading">
+        {{ pwLoading ? 'Сохранение...' : 'Сменить пароль' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="card card-mt" *ngIf="profile?.role !== 'ROLE_MANAGER' && profile?.role !== 'ROLE_ADMIN'">
+    <h2 class="section-title">Мои бронирования</h2>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Загрузка...</p>
+    </div>
+    
+    <div *ngIf="!loading && bookings.length === 0" class="empty-state">
+      <p class="empty-text">На данный момент у вас нет бронирований</p>
+    </div>
+    
+    <div *ngIf="!loading && bookings.length > 0" class="bookings-list">
+      <div *ngFor="let booking of paginatedProfileBookings" class="card booking-card">
+        <div class="booking-header">
+          <div>
+            <p class="booking-name">{{ booking.workPlaceName }}</p>
+            <p class="booking-location">
+              {{ booking.locationName }}, {{ booking.locationAddress }}
+            </p>
+            <p class="booking-time">
+              {{ formatDate(booking.startTime) }} — {{ formatDate(booking.endTime) }}
+            </p>
+            <span *ngIf="getBookingStatus(booking) === 'PAID'"
+                  class="status-badge status-paid">
+              Оплачено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'PENDING'"
+                  class="status-badge status-pending">
+              Ожидает оплаты
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'UNPAID'"
+                  class="status-badge status-unpaid">
+              Не оплачено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'EXPIRED'"
+                  class="status-badge status-expired">
+              Просрочено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'COMPLETED'"
+                  class="status-badge status-completed">
+              Завершено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'CANCELLED'"
+                  class="status-badge status-cancelled">
+              Отменено
+            </span>
+          </div>
+          <div class="booking-price-wrap">
+            <span class="booking-price">{{ totalBookingPrice(booking) }} ₽</span>
+          </div>
+        </div>
+      </div>
+      <div class="pagination" *ngIf="bookings.length > bkPageSize">
+        <button class="btn btn-secondary" (click)="prevBkPage()" [disabled]="bkPage === 0">← Назад</button>
+        <span class="page-info">{{ bkPage + 1 }} / {{ Math.ceil(bookings.length / bkPageSize) || 1 }}</span>
+        <button class="btn btn-secondary" (click)="nextBkPage()" [disabled]="(bkPage + 1) * bkPageSize >= bookings.length">Вперёд →</button>
+      </div>
+    </div>
+  </div>
+</div>

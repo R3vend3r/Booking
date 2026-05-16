@@ -1,0 +1,141 @@
+<div *ngIf="showSuccessToast" class="success-toast">
+  Бронирование успешно создано!
+</div>
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Аренда рабочих мест</h1>
+    <p class="hero-subtitle">
+      Найдите идеальное место для работы в удобной локации
+    </p>
+    <a (click)="scrollTo('locations')" class="btn hero-cta">
+      Выбрать локацию
+    </a>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container">
+    <h2 class="section-title">О нас</h2>
+    <p class="about-text">
+      Мы предоставляем современные рабочие места в различных локациях города. 
+      Коворкинг, переговорные комнаты — всё для комфортной и продуктивной работы.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Услуги</h2>
+    <p class="section-subtitle">
+      Дополнительные возможности для комфортной работы
+    </p>
+    <div *ngIf="servicesLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!servicesLoading" class="services-grid">
+      <div class="card service-card" *ngFor="let s of services | slice:svcPage*svcPageSize:(svcPage+1)*svcPageSize">
+        <div class="service-name">{{ s.name }}</div>
+        <div class="service-desc">{{ s.description }}</div>
+        <div class="service-price">{{ s.price }} ₽</div>
+      </div>
+    </div>
+    <div *ngIf="!servicesLoading && services.length > svcPageSize" class="pagination">
+      <button class="btn btn-secondary" (click)="prevSvcPage()" [disabled]="svcPage === 0">← Назад</button>
+      <span class="page-info">{{ svcPage + 1 }} / {{ Math.ceil(services.length / svcPageSize) || 1 }}</span>
+      <button class="btn btn-secondary" (click)="nextSvcPage()" [disabled]="(svcPage + 1) * svcPageSize >= services.length">Вперёд →</button>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Недавно бронировали</h2>
+    <p class="section-subtitle">Популярные рабочие места</p>
+    <div *ngIf="recentLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!recentLoading && recentWorkplaces.length > 0" class="recent-grid">
+      <div *ngFor="let wp of recentWorkplaces" class="card recent-card"
+           [routerLink]="['/workplaces', wp.locationId]" [queryParams]="{selected: wp.id}">
+        <div class="recent-name">{{ wp.name }}</div>
+        <div class="recent-location">{{ wp.locationName }}</div>
+        <div class="recent-price">{{ wp.priceForHour }} ₽/час</div>
+        <div class="recent-status" [class.available]="wp.availableNow" [class.busy]="!wp.availableNow">
+          {{ wp.availableNow ? 'Свободно сейчас' : 'Занято до ' + (wp.nextAvailableTime | date:'HH:mm') }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="locations" class="section">
+  <div class="container">
+    <div class="locations-header">
+      <h2 class="section-title">Локации</h2>
+      <div class="locations-controls">
+        <input type="text" 
+               [(ngModel)]="searchCity" 
+               (input)="onSearch()"
+               placeholder="Поиск по городу..."
+               class="search-input" />
+        <button class="btn btn-secondary filter-btn" 
+                [class.btn-active]="showActiveOnly"
+                (click)="toggleActiveOnly()">
+          Только активные
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="loading" class="loading"><p>Загрузка...</p></div>
+    
+    <div *ngIf="!loading" class="locations-grid">
+      <div *ngFor="let location of filteredLocations | slice:locPage*locPageSize:(locPage+1)*locPageSize" class="location-card" 
+           [routerLink]="['/workplaces', location.id]">
+        <div class="location-header">
+          <h3>{{ location.name }}</h3>
+          <span class="location-city">{{ location.city }}</span>
+        </div>
+        <p class="location-address">{{ location.address }}</p>
+        <div class="location-footer">
+          <span>{{ location.openingTime }} — {{ location.closingTime }}</span>
+          <span class="location-arrow">Выбрать место →</span>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="!loading && filteredLocations.length === 0" class="empty-state">
+      <p class="empty-text">Локации не найдены</p>
+    </div>
+
+    <div *ngIf="!loading && filteredLocations.length > locPageSize" class="pagination">
+      <button class="btn btn-secondary" (click)="prevLocPage()" [disabled]="locPage === 0">← Назад</button>
+      <span class="page-info">{{ locPage + 1 }} / {{ Math.ceil(filteredLocations.length / locPageSize) || 1 }}</span>
+      <button class="btn btn-secondary" (click)="nextLocPage()" [disabled]="(locPage + 1) * locPageSize >= filteredLocations.length">Вперёд →</button>
+    </div>
+  </div>
+</section>
+
+<section id="contacts" class="section section-alt">
+  <div class="container contacts-container">
+    <h2 class="section-title">Контакты</h2>
+    <div class="contacts-grid">
+      <div class="contact-item">
+        <span class="contact-label">Телефон</span>
+        <span>+7 (495) 123-45-67</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <span>info@booking.ru</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Режим работы</span>
+        <span>Пн—Пт: 9:00 — 21:00, Сб—Вс: 10:00 — 20:00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+

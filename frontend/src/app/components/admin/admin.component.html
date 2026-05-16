@@ -1,0 +1,479 @@
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <button class="sidebar-btn" [class.active]="activeTab === 'admin'" (click)="activeTab = 'admin'">
+      Админ
+    </button>
+    <button class="sidebar-btn" [class.active]="activeTab === 'managers'" (click)="switchToManagers()">
+      Менеджер
+    </button>
+    <button class="sidebar-btn" [class.active]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">
+      Бронирования
+    </button>
+    <button class="sidebar-btn" [class.active]="activeTab === 'contracts'" (click)="activeTab = 'contracts'">
+      Контракты
+    </button>
+    <button class="sidebar-btn sidebar-logout" (click)="logout()">
+      Выход
+    </button>
+  </div>
+
+  <div class="admin-content">
+    <ng-container *ngIf="activeTab === 'admin'">
+      <div class="container">
+        <h1 class="admin-title">Админ-панель</h1>
+        <div class="admin-grid">
+          <div class="card">
+            <h3 class="card-title">Управление пользователями</h3>
+            <p class="card-desc">Просмотр активных клиентов, блокировка/разблокировка пользователей</p>
+            <div class="search-bar">
+              <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Поиск по логину или email..." class="search-input" />
+              <button class="btn btn-secondary" (click)="onSearch()">Найти</button>
+              <button *ngIf="searchQuery" class="btn btn-secondary" (click)="clearSearch()">Сброс</button>
+            </div>
+            <div *ngIf="usersLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!usersLoading && users.length" class="users-list">
+              <div *ngFor="let u of users" class="user-row">
+                <div class="user-info">
+                  <p class="user-login">{{ u.login }}</p>
+                  <p class="user-email">{{ u.email }}</p>
+                  <p class="user-meta" *ngIf="u.fullName">{{ u.fullName }} · {{ u.phone }} · {{ u.bookingsCount }} броней</p>
+                </div>
+                <button class="btn" [style.background]="u.enabled ? '#fee2e2' : '#dcfce7'" [style.color]="u.enabled ? '#dc2626' : '#16a34a'" (click)="confirmToggle(u)">
+                  {{ u.enabled ? 'Заблокировать' : 'Разблокировать' }}
+                </button>
+              </div>
+              <div class="pagination">
+                <button class="btn btn-secondary" (click)="prevUserPage()" [disabled]="!hasPrevUsers">← Назад</button>
+                <span class="page-info">{{ userPageOffset / userPageLimit + 1 }} / {{ Math.ceil(totalUsers / userPageLimit) }}</span>
+                <button class="btn btn-secondary" (click)="nextUserPage()" [disabled]="!hasMoreUsers">Вперёд →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Сводка</h3>
+            <div *ngIf="statsLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!statsLoading && statsSummary" class="stats-grid">
+              <div class="stat-card">
+                <p class="stat-label">Активных пользователей</p>
+                <p class="stat-value">{{ totalUsers }}</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Общий доход</p>
+                <p class="stat-value">{{ formatCurrency(statsSummary.totalRevenue) }}</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Средний чек</p>
+                <p class="stat-value">{{ formatCurrency(statsSummary.averageCheck) }}</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Оплаченных договоров</p>
+                <p class="stat-value">{{ statsSummary.paidContractsCount }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Клиенты с бронированиями</h3>
+            <div *ngIf="clientsLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!clientsLoading && clientsWithBookings.length === 0" class="empty-state"><p class="empty-text">Нет клиентов с бронированиями</p></div>
+            <div *ngIf="!clientsLoading && clientsWithBookings.length > 0">
+              <div *ngFor="let c of clientsWithBookings" class="user-row">
+                <div>
+                  <p class="user-login">{{ c.fullName || '—' }}</p>
+                  <p class="user-email">{{ c.phone || '—' }}</p>
+                </div>
+              </div>
+              <div class="pagination">
+                <button class="btn btn-secondary" (click)="prevClientPage()" [disabled]="!hasPrevClients">← Назад</button>
+                <span class="page-info">Страница {{ clientPageOffset / clientPageLimit + 1 }}</span>
+                <button class="btn btn-secondary" (click)="nextClientPage()" [disabled]="!hasMoreClients">Вперёд →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Доход</h3>
+            <div class="period-tabs">
+              <button class="period-tab" [class.active]="revenuePeriod === 'day'" (click)="setRevenuePeriod('day')">День</button>
+              <button class="period-tab" [class.active]="revenuePeriod === 'week'" (click)="setRevenuePeriod('week')">Неделя</button>
+              <button class="period-tab" [class.active]="revenuePeriod === 'month'" (click)="setRevenuePeriod('month')">Месяц</button>
+            </div>
+            <div *ngIf="revenueLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!revenueLoading && revenueData.length === 0" class="empty-state"><p class="empty-text">Нет данных о доходах</p></div>
+            <div *ngIf="!revenueLoading && revenueData.length > 0">
+              <div class="chart-card">
+                <div class="chart-wrapper">
+                  <svg [attr.viewBox]="'0 0 ' + svgW + ' ' + svgH" class="revenue-chart">
+                    <line *ngFor="let t of chartData.yTicks" [attr.y1]="t.y" [attr.y2]="t.y"
+                          x1="70" [attr.x2]="svgW - 30" stroke="#e2e8f0" stroke-width="1" />
+                    <text *ngFor="let t of chartData.yTicks" [attr.x]="svgPad.left - 8"
+                          [attr.y]="t.y + 4" text-anchor="end" class="chart-label">{{ t.label }}</text>
+                    <text *ngFor="let t of chartData.xLabels" [attr.x]="t.x"
+                          [attr.y]="svgH - svgPad.bottom + 20" text-anchor="middle" class="chart-label">{{ t.label }}</text>
+                    <path *ngIf="chartData.area" [attr.d]="chartData.area" fill="#3b82f6" fill-opacity="0.1" />
+                    <path [attr.d]="chartData.line" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+              <div class="revenue-list">
+                <div *ngFor="let r of paginatedRevenue" class="revenue-row">
+                  <span class="revenue-period">{{ formatPeriod(r.period) }}</span>
+                  <span class="revenue-sum">{{ formatCurrency(r.sum) }}</span>
+                </div>
+              </div>
+              <div class="pagination" *ngIf="revenueData.length > revenuePageSize">
+                <button class="btn btn-secondary" (click)="prevRevenuePage()" [disabled]="revenuePage === 0">← Назад</button>
+                <span class="page-info">{{ revenuePage + 1 }} / {{ Math.ceil(revenueData.length / revenuePageSize) || 1 }}</span>
+                <button class="btn btn-secondary" (click)="nextRevenuePage()" [disabled]="(revenuePage + 1) * revenuePageSize >= revenueData.length">Вперёд →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Топ-5 услуг</h3>
+            <div *ngIf="topServicesLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!topServicesLoading && topServices.length === 0" class="empty-state"><p class="empty-text">Нет данных об услугах</p></div>
+            <div *ngIf="!topServicesLoading && topServices.length > 0" class="top-services-list">
+              <div *ngFor="let s of topServices; let i = index" class="top-service-row">
+                <span class="top-service-rank">{{ i + 1 }}</span>
+                <span class="top-service-name">{{ s.serviceName }}</span>
+                <span class="top-service-qty">{{ s.totalQuantity }} шт.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'managers'">
+      <div class="container">
+        <div class="managers-header">
+          <h1 class="admin-title">Управление менеджерами</h1>
+          <button class="btn" style="background:#1e293b;color:white" (click)="openCreateManager()">+ Добавить менеджера</button>
+        </div>
+
+        <div *ngIf="managersLoading" class="loading"><p>Загрузка...</p></div>
+        <div *ngIf="!managersLoading && managers.length === 0" class="empty-state"><p class="empty-text">Нет менеджеров</p></div>
+
+        <div *ngIf="!managersLoading && managers.length > 0" class="card">
+          <table class="managers-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Логин</th>
+                <th>Email</th>
+                <th>Статус</th>
+                <th>Создан</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let m of paginatedManagers">
+                <td>{{ m.id }}</td>
+                <td>{{ m.login }}</td>
+                <td>{{ m.email || '—' }}</td>
+                <td>
+                  <span class="status-badge" [style.background]="m.enabled ? '#dcfce7' : '#fee2e2'" [style.color]="m.enabled ? '#16a34a' : '#dc2626'">
+                    {{ m.enabled ? 'Активен' : 'Заблокирован' }}
+                  </span>
+                </td>
+                <td class="td-date">{{ m.createdAt ? (m.createdAt | slice:0:10) : '—' }}</td>
+                <td class="td-actions">
+                  <button class="btn btn-sm btn-secondary" (click)="openEditManager(m)">Ред.</button>
+                  <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626" (click)="deleteManager(m.id)">Удал.</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination" *ngIf="managers.length > mgrPageSize">
+            <button class="btn btn-secondary" (click)="prevMgrPage()" [disabled]="mgrPage === 0">← Назад</button>
+            <span class="page-info">{{ mgrPage + 1 }} / {{ Math.ceil(managers.length / mgrPageSize) || 1 }}</span>
+            <button class="btn btn-secondary" (click)="nextMgrPage()" [disabled]="(mgrPage + 1) * mgrPageSize >= managers.length">Вперёд →</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'bookings'">
+      <div class="container">
+        <div class="section-header">
+          <h2>Бронирования</h2>
+          <div class="header-actions">
+            <input type="text" class="filter-select" [(ngModel)]="bkSearchId" (input)="bkPage = 0" placeholder="Поиск по ID..." style="width:200px" />
+            <button class="btn btn-secondary" [class.btn-primary]="bkShowFilters" (click)="toggleBkFilters()">Фильтры</button>
+            <button class="btn btn-secondary" (click)="refreshBookings()">Обновить</button>
+          </div>
+        </div>
+
+        <div class="modal-overlay" *ngIf="bkShowFilters" (click)="bkShowFilters = false">
+          <div class="modal modal-wide" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <h3>Фильтры</h3>
+              <button class="modal-close" (click)="bkShowFilters = false">✕</button>
+            </div>
+            <div class="modal-body">
+            <div class="filter-panel" style="border:none;padding:0;margin:0">
+              <div class="filter-col">
+                <h4>Город</h4>
+                <div class="filter-check" *ngFor="let opt of bookingCityOptions" (click)="onBkFilterChange('city', opt.value)">
+                  <input type="checkbox" [checked]="bkFilterCityTemp.includes(opt.value)" (click)="$event.stopPropagation()" />
+                  <span>{{ opt.value }} <span class="filter-count">({{ opt.count }})</span></span>
+                </div>
+              </div>
+              <div class="filter-col">
+                <h4>Локация</h4>
+                <div class="filter-check" *ngFor="let opt of bookingLocationOptions" (click)="onBkFilterChange('location', opt.value)">
+                  <input type="checkbox" [checked]="bkFilterLocationTemp.includes(opt.value)" />
+                  <span>{{ opt.value }} <span class="filter-count">({{ opt.count }})</span></span>
+                </div>
+              </div>
+              <div class="filter-col">
+                <h4>Рабочее место</h4>
+                <div class="filter-check" *ngFor="let opt of bookingWorkplaceOptions" (click)="onBkFilterChange('workplace', opt.value)">
+                  <input type="checkbox" [checked]="bkFilterWorkplaceTemp.includes(opt.value)" />
+                  <span>{{ opt.value }} <span class="filter-count">({{ opt.count }})</span></span>
+                </div>
+              </div>
+              <div class="filter-col">
+                <h4>Статус</h4>
+                <div class="filter-check" *ngFor="let opt of bookingStatusOptions" (click)="onBkFilterChange('status', opt.value)">
+                  <input type="checkbox" [checked]="bkFilterStatusTemp.includes(opt.value)" />
+                  <span>{{ getBookingStatusLabel(opt.value) }} <span class="filter-count">({{ opt.count }})</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer modal-footer-center">
+              <button class="btn btn-primary" (click)="applyBkFilters()">Применить</button>
+              <button class="btn btn-secondary" (click)="resetBkFilters()">Сбросить</button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div *ngIf="bkLoading" class="loading"><p>Загрузка...</p></div>
+        <div *ngIf="!bkLoading && filteredBookings.length === 0" class="empty-state">
+          Бронирования не найдены
+        </div>
+        <div *ngIf="!bkLoading && filteredBookings.length > 0">
+          <div *ngFor="let bk of filteredBookings | slice:bkPage*pageSize:(bkPage+1)*pageSize" class="card card-mb">
+            <div class="card-row-start">
+              <div>
+                <p class="booking-name">{{ bk.workPlaceName || bk.workPlaceId }}</p>
+                <p class="card-subtitle">Клиент: {{ bk.clientName || bk.clientId }}</p>
+                <p class="booking-date">{{ formatDate(bk.startTime) }} — {{ formatDate(bk.endTime) }}</p>
+                <span class="badge" [ngStyle]="{
+                  'background': getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Оплачено' ? '#dcfce7' : 
+                               getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Активно' ? '#dbeafe' : '#fef3c7',
+                  'color': getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Оплачено' ? '#16a34a' : 
+                           getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Активно' ? '#2563eb' : '#d97706'
+                }">
+                  {{ getBookingStatusLabel(bk.paymentStatus, bk.endTime) }}
+                </span>
+              </div>
+              <div class="detail-btn-wrap">
+                <button class="btn btn-secondary" (click)="openBookingDetails(bk)">Подробнее</button>
+              </div>
+            </div>
+          </div>
+          <div class="pagination">
+            <button class="btn btn-secondary" (click)="prevBkPage()" [disabled]="bkPage === 0">← Назад</button>
+            <span class="page-info">{{ bkPage + 1 }} / {{ Math.ceil(filteredBookings.length / pageSize) || 1 }}</span>
+            <button class="btn btn-secondary" (click)="nextBkPage()" [disabled]="(bkPage + 1) * pageSize >= filteredBookings.length">Вперёд →</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'contracts'">
+      <div class="container">
+        <div class="section-header">
+          <h2>Контракты</h2>
+          <button class="btn btn-secondary" (click)="loadPendingContracts()">Обновить</button>
+        </div>
+        <div class="filter-bar">
+          <button class="btn btn-secondary" [class.btn-primary]="showPendingOnly" (click)="loadPendingContracts(); showPendingOnly = true">
+            ⏳ Ожидают оплаты
+          </button>
+          <button class="btn btn-secondary" [class.btn-primary]="!showPendingOnly" (click)="loadAllContracts(); showPendingOnly = false">
+            📋 Все контракты
+          </button>
+        </div>
+        <div *ngIf="ctLoading" class="loading"><p>Загрузка...</p></div>
+        <div *ngIf="!ctLoading && contracts.length === 0" class="empty-state">
+          Контракты не найдены
+        </div>
+        <div *ngIf="!ctLoading && contracts.length > 0">
+          <div class="list-grid">
+            <div *ngFor="let ct of contracts | slice:ctPage*pageSize:(ctPage+1)*pageSize" class="card card-row-wrap">
+              <div>
+                <p class="contract-number">📄 Контракт #{{ ct.contractNumber }}</p>
+                <p class="card-subtitle">Сумма: {{ ct.totalAmount }} ₽</p>
+                <p class="card-desc">Статус: {{ getPaymentStatusLabel(ct.paymentStatus) }}</p>
+              </div>
+              <div class="detail-btn-group">
+                <button class="btn btn-secondary" (click)="openContractDetails(ct)">Подробнее</button>
+              </div>
+            </div>
+          </div>
+          <div class="pagination">
+            <button class="btn btn-secondary" (click)="prevCtPage()" [disabled]="ctPage === 0">← Назад</button>
+            <span class="page-info">{{ ctPage + 1 }} / {{ Math.ceil(contracts.length / pageSize) || 1 }}</span>
+            <button class="btn btn-secondary" (click)="nextCtPage()" [disabled]="(ctPage + 1) * pageSize >= contracts.length">Вперёд →</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedBookingDetail" (click)="closeBookingDetails()">
+  <div class="modal modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Детали бронирования</h3>
+      <button class="modal-close" (click)="closeBookingDetails()">✕</button>
+    </div>
+    <div *ngIf="bookingDetailLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!bookingDetailLoading" class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Рабочее место</span>
+        <span>{{ selectedBookingDetail.workPlaceName || selectedBookingDetail.workPlaceId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Локация</span>
+        <span>{{ selectedBookingDetail.locationName || '—' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Клиент</span>
+        <span>{{ selectedBookingDetail.clientName || selectedBookingDetail.clientId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Начало</span>
+        <span>{{ formatDate(selectedBookingDetail.startTime) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Конец</span>
+        <span>{{ formatDate(selectedBookingDetail.endTime) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Статус оплаты</span>
+        <span class="badge" [ngStyle]="{'background': selectedBookingDetail.paymentStatus === 'PAID' ? '#dcfce7' : '#fef3c7', 'color': selectedBookingDetail.paymentStatus === 'PAID' ? '#16a34a' : '#d97706'}">
+          {{ getBookingStatusLabel(selectedBookingDetail.paymentStatus, selectedBookingDetail.endTime) }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="selectedBookingDetail.totalAmount">
+        <span class="detail-label">Сумма</span>
+        <span class="detail-price">{{ selectedBookingDetail.totalAmount }} ₽</span>
+      </div>
+      <div *ngIf="bookingServicesDetail.length > 0">
+        <h4 class="services-subtitle">Услуги</h4>
+        <div *ngFor="let s of bookingServicesDetail" class="detail-row">
+          <span>{{ s.serviceName || 'Услуга' }} × {{ s.quantity }}</span>
+          <span>{{ s.priceAtBookingTime * s.quantity }} ₽</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedContractDetail" (click)="closeContractDetails()">
+  <div class="modal modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Детали контракта</h3>
+      <button class="modal-close" (click)="closeContractDetails()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Номер контракта</span>
+        <span>{{ selectedContractDetail.contractNumber }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">ID бронирования</span>
+        <span>{{ selectedContractDetail.bookingId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Сумма</span>
+        <span class="detail-price">{{ selectedContractDetail.totalAmount }} ₽</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Статус</span>
+        <span>{{ getPaymentStatusLabel(selectedContractDetail.paymentStatus) }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedContractDetail.paymentDate">
+        <span class="detail-label">Дата оплаты</span>
+        <span>{{ formatDate(selectedContractDetail.paymentDate) }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedContractDetail.paymentMethod">
+        <span class="detail-label">Способ оплаты</span>
+        <span>{{ selectedContractDetail.paymentMethod }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showConfirmModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ confirmAction === 'block' ? 'Блокировка' : 'Разблокировка' }} пользователя</h3>
+      <button class="modal-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" *ngIf="selectedUser">
+      <div class="confirm-detail"><span class="confirm-label">Логин</span><span class="confirm-value">{{ selectedUser.login }}</span></div>
+      <div class="confirm-detail"><span class="confirm-label">Email</span><span class="confirm-value">{{ selectedUser.email }}</span></div>
+      <div class="confirm-detail" *ngIf="selectedUser.fullName"><span class="confirm-label">ФИО</span><span class="confirm-value">{{ selectedUser.fullName }}</span></div>
+      <div class="confirm-detail" *ngIf="selectedUser.phone"><span class="confirm-label">Телефон</span><span class="confirm-value">{{ selectedUser.phone }}</span></div>
+      <div class="confirm-detail"><span class="confirm-label">Количество броней</span><span class="confirm-value">{{ selectedUser.bookingsCount }}</span></div>
+      <div class="confirm-detail">
+        <span class="confirm-label">Текущий статус</span>
+        <span class="confirm-value" [style.color]="selectedUser.enabled ? '#16a34a' : '#dc2626'">{{ selectedUser.enabled ? 'Активен' : 'Заблокирован' }}</span>
+      </div>
+      <p class="confirm-warning">{{ confirmAction === 'block' ? 'После блокировки пользователь не сможет войти в систему и создавать новые бронирования.' : 'Пользователь сможет войти в систему и создавать новые бронирования.' }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeModal()">Отмена</button>
+      <button class="btn" [style.background]="confirmAction === 'block' ? '#dc2626' : '#16a34a'" [style.color]="'white'" (click)="executeToggle()" [disabled]="confirmLoading">
+        {{ confirmLoading ? 'Выполняется...' : (confirmAction === 'block' ? 'Заблокировать' : 'Разблокировать') }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showManagerModal" (click)="closeManagerModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ editingManagerId ? 'Редактировать менеджера' : 'Добавить менеджера' }}</h3>
+      <button class="modal-close" (click)="closeManagerModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Логин</label>
+        <input type="text" class="form-input" [(ngModel)]="managerForm.login" placeholder="Логин" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" [(ngModel)]="managerForm.email" placeholder="Email" />
+        <p class="form-error" *ngIf="managerFormErrors.email">{{ managerFormErrors.email }}</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль{{ editingManagerId ? ' (оставьте пустым, чтобы не менять)' : '' }}</label>
+        <input type="password" class="form-input" [(ngModel)]="managerForm.password" placeholder="Пароль" />
+        <p class="form-error" *ngIf="managerFormErrors.password">{{ managerFormErrors.password }}</p>
+      </div>
+      <div class="form-group" *ngIf="editingManagerId">
+        <label class="form-label">Статус</label>
+        <label class="toggle-label">
+          <input type="checkbox" [(ngModel)]="managerForm.enabled" class="toggle-input" />
+          <span class="toggle-text" [style.color]="managerForm.enabled ? '#16a34a' : '#dc2626'">
+            {{ managerForm.enabled ? 'Активен' : 'Заблокирован' }}
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeManagerModal()">Отмена</button>
+      <button class="btn" style="background:#1e293b;color:white" (click)="saveManager()" [disabled]="managerSaving || !managerForm.login">
+        {{ managerSaving ? 'Сохранение...' : 'Сохранить' }}
+      </button>
+    </div>
+  </div>
+</div>

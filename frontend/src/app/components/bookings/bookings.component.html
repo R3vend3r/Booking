@@ -1,0 +1,176 @@
+<div class="container bookings-container">
+  <div class="back-link-wrap">
+    <a routerLink="/" class="back-link">← На главную</a>
+  </div>
+  <h1 class="bookings-title">Мои бронирования</h1>
+
+  <div *ngIf="loading" class="loading"><p>Загрузка...</p></div>
+
+  <div *ngIf="!loading && bookings.length === 0" class="empty-state">
+    <p class="empty-text">У вас нет бронирований</p>
+  </div>
+
+  <div *ngIf="!loading && bookings.length > 0" class="bookings-list">
+    <div *ngFor="let booking of paginatedBookings" class="card">
+      <div class="booking-header">
+        <div>
+          <p class="booking-name">{{ booking.workPlaceName }}</p>
+          <p class="booking-location">
+            {{ booking.locationName }}, {{ booking.locationAddress }}
+          </p>
+          <p class="booking-time">
+            {{ formatDate(booking.startTime) }} — {{ formatDate(booking.endTime) }}
+          </p>
+          <span *ngIf="getBookingStatus(booking) === 'PAID'"
+                class="status-badge status-paid">
+            Оплачено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'PENDING'"
+                class="status-badge status-pending">
+            Ожидает оплаты
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'UNPAID'"
+                class="status-badge status-unpaid">
+            Не оплачено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'EXPIRED'"
+                class="status-badge status-expired">
+            Просрочено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'COMPLETED'"
+                class="status-badge status-completed">
+            Завершено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'CANCELLED'"
+                class="status-badge status-cancelled">
+            Отменено
+          </span>
+        </div>
+        <div class="booking-price-wrap">
+          <span class="booking-price">{{ totalBookingPrice(booking) }} ₽</span>
+        </div>
+      </div>
+      <div class="booking-actions">
+        <button class="btn btn-sm" (click)="openDetails(booking)">Подробнее</button>
+        <button class="btn btn-sm" *ngIf="canEdit(booking)" (click)="startEdit(booking)">Редактировать</button>
+        <button class="btn btn-sm btn-cancel" *ngIf="isCancelable(booking)" (click)="cancelBooking(booking)">Отменить</button>
+        <button class="btn btn-sm btn-primary" *ngIf="canPay(booking)" (click)="payBooking(booking)">Оплатить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedBooking" (click)="closeDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="modal-title">Детали бронирования</h3>
+      <button class="btn btn-sm modal-close" (click)="closeDetails()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div><strong>Место:</strong> {{ selectedBooking.workPlaceName }}</div>
+      <div><strong>Локация:</strong> {{ selectedBooking.locationName }}, {{ selectedBooking.locationAddress }}</div>
+      <div><strong>Начало:</strong> {{ formatDate(selectedBooking.startTime) }}</div>
+      <div><strong>Конец:</strong> {{ formatDate(selectedBooking.endTime) }}</div>
+      <div><strong>Стоимость рабочего места:</strong> {{ workplaceCost(selectedBooking) }} ₽</div>
+
+      <div *ngIf="services.length > 0">
+        <strong>Услуги:</strong>
+        <div *ngFor="let s of services" class="service-row">
+          <span>{{ s.serviceName || 'Услуга' }}</span>
+          <span>{{ s.priceAtBookingTime * s.quantity }} ₽</span>
+        </div>
+      </div>
+
+      <div class="modal-total">
+        <strong>Итого:</strong>
+        <strong class="total-amount">{{ workplaceCost(selectedBooking) + servicesTotal() }} ₽</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="editingBooking" (click)="cancelEdit()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="modal-title">Редактирование бронирования</h3>
+      <button class="btn btn-sm modal-close" (click)="cancelEdit()">✕</button>
+    </div>
+    
+    <div class="form-group">
+      <label>Новое время начала</label>
+      <input type="datetime-local" 
+             [(ngModel)]="editStart" 
+             (ngModelChange)="onEditTimesChange()"
+             step="3600" />
+    </div>
+    
+    <div class="form-group">
+      <label>Новое время окончания</label>
+      <input type="datetime-local" 
+             [(ngModel)]="editEnd" 
+             (ngModelChange)="onEditTimesChange()"
+             step="3600" />
+    </div>
+    
+    <div class="services-section">
+      <h4>Дополнительные услуги</h4>
+      
+      <div *ngIf="editServicesLoading" class="loading-small">Загрузка услуг...</div>
+      
+      <div *ngFor="let service of allServices" class="service-item">
+        <label class="service-label">
+          <input type="checkbox" 
+                 [checked]="isServiceSelected(service.id)"
+                 (change)="toggleEditService(service)" />
+          {{ service.name }}
+        </label>
+        <span class="service-price">{{ service.price }} ₽</span>
+        
+        <div *ngIf="isServiceSelected(service.id)" class="service-quantity">
+          <label>Кол-во:</label>
+          <input type="number" 
+                 min="1" 
+                 [(ngModel)]="editServicesQuantities[service.id]"
+                 (change)="updateEditServiceQuantity(service.id, editServicesQuantities[service.id])"
+                 class="quantity-input" />
+        </div>
+      </div>
+      
+      <div class="price-summary" *ngIf="getEditServicesTotal() > 0">
+        <div class="price-row">
+          <span>Услуги:</span>
+          <span>{{ getEditServicesTotal() }} ₽</span>
+        </div>
+        <div class="price-row">
+          <span>Аренда места:</span>
+          <span>{{ getEditWorkplacePrice() }} ₽</span>
+        </div>
+        <div class="price-total">
+          <span>Итого:</span>
+          <span>{{ getEditWorkplacePrice() + getEditServicesTotal() }} ₽</span>
+    </div>
+    <div class="pagination" *ngIf="bookings.length > pageSize">
+      <button class="btn btn-secondary" (click)="prevPage()" [disabled]="page === 0">← Назад</button>
+      <span class="page-info">{{ page + 1 }} / {{ Math.ceil(bookings.length / pageSize) || 1 }}</span>
+      <button class="btn btn-secondary" (click)="nextPage()" [disabled]="(page + 1) * pageSize >= bookings.length">Вперёд →</button>
+    </div>
+  </div>
+</div>
+    
+    <div *ngIf="editAvailabilityChecked && !editAvailable" class="error edit-error">
+      ⚠️ Это время уже занято
+    </div>
+    
+    <div *ngIf="editError" class="error error-mb">{{ editError }}</div>
+    
+    <div class="edit-actions">
+      <button class="btn btn-sm" (click)="cancelEdit()">Отмена</button>
+      <button class="btn btn-sm btn-primary" 
+              (click)="saveEdit()" 
+              [disabled]="!editStart || !editEnd || !editAvailable">
+        Сохранить изменения
+      </button>
+    </div>
+  </div>
+</div>

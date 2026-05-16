@@ -1,0 +1,221 @@
+.btn-sm { padding: 6px 14px; font-size: 13px; border-radius: 6px; border: 1px solid var(--border); background: white; cursor: pointer; }
+.btn-sm.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content { background: white; border-radius: 12px; padding: 24px; width: 90%; max-width: 480px; max-height: 80vh; overflow-y: auto; }
+
+.bookings-container {
+  max-width: 800px;
+  padding-top: 32px;
+}
+.back-link-wrap {
+  margin-bottom: 24px;
+}
+.back-link {
+  color: var(--primary);
+  text-decoration: none;
+}
+.bookings-title {
+  margin-bottom: 24px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px;
+}
+.empty-text {
+  color: #64748b;
+}
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.booking-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.booking-location {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.booking-time {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-paid {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+.status-unpaid {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.status-expired {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.status-completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+.status-cancelled {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+.booking-price-wrap {
+  text-align: right;
+  white-space: nowrap;
+}
+.booking-price {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--primary);
+}
+.booking-actions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn-cancel {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.modal-title {
+  margin: 0;
+}
+.edit-title {
+  margin-bottom: 20px;
+}
+.modal-close {
+  border: none;
+  font-size: 18px;
+}
+.modal-body {
+  display: grid;
+  gap: 12px;
+}
+.service-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 14px;
+}
+.modal-total {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+.total-amount {
+  color: var(--primary);
+  font-size: 18px;
+}
+.edit-error {
+  margin: 8px 0;
+}
+.error-mb {
+  margin-bottom: 12px;
+}
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.services-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.services-section h4 {
+  margin-bottom: 12px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.service-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.service-price {
+  color: #64748b;
+  min-width: 60px;
+}
+
+.service-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-quantity input {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.loading-small {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+.price-summary {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}

@@ -1,0 +1,6189 @@
+﻿================================================
+FRONTEND CODE
+Project: tester/frontend
+Generated: 2026-05-15 21:38:44
+Total files: 48
+================================================
+
+
+================================================
+FILE: .angular\cache\20.3.25\booking-frontend\vite\com.chrome.devtools.json
+================================================
+{
+  "workspace": {
+    "root": "C:\\Users\\Никита\\IdeaProjects\\tester\\frontend",
+    "uuid": "93282b70-ea1c-4efb-9795-2930ad6d93d2"
+  }
+}
+
+================================================
+FILE: .angular\cache\20.3.25\booking-frontend\vite\deps\_metadata.json
+================================================
+{
+  "hash": "bf2ef315",
+  "configHash": "e03267af",
+  "lockfileHash": "bb924ec5",
+  "browserHash": "3b706ae0",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "0c5d2949",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "aa25b58c",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "4fce0871",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "c1fe3fe6",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "46a62ece",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "f8a9d521",
+      "needsInterop": false
+    },
+    "rxjs": {
+      "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "cf614627",
+      "needsInterop": false
+    },
+    "rxjs/operators": {
+      "src": "../../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
+      "file": "rxjs_operators.js",
+      "fileHash": "656b88db",
+      "needsInterop": false
+    },
+    "zone.js": {
+      "src": "../../../../../../node_modules/zone.js/fesm2015/zone.js",
+      "file": "zone__js.js",
+      "fileHash": "50cc5f7a",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-44PHQ24W": {
+      "file": "chunk-44PHQ24W.js"
+    },
+    "chunk-VI4S7AUY": {
+      "file": "chunk-VI4S7AUY.js"
+    },
+    "chunk-34PUB66J": {
+      "file": "chunk-34PUB66J.js"
+    },
+    "chunk-EFUI5DNY": {
+      "file": "chunk-EFUI5DNY.js"
+    },
+    "chunk-TPNNASRB": {
+      "file": "chunk-TPNNASRB.js"
+    },
+    "chunk-HWYXSU2G": {
+      "file": "chunk-HWYXSU2G.js"
+    },
+    "chunk-JRFR6BLO": {
+      "file": "chunk-JRFR6BLO.js"
+    },
+    "chunk-MARUHEWW": {
+      "file": "chunk-MARUHEWW.js"
+    },
+    "chunk-WDMUDEB6": {
+      "file": "chunk-WDMUDEB6.js"
+    }
+  }
+}
+
+================================================
+FILE: .angular\cache\20.3.25\booking-frontend\vite\deps\package.json
+================================================
+{
+  "type": "module"
+}
+
+
+================================================
+FILE: .angular\cache\20.3.25\booking-frontend\vite\deps_ssr\_metadata.json
+================================================
+{
+  "hash": "a73ce211",
+  "configHash": "84440a47",
+  "lockfileHash": "bb924ec5",
+  "browserHash": "b3a7344a",
+  "optimized": {},
+  "chunks": {}
+}
+
+================================================
+FILE: .angular\cache\20.3.25\booking-frontend\vite\deps_ssr\package.json
+================================================
+{
+  "type": "module"
+}
+
+
+================================================
+FILE: angular.json
+================================================
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "booking-frontend": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "css",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/booking-frontend",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                { "type": "initial", "maximumWarning": "600kb", "maximumError": "1mb" },
+                { "type": "anyComponentStyle", "maximumWarning": "5kb", "maximumError": "7kb" }
+              ],
+              "outputHashing": "all",
+              "optimization": { "fonts": false }
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": { "buildTarget": "booking-frontend:build:production" },
+            "development": { "buildTarget": "booking-frontend:build:development" }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  }
+}
+
+
+================================================
+FILE: package.json
+================================================
+{
+  "name": "booking-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^20.0.0",
+    "@angular/common": "^20.0.0",
+    "@angular/compiler": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/forms": "^20.0.0",
+    "@angular/platform-browser": "^20.0.0",
+    "@angular/platform-browser-dynamic": "^20.0.0",
+    "@angular/router": "^20.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^20.0.0",
+    "@angular/cli": "^20.0.0",
+    "@angular/compiler-cli": "^20.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "~5.8.0"
+  }
+}
+
+
+================================================
+FILE: src\app\app.component.css
+================================================
+.navbar-content {
+  display: flex; align-items: center; gap: 32px;
+}
+.navbar-links {
+  display: flex; gap: 20px;
+}
+.navbar-links a {
+  cursor: pointer;
+}
+.navbar-auth {
+  display: flex; gap: 12px; align-items: center; margin-left: auto;
+}
+.register-btn {
+  padding: 6px 16px;
+  color: white;
+}
+.logout-link {
+  cursor: pointer;
+}
+
+
+================================================
+FILE: src\app\app.component.html
+================================================
+<nav class="navbar">
+  <div class="navbar-content">
+    <a routerLink="/" class="navbar-brand">Booking</a>
+    
+    <div class="navbar-links" *ngIf="!authService.isAuthenticated() || authService.hasRole('ROLE_USER')">
+      <a (click)="scrollTo('about')">О нас</a>
+      <a (click)="scrollTo('services')">Услуги</a>
+      <a (click)="scrollTo('locations')">Локации</a>
+      <a (click)="scrollTo('contacts')">Контакты</a>
+    </div>
+    
+    <div class="navbar-auth">
+      <ng-container *ngIf="!authService.isAuthenticated()">
+        <a routerLink="/login">Вход</a>
+        <a routerLink="/register" class="btn btn-primary register-btn">Регистрация</a>
+      </ng-container>
+      <ng-container *ngIf="authService.isAuthenticated()">
+        <a routerLink="/profile" *ngIf="authService.hasRole('ROLE_USER') || authService.hasRole('ROLE_MANAGER')">Профиль</a>
+        <a routerLink="/bookings" *ngIf="authService.hasRole('ROLE_USER')">Мои бронирования</a>
+        <a routerLink="/admin" *ngIf="authService.hasRole('ROLE_ADMIN')">Админ</a>
+        <a routerLink="/manager" *ngIf="authService.hasRole('ROLE_MANAGER')">Менеджер</a>
+        <a (click)="logout()" class="logout-link">Выход</a>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+
+================================================
+FILE: src\app\app.component.ts
+================================================
+import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+  standalone: false,
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  constructor(
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
+
+  scrollTo(id: string): void {
+    if (this.router.url !== '/') {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+
+
+================================================
+FILE: src\app\app.module.ts
+================================================
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { WorkplacesComponent } from './components/workplaces/workplaces.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { ManagerComponent } from './components/manager/manager.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent,
+    WorkplacesComponent,
+    ProfileComponent,
+    AdminComponent,
+    ManagerComponent,
+    BookingsComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+================================================
+FILE: src\app\app-routing.module.ts
+================================================
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { WorkplacesComponent } from './components/workplaces/workplaces.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { ManagerComponent } from './components/manager/manager.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
+import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'workplaces/:id', component: WorkplacesComponent, canActivate: [authGuard] },
+  { 
+    path: 'profile', 
+    component: ProfileComponent,
+    canActivate: [authGuard]
+  },
+  { 
+    path: 'admin', 
+    component: AdminComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'ROLE_ADMIN' }
+  },
+  { 
+    path: 'manager', 
+    component: ManagerComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'ROLE_MANAGER' }
+  },
+  { 
+    path: 'bookings', 
+    component: BookingsComponent,
+    canActivate: [authGuard]
+  },
+  { path: '**', redirectTo: '' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+================================================
+FILE: src\app\components\admin\admin.component.css
+================================================
+.admin-layout {
+  display: flex;
+  gap: 0;
+  min-height: calc(100vh - 80px);
+}
+
+.admin-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: #1e293b;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+}
+
+.sidebar-btn {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sidebar-btn:hover {
+  background: #334155;
+  color: white;
+}
+
+.sidebar-btn.active {
+  background: #334155;
+  color: white;
+  font-weight: 600;
+}
+
+.sidebar-logout {
+  margin-top: auto;
+  color: #f87171;
+}
+
+.sidebar-logout:hover {
+  color: #fca5a5;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 24px;
+  overflow: auto;
+}
+
+.admin-title {
+  margin-bottom: 24px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.card-title {
+  margin-bottom: 16px;
+}
+
+.card-desc {
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.search-bar .btn {
+  white-space: nowrap;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+.search-bar .search-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.users-list {
+  margin-top: 16px;
+}
+
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.user-info {
+  min-width: 0;
+}
+
+.user-login {
+  font-weight: 500;
+}
+
+.user-email {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.user-meta {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.stat-card {
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.page-info {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.loading {
+  text-align: center;
+  padding: 16px;
+  color: #64748b;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px;
+}
+
+.empty-text {
+  color: #64748b;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  width: 440px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 0;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #94a3b8;
+}
+
+.modal-body {
+  padding: 20px 24px;
+}
+
+.confirm-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.confirm-label {
+  color: #64748b;
+}
+
+.confirm-value {
+  font-weight: 500;
+}
+
+.confirm-warning {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #dc2626;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 24px 20px;
+}
+
+.period-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.period-tab {
+  flex: 1;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+}
+
+.period-tab.active {
+  background: #1e293b;
+  color: white;
+  border-color: #1e293b;
+}
+
+.period-tab:hover:not(.active) {
+  background: #e2e8f0;
+}
+
+.revenue-list {
+  margin-top: 8px;
+}
+
+.revenue-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.revenue-period {
+  color: #64748b;
+}
+
+.revenue-sum {
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.top-services-list {
+  margin-top: 8px;
+}
+
+.top-service-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.top-service-rank {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e293b;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.top-service-name {
+  flex: 1;
+}
+
+.top-service-qty {
+  font-weight: 500;
+  color: #64748b;
+}
+
+.managers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.managers-header .admin-title {
+  margin-bottom: 0;
+}
+
+.managers-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.managers-table th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border);
+  color: #64748b;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.managers-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.td-date {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.td-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-sm {
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.toggle-input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.toggle-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.chart-card {
+  margin-top: 24px;
+}
+
+.chart-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.revenue-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-label {
+  font-size: 11px;
+  fill: #64748b;
+  font-family: inherit;
+}
+
+
+================================================
+FILE: src\app\components\admin\admin.component.html
+================================================
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <button class="sidebar-btn" [class.active]="activeTab === 'admin'" (click)="activeTab = 'admin'">
+      Админ
+    </button>
+    <button class="sidebar-btn" [class.active]="activeTab === 'managers'" (click)="switchToManagers()">
+      Менеджер
+    </button>
+    <button class="sidebar-btn sidebar-logout" (click)="logout()">
+      Выход
+    </button>
+  </div>
+
+  <div class="admin-content">
+    <ng-container *ngIf="activeTab === 'admin'">
+      <div class="container">
+        <h1 class="admin-title">Админ-панель</h1>
+        <div class="admin-grid">
+          <div class="card">
+            <h3 class="card-title">Управление пользователями</h3>
+            <p class="card-desc">Просмотр активных клиентов, блокировка/разблокировка пользователей</p>
+            <div class="search-bar">
+              <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Поиск по логину или email..." class="search-input" />
+              <button class="btn btn-secondary" (click)="onSearch()">Найти</button>
+              <button *ngIf="searchQuery" class="btn btn-secondary" (click)="clearSearch()">Сброс</button>
+            </div>
+            <div *ngIf="usersLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!usersLoading && users.length" class="users-list">
+              <div *ngFor="let u of users" class="user-row">
+                <div class="user-info">
+                  <p class="user-login">{{ u.login }}</p>
+                  <p class="user-email">{{ u.email }}</p>
+                  <p class="user-meta" *ngIf="u.fullName">{{ u.fullName }} · {{ u.phone }} · {{ u.bookingsCount }} броней</p>
+                </div>
+                <button class="btn" [style.background]="u.enabled ? '#fee2e2' : '#dcfce7'" [style.color]="u.enabled ? '#dc2626' : '#16a34a'" (click)="confirmToggle(u)">
+                  {{ u.enabled ? 'Заблокировать' : 'Разблокировать' }}
+                </button>
+              </div>
+              <div class="pagination">
+                <button class="btn btn-secondary" (click)="prevUserPage()" [disabled]="!hasPrevUsers">← Назад</button>
+                <span class="page-info">{{ userPageOffset / userPageLimit + 1 }} / {{ Math.ceil(totalUsers / userPageLimit) }}</span>
+                <button class="btn btn-secondary" (click)="nextUserPage()" [disabled]="!hasMoreUsers">Вперёд →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Сводка</h3>
+            <div *ngIf="statsLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!statsLoading && statsSummary" class="stats-grid">
+              <div class="stat-card">
+                <p class="stat-label">Активных пользователей</p>
+                <p class="stat-value">{{ totalUsers }}</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Общий доход</p>
+                <p class="stat-value">{{ formatCurrency(statsSummary.totalRevenue) }}</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Средний чек</p>
+                <p class="stat-value">{{ formatCurrency(statsSummary.averageCheck) }}</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Оплаченных договоров</p>
+                <p class="stat-value">{{ statsSummary.paidContractsCount }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Клиенты с бронированиями</h3>
+            <div *ngIf="clientsLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!clientsLoading && clientsWithBookings.length === 0" class="empty-state"><p class="empty-text">Нет клиентов с бронированиями</p></div>
+            <div *ngIf="!clientsLoading && clientsWithBookings.length > 0">
+              <div *ngFor="let c of clientsWithBookings" class="user-row">
+                <div>
+                  <p class="user-login">{{ c.fullName || '—' }}</p>
+                  <p class="user-email">{{ c.phone || '—' }}</p>
+                </div>
+              </div>
+              <div class="pagination">
+                <button class="btn btn-secondary" (click)="prevClientPage()" [disabled]="!hasPrevClients">← Назад</button>
+                <span class="page-info">Страница {{ clientPageOffset / clientPageLimit + 1 }}</span>
+                <button class="btn btn-secondary" (click)="nextClientPage()" [disabled]="!hasMoreClients">Вперёд →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Доход</h3>
+            <div class="period-tabs">
+              <button class="period-tab" [class.active]="revenuePeriod === 'day'" (click)="setRevenuePeriod('day')">День</button>
+              <button class="period-tab" [class.active]="revenuePeriod === 'week'" (click)="setRevenuePeriod('week')">Неделя</button>
+              <button class="period-tab" [class.active]="revenuePeriod === 'month'" (click)="setRevenuePeriod('month')">Месяц</button>
+            </div>
+            <div *ngIf="revenueLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!revenueLoading && revenueData.length === 0" class="empty-state"><p class="empty-text">Нет данных о доходах</p></div>
+            <div *ngIf="!revenueLoading && revenueData.length > 0" class="revenue-list">
+              <div *ngFor="let r of revenueData" class="revenue-row">
+                <span class="revenue-period">{{ formatPeriod(r.period) }}</span>
+                <span class="revenue-sum">{{ formatCurrency(r.sum) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Топ-5 услуг</h3>
+            <div *ngIf="topServicesLoading" class="loading"><p>Загрузка...</p></div>
+            <div *ngIf="!topServicesLoading && topServices.length === 0" class="empty-state"><p class="empty-text">Нет данных об услугах</p></div>
+            <div *ngIf="!topServicesLoading && topServices.length > 0" class="top-services-list">
+              <div *ngFor="let s of topServices; let i = index" class="top-service-row">
+                <span class="top-service-rank">{{ i + 1 }}</span>
+                <span class="top-service-name">{{ s.serviceName }}</span>
+                <span class="top-service-qty">{{ s.totalQuantity }} шт.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card chart-card" *ngIf="revenueData.length >= 2">
+          <h3 class="card-title">Визуализация дохода</h3>
+          <div class="chart-wrapper">
+            <svg [attr.viewBox]="'0 0 ' + svgW + ' ' + svgH" preserveAspectRatio="xMidYMid meet" class="revenue-chart">
+              <defs>
+                <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1e293b" stop-opacity="0.25" />
+                  <stop offset="100%" stop-color="#1e293b" stop-opacity="0.02" />
+                </linearGradient>
+              </defs>
+              <line [attr.x1]="svgPad.left" [attr.y1]="svgPad.top" [attr.x2]="svgPad.left" [attr.y2]="svgPad.top + chartH" stroke="#e2e8f0" stroke-width="1" />
+              <line [attr.x1]="svgPad.left" [attr.y1]="svgPad.top + chartH" [attr.x2]="svgPad.left + chartW" [attr.y2]="svgPad.top + chartH" stroke="#e2e8f0" stroke-width="1" />
+              <line *ngFor="let t of chartData.yTicks" [attr.x1]="svgPad.left" [attr.y1]="t.y" [attr.x2]="svgPad.left + chartW" [attr.y2]="t.y" stroke="#f1f5f9" stroke-width="1" />
+              <path [attr.d]="chartData.area" fill="url(#revenueGrad)" />
+              <path [attr.d]="chartData.line" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              <text *ngFor="let t of chartData.yTicks" [attr.x]="svgPad.left - 8" [attr.y]="t.y + 4" text-anchor="end" class="chart-label">{{ t.label }}</text>
+              <text *ngFor="let lbl of chartData.xLabels" [attr.x]="lbl.x" [attr.y]="svgPad.top + chartH + 20" text-anchor="middle" class="chart-label">{{ lbl.label }}</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'managers'">
+      <div class="container">
+        <div class="managers-header">
+          <h1 class="admin-title">Управление менеджерами</h1>
+          <button class="btn" style="background:#1e293b;color:white" (click)="openCreateManager()">+ Добавить менеджера</button>
+        </div>
+
+        <div *ngIf="managersLoading" class="loading"><p>Загрузка...</p></div>
+        <div *ngIf="!managersLoading && managers.length === 0" class="empty-state"><p class="empty-text">Нет менеджеров</p></div>
+
+        <div *ngIf="!managersLoading && managers.length > 0" class="card">
+          <table class="managers-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Логин</th>
+                <th>Email</th>
+                <th>Статус</th>
+                <th>Создан</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let m of managers">
+                <td>{{ m.id }}</td>
+                <td>{{ m.login }}</td>
+                <td>{{ m.email || '—' }}</td>
+                <td>
+                  <span class="status-badge" [style.background]="m.enabled ? '#dcfce7' : '#fee2e2'" [style.color]="m.enabled ? '#16a34a' : '#dc2626'">
+                    {{ m.enabled ? 'Активен' : 'Заблокирован' }}
+                  </span>
+                </td>
+                <td class="td-date">{{ m.createdAt ? (m.createdAt | slice:0:10) : '—' }}</td>
+                <td class="td-actions">
+                  <button class="btn btn-sm btn-secondary" (click)="openEditManager(m)">Ред.</button>
+                  <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626" (click)="deleteManager(m.id)">Удал.</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showConfirmModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ confirmAction === 'block' ? 'Блокировка' : 'Разблокировка' }} пользователя</h3>
+      <button class="modal-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" *ngIf="selectedUser">
+      <div class="confirm-detail"><span class="confirm-label">Логин</span><span class="confirm-value">{{ selectedUser.login }}</span></div>
+      <div class="confirm-detail"><span class="confirm-label">Email</span><span class="confirm-value">{{ selectedUser.email }}</span></div>
+      <div class="confirm-detail" *ngIf="selectedUser.fullName"><span class="confirm-label">ФИО</span><span class="confirm-value">{{ selectedUser.fullName }}</span></div>
+      <div class="confirm-detail" *ngIf="selectedUser.phone"><span class="confirm-label">Телефон</span><span class="confirm-value">{{ selectedUser.phone }}</span></div>
+      <div class="confirm-detail"><span class="confirm-label">Количество броней</span><span class="confirm-value">{{ selectedUser.bookingsCount }}</span></div>
+      <div class="confirm-detail">
+        <span class="confirm-label">Текущий статус</span>
+        <span class="confirm-value" [style.color]="selectedUser.enabled ? '#16a34a' : '#dc2626'">{{ selectedUser.enabled ? 'Активен' : 'Заблокирован' }}</span>
+      </div>
+      <p class="confirm-warning">{{ confirmAction === 'block' ? 'После блокировки пользователь не сможет войти в систему и создавать новые бронирования.' : 'Пользователь сможет войти в систему и создавать новые бронирования.' }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeModal()">Отмена</button>
+      <button class="btn" [style.background]="confirmAction === 'block' ? '#dc2626' : '#16a34a'" [style.color]="'white'" (click)="executeToggle()" [disabled]="confirmLoading">
+        {{ confirmLoading ? 'Выполняется...' : (confirmAction === 'block' ? 'Заблокировать' : 'Разблокировать') }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showManagerModal" (click)="closeManagerModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ editingManagerId ? 'Редактировать менеджера' : 'Добавить менеджера' }}</h3>
+      <button class="modal-close" (click)="closeManagerModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Логин</label>
+        <input type="text" class="form-input" [(ngModel)]="managerForm.login" placeholder="Логин" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" [(ngModel)]="managerForm.email" placeholder="Email" />
+        <p class="form-error" *ngIf="managerFormErrors.email">{{ managerFormErrors.email }}</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль{{ editingManagerId ? ' (оставьте пустым, чтобы не менять)' : '' }}</label>
+        <input type="password" class="form-input" [(ngModel)]="managerForm.password" placeholder="Пароль" />
+        <p class="form-error" *ngIf="managerFormErrors.password">{{ managerFormErrors.password }}</p>
+      </div>
+      <div class="form-group" *ngIf="editingManagerId">
+        <label class="form-label">Статус</label>
+        <label class="toggle-label">
+          <input type="checkbox" [(ngModel)]="managerForm.enabled" class="toggle-input" />
+          <span class="toggle-text" [style.color]="managerForm.enabled ? '#16a34a' : '#dc2626'">
+            {{ managerForm.enabled ? 'Активен' : 'Заблокирован' }}
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeManagerModal()">Отмена</button>
+      <button class="btn" style="background:#1e293b;color:white" (click)="saveManager()" [disabled]="managerSaving || !managerForm.login">
+        {{ managerSaving ? 'Сохранение...' : 'Сохранить' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+================================================
+FILE: src\app\components\admin\admin.component.ts
+================================================
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+@Component({
+  standalone: false,
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css']
+})
+export class AdminComponent implements OnInit {
+  Math = Math;
+
+  activeTab: 'admin' | 'managers' = 'admin';
+
+  svgW = 600;
+  svgH = 280;
+  svgPad = { top: 20, right: 20, bottom: 40, left: 70 };
+  get chartW(): number { return this.svgW - this.svgPad.left - this.svgPad.right; }
+  get chartH(): number { return this.svgH - this.svgPad.top - this.svgPad.bottom; }
+
+  users: any[] = [];
+  totalUsers = 0;
+  userPageLimit = 10;
+  userPageOffset = 0;
+  usersLoading = false;
+  searchQuery = '';
+
+  showConfirmModal = false;
+  selectedUser: any = null;
+  confirmAction: 'block' | 'unblock' = 'block';
+  confirmLoading = false;
+
+  clientsWithBookings: any[] = [];
+  clientPageLimit = 10;
+  clientPageOffset = 0;
+  hasMoreClients = true;
+  clientsLoading = false;
+
+  revenueData: any[] = [];
+  revenuePeriod: 'day' | 'week' | 'month' = 'month';
+  revenueLoading = false;
+  topServices: any[] = [];
+  topServicesLoading = false;
+  statsSummary: any = null;
+  statsLoading = false;
+
+  managers: any[] = [];
+  managersLoading = false;
+  showManagerModal = false;
+  managerForm: any = { login: '', email: '', password: '' };
+  editingManagerId: number | null = null;
+  managerSaving = false;
+  managerFormErrors: any = {};
+
+  private apiUrl = 'http://localhost:8080/api';
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadUsers();
+    this.loadClientsWithBookings();
+    this.loadRevenue();
+    this.loadTopServices();
+    this.loadStatsSummary();
+  }
+
+  loadUsers(): void {
+    this.usersLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+    const params = `limit=${this.userPageLimit}&offset=${this.userPageOffset}&q=${encodeURIComponent(this.searchQuery)}`;
+
+    this.http.get<any>(`${this.apiUrl}/admin/users/active/paginated?${params}`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: (data) => {
+        this.users = data.users;
+        this.totalUsers = data.total;
+        this.usersLoading = false;
+      },
+      error: () => { this.usersLoading = false; }
+    });
+  }
+
+  onSearch(): void {
+    this.userPageOffset = 0;
+    this.loadUsers();
+  }
+
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.userPageOffset = 0;
+    this.loadUsers();
+  }
+
+  get hasMoreUsers(): boolean {
+    return this.userPageOffset + this.userPageLimit < this.totalUsers;
+  }
+
+  get hasPrevUsers(): boolean {
+    return this.userPageOffset > 0;
+  }
+
+  prevUserPage(): void {
+    if (this.hasPrevUsers) {
+      this.userPageOffset -= this.userPageLimit;
+      this.loadUsers();
+    }
+  }
+
+  nextUserPage(): void {
+    if (this.hasMoreUsers) {
+      this.userPageOffset += this.userPageLimit;
+      this.loadUsers();
+    }
+  }
+
+  confirmToggle(user: any): void {
+    this.selectedUser = user;
+    this.confirmAction = user.enabled ? 'block' : 'unblock';
+    this.showConfirmModal = true;
+  }
+
+  closeModal(): void {
+    this.showConfirmModal = false;
+    this.selectedUser = null;
+    this.confirmLoading = false;
+  }
+
+  executeToggle(): void {
+    if (!this.selectedUser) return;
+    this.confirmLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+    const action = this.confirmAction === 'block' ? 'disable' : 'enable';
+    const userId = this.selectedUser.id;
+
+    this.http.post(`${this.apiUrl}/admin/users/${userId}/${action}`, {}, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: () => {
+        this.closeModal();
+        this.loadUsers();
+      },
+      error: () => { this.confirmLoading = false; }
+    });
+  }
+
+  loadClientsWithBookings(): void {
+    this.clientsLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    this.http.get<any[]>(`${this.apiUrl}/admin/clients-with-bookings?limit=${this.clientPageLimit}&offset=${this.clientPageOffset}`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: (data) => {
+        this.clientsWithBookings = data;
+        this.hasMoreClients = data.length >= this.clientPageLimit;
+        this.clientsLoading = false;
+      },
+      error: () => { this.clientsLoading = false; }
+    });
+  }
+
+  get hasPrevClients(): boolean {
+    return this.clientPageOffset > 0;
+  }
+
+  prevClientPage(): void {
+    if (this.hasPrevClients) {
+      this.clientPageOffset -= this.clientPageLimit;
+      this.loadClientsWithBookings();
+    }
+  }
+
+  nextClientPage(): void {
+    if (this.hasMoreClients) {
+      this.clientPageOffset += this.clientPageLimit;
+      this.loadClientsWithBookings();
+    }
+  }
+
+  loadRevenue(): void {
+    this.revenueLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    this.http.get<any[]>(`${this.apiUrl}/admin/reports/revenue/${this.revenuePeriod}`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: (data) => {
+        this.revenueData = data;
+        this.revenueLoading = false;
+      },
+      error: () => { this.revenueLoading = false; }
+    });
+  }
+
+  setRevenuePeriod(period: 'day' | 'week' | 'month'): void {
+    this.revenuePeriod = period;
+    this.loadRevenue();
+  }
+
+  loadTopServices(): void {
+    this.topServicesLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    this.http.get<any[]>(`${this.apiUrl}/admin/reports/top-services`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: (data) => {
+        this.topServices = data;
+        this.topServicesLoading = false;
+      },
+      error: () => { this.topServicesLoading = false; }
+    });
+  }
+
+  loadStatsSummary(): void {
+    this.statsLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    this.http.get<any>(`${this.apiUrl}/admin/reports/summary`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: (data) => {
+        this.statsSummary = data;
+        this.statsLoading = false;
+      },
+      error: () => { this.statsLoading = false; }
+    });
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }).format(value);
+  }
+
+  formatPeriod(period: string): string {
+    if (this.revenuePeriod === 'month') {
+      const parts = period.split('-');
+      if (parts.length >= 2) {
+        const months = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+        return months[parseInt(parts[1]) - 1] + ' ' + parts[0];
+      }
+    }
+    if (this.revenuePeriod === 'week') {
+      return 'нед. ' + period;
+    }
+    return period;
+  }
+
+  get chartData(): { line: string; area: string; yTicks: { y: number; label: string }[]; xLabels: { x: number; label: string }[] } {
+    const d = this.revenueData;
+    const empty = { line: '', area: '', yTicks: [], xLabels: [] };
+    if (!d || d.length < 2) return empty;
+
+    const vals = d.map(r => r.sum);
+    const maxVal = Math.max(...vals);
+    const range = maxVal || 1;
+    const { chartW, chartH, svgPad: p } = this;
+
+    const pts = d.map((r, i) => ({
+      x: p.left + (i / (d.length - 1)) * chartW,
+      y: p.top + chartH - (r.sum / range) * chartH
+    }));
+
+    let line = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const cx = (pts[i - 1].x + pts[i].x) / 2;
+      line += ` Q ${cx} ${pts[i - 1].y} ${pts[i].x} ${pts[i].y}`;
+    }
+
+    let area = `M ${pts[0].x} ${p.top + chartH} L ${pts[0].x} ${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const cx = (pts[i - 1].x + pts[i].x) / 2;
+      area += ` Q ${cx} ${pts[i - 1].y} ${pts[i].x} ${pts[i].y}`;
+    }
+    area += ` L ${pts[pts.length - 1].x} ${p.top + chartH} Z`;
+
+    const tickCount = 5;
+    const yTicks = Array.from({ length: tickCount }, (_, i) => {
+      const val = (range * i) / (tickCount - 1);
+      return {
+        y: p.top + chartH - (val / range) * chartH,
+        label: this.formatCurrency(Math.round(val))
+      };
+    });
+
+    const step = Math.max(1, Math.floor(d.length / 8));
+    const xLabels = d
+      .map((r, i) => ({ x: pts[i].x, label: (i % step === 0 || i === d.length - 1) ? this.formatPeriod(r.period) : '' }))
+      .filter(lbl => lbl.label);
+
+    return { line, area, yTicks, xLabels };
+  }
+
+  switchToManagers(): void {
+    this.activeTab = 'managers';
+    this.loadManagers();
+  }
+
+  loadManagers(): void {
+    this.managersLoading = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    this.http.get<any[]>(`${this.apiUrl}/admin/managers`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: (data) => {
+        this.managers = data;
+        this.managersLoading = false;
+      },
+      error: () => { this.managersLoading = false; }
+    });
+  }
+
+  openCreateManager(): void {
+    this.editingManagerId = null;
+    this.managerForm = { login: '', email: '', password: '' };
+    this.showManagerModal = true;
+  }
+
+  openEditManager(mgr: any): void {
+    this.editingManagerId = mgr.id;
+    this.managerForm = { login: mgr.login, email: mgr.email || '', password: '', enabled: mgr.enabled };
+    this.showManagerModal = true;
+  }
+
+  closeManagerModal(): void {
+    this.showManagerModal = false;
+    this.editingManagerId = null;
+    this.managerForm = { login: '', email: '', password: '' };
+    this.managerSaving = false;
+    this.managerFormErrors = {};
+  }
+
+  validateManagerForm(): boolean {
+    this.managerFormErrors = {};
+    const email = this.managerForm.email;
+    if (email && email.length > 0) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        this.managerFormErrors.email = 'Неверный формат email';
+      }
+    }
+    const password = this.managerForm.password;
+    if (password && password.length > 0 && password.length < 6) {
+      this.managerFormErrors.password = 'Пароль должен быть не менее 6 символов';
+    }
+    return Object.keys(this.managerFormErrors).length === 0;
+  }
+
+  saveManager(): void {
+    if (!this.validateManagerForm()) {
+      return;
+    }
+    this.managerSaving = true;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    const headers = { Authorization: `Bearer ${tokenStr}` };
+
+    if (this.editingManagerId) {
+      const body: any = {};
+      if (this.managerForm.login) body.login = this.managerForm.login;
+      body.email = this.managerForm.email || null;
+      if (this.managerForm.password) body.password = this.managerForm.password;
+      body.enabled = this.managerForm.enabled;
+
+      this.http.put<any>(`${this.apiUrl}/admin/managers/${this.editingManagerId}`, body, { headers }).subscribe({
+        next: () => {
+          this.closeManagerModal();
+          this.loadManagers();
+        },
+        error: () => { this.managerSaving = false; }
+      });
+    } else {
+      this.http.post<any>(`${this.apiUrl}/admin/managers`, this.managerForm, { headers }).subscribe({
+        next: () => {
+          this.closeManagerModal();
+          this.loadManagers();
+        },
+        error: () => { this.managerSaving = false; }
+      });
+    }
+  }
+
+  deleteManager(id: number): void {
+    if (!confirm('Удалить менеджера?')) return;
+    const token = localStorage.getItem('currentUser');
+    const tokenStr = token ? JSON.parse(token).token : '';
+
+    this.http.delete(`${this.apiUrl}/admin/managers/${id}`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    }).subscribe({
+      next: () => { this.loadManagers(); },
+      error: () => {}
+    });
+  }
+
+  logout(): void {
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/']);
+  }
+}
+
+
+================================================
+FILE: src\app\components\auth\login\login.component.css
+================================================
+.login-container {
+  max-width: 400px;
+  padding-top: 60px;
+}
+.login-title {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.error-mb {
+  margin-bottom: 16px;
+}
+.btn-full {
+  width: 100%;
+}
+.login-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+
+================================================
+FILE: src\app\components\auth\login\login.component.html
+================================================
+<div class="container login-container">
+  <div class="card">
+    <h2 class="login-title">Вход</h2>
+    
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Логин</label>
+        <input type="text" [(ngModel)]="request.login" name="login" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" [(ngModel)]="request.password" name="password" required />
+      </div>
+      
+      <div *ngIf="error" class="error error-mb">
+        {{ error }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="loading">
+        {{ loading ? 'Вход...' : 'Войти' }}
+      </button>
+    </form>
+    
+    <p class="login-footer">
+      Нет аккаунта? <a routerLink="/register">Зарегистрироваться</a>
+    </p>
+  </div>
+</div>
+
+
+================================================
+FILE: src\app\components\auth\login\login.component.ts
+================================================
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { LoginRequest } from '../../../models/auth.model';
+
+@Component({
+  standalone: false,
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  request: LoginRequest = { login: '', password: '' };
+  error = '';
+  loading = false;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  onSubmit(): void {
+    this.loading = true;
+    this.error = '';
+
+    this.authService.login(this.request).subscribe({
+      next: (response) => {
+        if (response.role === 'ROLE_ADMIN') {
+          this.router.navigate(['/admin']);
+        } else if (response.role === 'ROLE_MANAGER') {
+          this.router.navigate(['/manager']);
+        } else {
+          this.router.navigate(['/']);
+        }
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Ошибка входа';
+        this.loading = false;
+      }
+    });
+  }
+}
+
+
+================================================
+FILE: src\app\components\auth\register\register.component.css
+================================================
+.register-container {
+  max-width: 400px;
+  padding-top: 40px;
+}
+.register-title {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.error-mb {
+  margin-bottom: 16px;
+}
+.btn-full {
+  width: 100%;
+}
+.register-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+
+================================================
+FILE: src\app\components\auth\register\register.component.html
+================================================
+<div class="container register-container">
+  <div class="card">
+    <h2 class="register-title">Регистрация</h2>
+    
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Логин</label>
+        <input type="text" [(ngModel)]="request.login" name="login" required minlength="3" maxlength="50" />
+      </div>
+      
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" [(ngModel)]="request.password" name="password" required minlength="6" />
+      </div>
+      
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="request.email" name="email" required />
+      </div>
+      
+      <div class="form-group">
+        <label>ФИО</label>
+        <input type="text" [(ngModel)]="request.fullName" name="fullName" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="tel" [(ngModel)]="request.phone" name="phone" pattern="\\+?[0-9]{10,15}" />
+      </div>
+      
+      <div class="form-group">
+        <label>Дата рождения</label>
+        <input type="date" [(ngModel)]="request.birthday" name="birthday" />
+      </div>
+      
+      <div *ngIf="error" class="error error-mb">
+        {{ error }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="loading">
+        {{ loading ? 'Регистрация...' : 'Зарегистрироваться' }}
+      </button>
+    </form>
+    
+    <p class="register-footer">
+      Уже есть аккаунт? <a routerLink="/login">Войти</a>
+    </p>
+  </div>
+</div>
+
+
+================================================
+FILE: src\app\components\auth\register\register.component.ts
+================================================
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { RegistrationRequest } from '../../../models/auth.model';
+
+@Component({
+  standalone: false,
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent {
+  request: RegistrationRequest = {
+    login: '',
+    password: '',
+    email: '',
+    fullName: '',
+    phone: '',
+    birthday: ''
+  };
+  error = '';
+  loading = false;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  onSubmit(): void {
+    this.loading = true;
+    this.error = '';
+
+    this.authService.register(this.request).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Ошибка регистрации';
+        this.loading = false;
+      }
+    });
+  }
+}
+
+
+================================================
+FILE: src\app\components\bookings\bookings.component.css
+================================================
+.btn-sm { padding: 6px 14px; font-size: 13px; border-radius: 6px; border: 1px solid var(--border); background: white; cursor: pointer; }
+.btn-sm.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content { background: white; border-radius: 12px; padding: 24px; width: 90%; max-width: 480px; max-height: 80vh; overflow-y: auto; }
+
+.bookings-container {
+  max-width: 800px;
+  padding-top: 32px;
+}
+.back-link-wrap {
+  margin-bottom: 24px;
+}
+.back-link {
+  color: var(--primary);
+  text-decoration: none;
+}
+.bookings-title {
+  margin-bottom: 24px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px;
+}
+.empty-text {
+  color: #64748b;
+}
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.booking-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.booking-location {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.booking-time {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-paid {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+.status-unpaid {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.status-expired {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.status-completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+.status-cancelled {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+.booking-price-wrap {
+  text-align: right;
+  white-space: nowrap;
+}
+.booking-price {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--primary);
+}
+.booking-actions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn-cancel {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.modal-title {
+  margin: 0;
+}
+.edit-title {
+  margin-bottom: 20px;
+}
+.modal-close {
+  border: none;
+  font-size: 18px;
+}
+.modal-body {
+  display: grid;
+  gap: 12px;
+}
+.service-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 14px;
+}
+.modal-total {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+.total-amount {
+  color: var(--primary);
+  font-size: 18px;
+}
+.edit-error {
+  margin: 8px 0;
+}
+.error-mb {
+  margin-bottom: 12px;
+}
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.services-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.services-section h4 {
+  margin-bottom: 12px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.service-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.service-price {
+  color: #64748b;
+  min-width: 60px;
+}
+
+.service-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-quantity input {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.loading-small {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+.price-summary {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+================================================
+FILE: src\app\components\bookings\bookings.component.html
+================================================
+<div class="container bookings-container">
+  <div class="back-link-wrap">
+    <a routerLink="/" class="back-link">← На главную</a>
+  </div>
+  <h1 class="bookings-title">Мои бронирования</h1>
+
+  <div *ngIf="loading" class="loading"><p>Загрузка...</p></div>
+
+  <div *ngIf="!loading && bookings.length === 0" class="empty-state">
+    <p class="empty-text">У вас нет бронирований</p>
+  </div>
+
+  <div *ngIf="!loading && bookings.length > 0" class="bookings-list">
+    <div *ngFor="let booking of bookings" class="card">
+      <div class="booking-header">
+        <div>
+          <p class="booking-name">{{ booking.workPlaceName }}</p>
+          <p class="booking-location">
+            {{ booking.locationName }}, {{ booking.locationAddress }}
+          </p>
+          <p class="booking-time">
+            {{ formatDate(booking.startTime) }} — {{ formatDate(booking.endTime) }}
+          </p>
+          <span *ngIf="getBookingStatus(booking) === 'PAID'"
+                class="status-badge status-paid">
+            Оплачено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'PENDING'"
+                class="status-badge status-pending">
+            Ожидает оплаты
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'UNPAID'"
+                class="status-badge status-unpaid">
+            Не оплачено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'EXPIRED'"
+                class="status-badge status-expired">
+            Просрочено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'COMPLETED'"
+                class="status-badge status-completed">
+            Завершено
+          </span>
+          <span *ngIf="getBookingStatus(booking) === 'CANCELLED'"
+                class="status-badge status-cancelled">
+            Отменено
+          </span>
+        </div>
+        <div class="booking-price-wrap">
+          <span class="booking-price">{{ totalBookingPrice(booking) }} ₽</span>
+        </div>
+      </div>
+      <div class="booking-actions">
+        <button class="btn btn-sm" (click)="openDetails(booking)">Подробнее</button>
+        <button class="btn btn-sm" *ngIf="canEdit(booking)" (click)="startEdit(booking)">Редактировать</button>
+        <button class="btn btn-sm btn-cancel" *ngIf="isCancelable(booking)" (click)="cancelBooking(booking)">Отменить</button>
+        <button class="btn btn-sm btn-primary" *ngIf="canPay(booking)" (click)="payBooking(booking)">Оплатить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedBooking" (click)="closeDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="modal-title">Детали бронирования</h3>
+      <button class="btn btn-sm modal-close" (click)="closeDetails()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div><strong>Место:</strong> {{ selectedBooking.workPlaceName }}</div>
+      <div><strong>Локация:</strong> {{ selectedBooking.locationName }}, {{ selectedBooking.locationAddress }}</div>
+      <div><strong>Начало:</strong> {{ formatDate(selectedBooking.startTime) }}</div>
+      <div><strong>Конец:</strong> {{ formatDate(selectedBooking.endTime) }}</div>
+      <div><strong>Стоимость рабочего места:</strong> {{ workplaceCost(selectedBooking) }} ₽</div>
+
+      <div *ngIf="services.length > 0">
+        <strong>Услуги:</strong>
+        <div *ngFor="let s of services" class="service-row">
+          <span>{{ s.serviceName || 'Услуга' }}</span>
+          <span>{{ s.priceAtBookingTime * s.quantity }} ₽</span>
+        </div>
+      </div>
+
+      <div class="modal-total">
+        <strong>Итого:</strong>
+        <strong class="total-amount">{{ workplaceCost(selectedBooking) + servicesTotal() }} ₽</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="editingBooking">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3 class="modal-title edit-title">Редактирование бронирования</h3>
+    
+    <div class="form-group">
+      <label>Новое время начала</label>
+      <input type="datetime-local" 
+             [(ngModel)]="editStart" 
+             (ngModelChange)="onEditTimesChange()"
+             step="3600" />
+    </div>
+    
+    <div class="form-group">
+      <label>Новое время окончания</label>
+      <input type="datetime-local" 
+             [(ngModel)]="editEnd" 
+             (ngModelChange)="onEditTimesChange()"
+             step="3600" />
+    </div>
+    
+    <div class="services-section">
+      <h4>Дополнительные услуги</h4>
+      
+      <div *ngIf="editServicesLoading" class="loading-small">Загрузка услуг...</div>
+      
+      <div *ngFor="let service of allServices" class="service-item">
+        <label class="service-label">
+          <input type="checkbox" 
+                 [checked]="isServiceSelected(service.id)"
+                 (change)="toggleEditService(service)" />
+          {{ service.name }}
+        </label>
+        <span class="service-price">{{ service.price }} ₽</span>
+        
+        <div *ngIf="isServiceSelected(service.id)" class="service-quantity">
+          <label>Кол-во:</label>
+          <input type="number" 
+                 min="1" 
+                 [(ngModel)]="editServicesQuantities[service.id]"
+                 (change)="updateEditServiceQuantity(service.id, editServicesQuantities[service.id])"
+                 class="quantity-input" />
+        </div>
+      </div>
+      
+      <div class="price-summary" *ngIf="getEditServicesTotal() > 0">
+        <div class="price-row">
+          <span>Услуги:</span>
+          <span>{{ getEditServicesTotal() }} ₽</span>
+        </div>
+        <div class="price-row">
+          <span>Аренда места:</span>
+          <span>{{ getEditWorkplacePrice() }} ₽</span>
+        </div>
+        <div class="price-total">
+          <span>Итого:</span>
+          <span>{{ getEditWorkplacePrice() + getEditServicesTotal() }} ₽</span>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="editAvailabilityChecked && !editAvailable" class="error edit-error">
+      ⚠️ Это время уже занято
+    </div>
+    
+    <div *ngIf="editError" class="error error-mb">{{ editError }}</div>
+    
+    <div class="edit-actions">
+      <button class="btn btn-sm" (click)="cancelEdit()">Отмена</button>
+      <button class="btn btn-sm btn-primary" 
+              (click)="saveEdit()" 
+              [disabled]="!editStart || !editEnd || !editAvailable">
+        Сохранить изменения
+      </button>
+    </div>
+  </div>
+</div>
+
+
+================================================
+FILE: src\app\components\bookings\bookings.component.ts
+================================================
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BookingService } from '../../services/booking.service';
+import { AuthService } from '../../services/auth.service';
+import { Booking } from '../../models/booking.model';
+
+@Component({
+  standalone: false,
+  selector: 'app-bookings',
+  templateUrl: './bookings.component.html',
+  styleUrls: ['./bookings.component.css']
+})
+export class BookingsComponent implements OnInit {
+  bookings: Booking[] = [];
+  loading = true;
+  selectedBooking: Booking | null = null;
+  services: any[] = [];
+  editingBooking: Booking | null = null;
+  editStart = '';
+  editEnd = '';
+  editError = '';
+  editAvailable = true;
+  editAvailabilityChecked = false;
+  allServices: any[] = [];
+  editServices: Map<string, number> = new Map();
+  editServicesQuantities: { [key: string]: number } = {};
+  editServicesLoading = false;
+  editWorkplacePricePerHour: number = 0;
+  workplacePricePerHour: number = 0;
+  workplacePricesMap: Map<string, number> = new Map();
+  bookingServicesTotal: Map<string, number> = new Map();
+
+  constructor(
+    private bookingService: BookingService,
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadBookings();
+  }
+
+  loadBookings(): void {
+  this.loading = true;
+  this.bookingService.getWorkplaces().subscribe({
+    next: (workplaces) => {
+      workplaces.forEach(wp => this.workplacePricesMap.set(wp.id, wp.priceForHour));
+    }
+  });
+  this.bookingService.getMyBookings().subscribe({
+    next: (data) => { 
+      this.bookings = data;
+      data.forEach(booking => {
+        this.bookingService.getServicesByBooking(booking.id).subscribe({
+          next: (services) => {
+            this.bookingServicesTotal.set(booking.id,
+              services.reduce((sum, s) => sum + s.priceAtBookingTime * s.quantity, 0));
+          }
+        });
+      });
+      this.loading = false;
+    },
+    error: () => { this.loading = false; }
+  });
+}
+
+  formatDate(dateStr: string): string {
+    const d = new Date(dateStr);
+    return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+ getBookingStatus(booking: Booking): string {
+  const paymentStatus = booking.paymentStatus;
+  const endTime = new Date(booking.endTime);
+  const now = new Date();
+  
+  if (paymentStatus === 'CANCELLED') return 'CANCELLED';
+  if (paymentStatus === 'PAID') {
+    return endTime < now ? 'COMPLETED' : 'PAID';
+  }
+  if (paymentStatus === 'PENDING') {
+    return endTime < now ? 'EXPIRED' : 'PENDING';
+  }
+  return endTime < now ? 'EXPIRED' : 'UNPAID';
+}
+canEdit(booking: Booking): boolean {
+  const paymentStatus = booking.paymentStatus;
+  const endTime = new Date(booking.endTime);
+  const now = new Date();
+  return (paymentStatus === 'PENDING' || paymentStatus === undefined) && endTime > now;
+}
+canPay(booking: Booking): boolean {
+  const paymentStatus = booking.paymentStatus;
+  const endTime = new Date(booking.endTime);
+  const now = new Date();
+  
+  return paymentStatus === 'PENDING' && endTime > now;
+}
+isCancelable(booking: Booking): boolean {
+  const paymentStatus = booking.paymentStatus;
+  const endTime = new Date(booking.endTime);
+  const now = new Date();
+  return (paymentStatus === 'PENDING' || paymentStatus === undefined) && endTime > now;
+}
+  openDetails(booking: Booking): void {
+    this.selectedBooking = booking;
+    this.services = [];
+    this.bookingService.getWorkplaceById(booking.workPlaceId).subscribe({
+      next: (wp) => { this.workplacePricePerHour = wp.priceForHour; }
+    });
+    this.bookingService.getServicesByBooking(booking.id).subscribe({
+      next: (data) => { this.services = data; }
+    });
+  }
+
+  closeDetails(): void {
+    this.selectedBooking = null;
+    this.services = [];
+  }
+
+  workplaceCost(booking: Booking): number {
+    const start = new Date(booking.startTime);
+    const end = new Date(booking.endTime);
+    const hours = Math.max(1, Math.round((end.getTime() - start.getTime()) / 3600000));
+    return hours * this.workplacePricePerHour;
+  }
+
+  servicesTotal(): number {
+    return this.services.reduce((sum, s) => sum + s.priceAtBookingTime * s.quantity, 0);
+  }
+
+  totalBookingPrice(booking: Booking): number {
+    const start = new Date(booking.startTime);
+    const end = new Date(booking.endTime);
+    const hours = Math.max(1, Math.round((end.getTime() - start.getTime()) / 3600000));
+    const wpPrice = (this.workplacePricesMap.get(booking.workPlaceId) || 0) * hours;
+    const servicesPrice = this.bookingServicesTotal.get(booking.id) || 0;
+    return wpPrice + servicesPrice;
+  }
+
+  startEdit(booking: Booking): void {
+    this.editingBooking = booking;
+    this.editError = '';
+    this.editAvailable = true;
+    this.editAvailabilityChecked = false;
+    
+    const start = new Date(booking.startTime);
+    const end = new Date(booking.endTime);
+    this.loadAllServicesForEdit();
+    this.loadCurrentBookingServices(booking.id);
+    this.bookingService.getWorkplaceById(booking.workPlaceId).subscribe(workplace => {
+      this.editWorkplacePricePerHour = workplace.priceForHour;
+    });
+    start.setMinutes(0, 0, 0);
+    end.setMinutes(0, 0, 0);
+    if (end <= start) {
+      end.setHours(start.getHours() + 1);
+    }
+    
+    this.editStart = this.formatDateTimeLocal(start);
+    this.editEnd = this.formatDateTimeLocal(end);
+    this.checkEditAvailability();
+  }
+formatDateTimeLocal(date: Date): string {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:00`;
+  }
+
+  onEditTimesChange(): void {
+    this.checkEditAvailability();
+  }
+
+ checkEditAvailability(): void {
+    if (!this.editingBooking || !this.editStart || !this.editEnd) return;
+    
+    this.editAvailabilityChecked = false;
+    this.bookingService.checkWorkplaceAvailability(
+        this.editingBooking.workPlaceId,
+        this.editStart,
+        this.editEnd,
+        this.editingBooking.id
+    ).subscribe({
+        next: (isAvailable) => {
+            this.editAvailable = isAvailable;
+            this.editAvailabilityChecked = true;
+        }
+    });
+}
+  cancelEdit(): void {
+    this.editingBooking = null;
+    this.editError = '';
+  }
+
+  saveEdit(): void {
+  if (!this.editingBooking || !this.editStart || !this.editEnd) return;
+  
+  if (!this.editAvailable) {
+    this.editError = 'Это время уже занято';
+    return;
+  }
+  
+
+  this.bookingService.updateBooking(this.editingBooking.id, {
+    clientId: this.editingBooking.clientId,
+    workPlaceId: this.editingBooking.workPlaceId,
+    startTime: this.editStart,
+    endTime: this.editEnd
+  }).subscribe({
+    next: () => {
+
+      this.updateBookingServices();
+    },
+    error: (err) => { 
+      this.editError = err.error?.message || 'Ошибка при обновлении'; 
+    }
+  });
+}
+
+updateBookingServices(): void {
+  if (!this.editingBooking) return;
+  
+
+  this.bookingService.getServicesByBooking(this.editingBooking.id).subscribe({
+    next: (currentServices) => {
+      const currentServiceIds = new Set(currentServices.map(s => s.serviceId));
+      const newServiceIds = new Set(this.editServices.keys());
+      
+
+      currentServiceIds.forEach(serviceId => {
+        if (!newServiceIds.has(serviceId)) {
+          this.bookingService.removeServiceFromBooking(this.editingBooking!.id, serviceId).subscribe();
+        }
+      });
+      
+
+      newServiceIds.forEach(serviceId => {
+        const newQuantity = this.editServices.get(serviceId)!;
+        if (currentServiceIds.has(serviceId)) {
+
+          this.bookingService.updateServiceQuantity(this.editingBooking!.id, serviceId, newQuantity).subscribe();
+        } else {
+
+          this.bookingService.addServiceToBooking(this.editingBooking!.id, serviceId, newQuantity).subscribe();
+        }
+      });
+      
+
+      this.cancelEdit();
+      this.loadBookings();
+    }
+  });
+}
+
+  cancelBooking(booking: Booking): void {
+    if (!confirm('Отменить бронирование?')) return;
+    this.bookingService.cancelBooking(booking.id).subscribe({
+      next: () => { this.loadBookings(); },
+      error: (err) => { alert(err.error?.message || 'Ошибка при отмене'); }
+    });
+  }
+
+  payBooking(booking: Booking): void {
+    if (!confirm('Оплатить бронирование?')) return;
+    if (booking.contractId) {
+      this.bookingService.payContract(booking.contractId, 'CARD').subscribe({
+        next: () => { this.loadBookings(); },
+        error: (err) => { alert(err.error?.message || 'Ошибка оплаты'); }
+      });
+    } else {
+      this.bookingService.createContract(booking.id).subscribe({
+        next: (contract) => {
+          this.bookingService.payContract(contract.id, 'CARD').subscribe({
+            next: () => { this.loadBookings(); },
+            error: (err) => { alert(err.error?.message || 'Ошибка оплаты'); }
+          });
+        },
+        error: (err) => { alert(err.error?.message || 'Ошибка создания договора'); }
+      });
+    }
+  }
+loadAllServicesForEdit(): void {
+  this.editServicesLoading = true;
+  this.bookingService.getServices().subscribe({
+    next: (services) => {
+      this.allServices = services;
+      this.editServicesLoading = false;
+    },
+    error: () => { this.editServicesLoading = false; }
+  });
+}
+
+loadCurrentBookingServices(bookingId: string): void {
+  console.log('=== loadCurrentBookingServices START ===');
+  console.log('bookingId:', bookingId);
+  
+  this.bookingService.getServicesByBooking(bookingId).subscribe({
+    next: (services) => {
+      console.log('getServicesByBooking ответ:', services);
+      console.log('Тип ответа:', typeof services);
+      console.log('Массив?', Array.isArray(services));
+      
+      if (!services || services.length === 0) {
+        console.log('Нет услуг для этого бронирования');
+        return;
+      }
+      
+      services.forEach((service, index) => {
+        console.log(`Услуга ${index}:`, service);
+        console.log(`service.serviceId = ${service.serviceId}`);
+        console.log(`service.quantity = ${service.quantity}`);
+        
+        if (service.serviceId) {
+          this.editServices.set(service.serviceId, service.quantity);
+          this.editServicesQuantities[service.serviceId] = service.quantity;
+          console.log(`Добавлено в editServices: ключ=${service.serviceId}, значение=${service.quantity}`);
+        } else {
+          console.error('Нет serviceId у услуги!', service);
+        }
+      });
+      
+      console.log('Итоговый editServices:', Array.from(this.editServices.entries()));
+      console.log('=== loadCurrentBookingServices END ===');
+    },
+    error: (err) => {
+      console.error('Ошибка загрузки услуг:', err);
+    }
+  });
+}
+isServiceSelected(serviceId: string): boolean {
+  return this.editServices.has(serviceId);
+}
+
+toggleEditService(service: any): void {
+  const serviceId = service.id;
+  if (this.editServices.has(serviceId)) {
+    this.editServices.delete(serviceId);
+    delete this.editServicesQuantities[serviceId];
+  } else {
+    this.editServices.set(serviceId, 1);
+    this.editServicesQuantities[serviceId] = 1;
+  }
+}
+
+updateEditServiceQuantity(serviceId: string, quantity: number): void {
+  if (quantity > 0) {
+    this.editServices.set(serviceId, quantity);
+    this.editServicesQuantities[serviceId] = quantity;
+  }
+}
+
+getEditServicesTotal(): number {
+  let total = 0;
+  this.editServices.forEach((quantity, serviceId) => {
+    const service = this.allServices.find(s => s.id === serviceId);
+    if (service) {
+      total += service.price * quantity;
+    }
+  });
+  return total;
+}
+
+getEditWorkplacePrice(): number {
+  if (!this.editingBooking || !this.editStart || !this.editEnd) return 0;
+  if (this.editWorkplacePricePerHour === 0) return 0;
+  
+  const start = new Date(this.editStart);
+  const end = new Date(this.editEnd);
+  const hours = Math.max(1, Math.round((end.getTime() - start.getTime()) / 3600000));
+  
+  return this.editWorkplacePricePerHour * hours;
+}
+}
+
+
+================================================
+FILE: src\app\components\home\home.component.css
+================================================
+.hero-section {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  padding: 80px 0 80px;
+}
+.section { padding: 72px 0; }
+.section-title {
+  text-align: center; font-size: 32px; margin-bottom: 16px;
+}
+.feature-card {
+  background: white; border-radius: 12px; padding: 32px 24px;
+  text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+.feature-card:hover { transform: translateY(-4px); }
+.feature-icon { font-size: 36px; margin-bottom: 16px; }
+.feature-card h3 { margin-bottom: 8px; font-size: 16px; }
+.feature-card p { color: #64748b; font-size: 14px; line-height: 1.6; }
+.location-card {
+  background: white; border-radius: 12px; padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.location-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12); transform: translateY(-2px);
+}
+.location-header {
+  display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;
+}
+.location-header h3 { font-size: 18px; }
+.location-city {
+  background: #eff6ff; color: #2563eb; padding: 2px 10px;
+  border-radius: 12px; font-size: 13px; font-weight: 500;
+}
+.location-address { color: #64748b; font-size: 14px; margin-bottom: 16px; }
+.location-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: #94a3b8; padding-top: 16px; border-top: 1px solid #f1f5f9;
+}
+.location-arrow { color: var(--primary); font-weight: 500; }
+.contact-item {
+  display: flex; justify-content: space-between; padding: 16px 20px;
+  background: white; border-radius: 8px;
+}
+.contact-label { color: #64748b; }
+
+.success-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #22c55e;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-weight: 500;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.hero-content {
+  text-align: center;
+}
+.hero-title {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: white;
+}
+.hero-subtitle {
+  font-size: 20px;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-cta {
+  background: white;
+  color: var(--primary);
+  padding: 14px 36px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.about-text {
+  text-align: center;
+  color: #64748b;
+  max-width: 700px;
+  margin: 0 auto 48px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.section-alt {
+  background: #f8fafc;
+}
+.section-subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 40px;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.service-card {
+  padding: 20px;
+  text-align: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.service-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+.service-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.service-desc {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.service-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.locations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.locations-header .section-title {
+  margin-bottom: 0;
+}
+.search-input {
+  padding: 10px 16px;
+  width: 250px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px;
+}
+.empty-text {
+  color: #64748b;
+}
+.contacts-container {
+  max-width: 600px;
+}
+.contacts-grid {
+  display: grid;
+  gap: 20px;
+}
+.locations-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-active {
+  background: var(--primary) !important;
+  color: white !important;
+}
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.recent-card {
+  padding: 20px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  text-align: center;
+}
+.recent-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+.recent-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.recent-location {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.recent-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.recent-status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-block;
+}
+.recent-status.available {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.recent-status.busy {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+
+================================================
+FILE: src\app\components\home\home.component.html
+================================================
+<div *ngIf="showSuccessToast" class="success-toast">
+  Бронирование успешно создано!
+</div>
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Аренда рабочих мест</h1>
+    <p class="hero-subtitle">
+      Найдите идеальное место для работы в удобной локации
+    </p>
+    <a (click)="scrollTo('locations')" class="btn hero-cta">
+      Выбрать локацию
+    </a>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container">
+    <h2 class="section-title">О нас</h2>
+    <p class="about-text">
+      Мы предоставляем современные рабочие места в различных локациях города. 
+      Коворкинг, переговорные комнаты — всё для комфортной и продуктивной работы.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Услуги</h2>
+    <p class="section-subtitle">
+      Дополнительные возможности для комфортной работы
+    </p>
+    <div *ngIf="servicesLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!servicesLoading" class="services-grid">
+      <div class="card service-card" *ngFor="let s of services">
+        <div class="service-name">{{ s.name }}</div>
+        <div class="service-desc">{{ s.description }}</div>
+        <div class="service-price">{{ s.price }} ₽</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Недавно бронировали</h2>
+    <p class="section-subtitle">Популярные рабочие места</p>
+    <div *ngIf="recentLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!recentLoading && recentWorkplaces.length > 0" class="recent-grid">
+      <div *ngFor="let wp of recentWorkplaces" class="card recent-card"
+           [routerLink]="['/workplaces', wp.locationId]" [queryParams]="{selected: wp.id}">
+        <div class="recent-name">{{ wp.name }}</div>
+        <div class="recent-location">{{ wp.locationName }}</div>
+        <div class="recent-price">{{ wp.priceForHour }} ₽/час</div>
+        <div class="recent-status" [class.available]="wp.availableNow" [class.busy]="!wp.availableNow">
+          {{ wp.availableNow ? 'Свободно сейчас' : 'Занято до ' + (wp.nextAvailableTime | date:'HH:mm') }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="locations" class="section">
+  <div class="container">
+    <div class="locations-header">
+      <h2 class="section-title">Локации</h2>
+      <div class="locations-controls">
+        <input type="text" 
+               [(ngModel)]="searchCity" 
+               (input)="onSearch()"
+               placeholder="Поиск по городу..."
+               class="search-input" />
+        <button class="btn btn-secondary filter-btn" 
+                [class.btn-active]="showActiveOnly"
+                (click)="toggleActiveOnly()">
+          Только активные
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="loading" class="loading"><p>Загрузка...</p></div>
+    
+    <div *ngIf="!loading" class="locations-grid">
+      <div *ngFor="let location of filteredLocations" class="location-card" 
+           [routerLink]="['/workplaces', location.id]">
+        <div class="location-header">
+          <h3>{{ location.name }}</h3>
+          <span class="location-city">{{ location.city }}</span>
+        </div>
+        <p class="location-address">{{ location.address }}</p>
+        <div class="location-footer">
+          <span>{{ location.openingTime }} — {{ location.closingTime }}</span>
+          <span class="location-arrow">Выбрать место →</span>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="!loading && filteredLocations.length === 0" class="empty-state">
+      <p class="empty-text">Локации не найдены</p>
+    </div>
+  </div>
+</section>
+
+<section id="contacts" class="section section-alt">
+  <div class="container contacts-container">
+    <h2 class="section-title">Контакты</h2>
+    <div class="contacts-grid">
+      <div class="contact-item">
+        <span class="contact-label">Телефон</span>
+        <span>+7 (495) 123-45-67</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <span>info@booking.ru</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Режим работы</span>
+        <span>Пн—Пт: 9:00 — 21:00, Сб—Вс: 10:00 — 20:00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+================================================
+FILE: src\app\components\home\home.component.ts
+================================================
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BookingService } from '../../services/booking.service';
+import { AuthService } from '../../services/auth.service';
+import { Location, AdditionalService } from '../../models/booking.model';
+
+@Component({
+  standalone: false,
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+  features = [
+    { icon: '🏢', title: 'Удобные локации', desc: 'Коворкинги в разных районах города рядом с метро' },
+    { icon: '⚡', title: 'Быстрый интернет', desc: 'Высокоскоростной Wi-Fi на всех рабочих местах' },
+    { icon: '☕', title: 'Всё включено', desc: 'Чай, кофе, вода и переговорные комнаты' },
+    { icon: '🕐', title: 'Гибкий график', desc: 'Бронируйте на час, день или месяц' }
+  ];
+
+  locations: Location[] = [];
+  filteredLocations: Location[] = [];
+  services: AdditionalService[] = [];
+  searchCity = '';
+  loading = true;
+  servicesLoading = true;
+  showActiveOnly = false;
+  recentWorkplaces: any[] = [];
+  recentLoading = true;
+
+  showSuccessToast = false;
+
+  constructor(
+    private bookingService: BookingService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    const user = this.authService.currentUser;
+    if (user?.role === 'ROLE_ADMIN') {
+      this.router.navigate(['/admin']);
+      return;
+    }
+    if (user?.role === 'ROLE_MANAGER') {
+      this.router.navigate(['/manager']);
+      return;
+    }
+    this.route.queryParams.subscribe(params => {
+      if (params['booked'] === 'true') {
+        this.showSuccessToast = true;
+        setTimeout(() => { this.showSuccessToast = false; }, 4000);
+        this.router.navigate([], { queryParams: { booked: null }, queryParamsHandling: 'merge' });
+      }
+    });
+    this.loadLocations();
+    this.loadServices();
+    this.loadRecentWorkplaces();
+  }
+
+  loadLocations(): void {
+    this.bookingService.getLocations().subscribe({
+      next: (data) => {
+        this.locations = data;
+        this.filteredLocations = data;
+        this.loading = false;
+      },
+      error: () => this.loading = false
+    });
+  }
+
+  loadServices(): void {
+    this.bookingService.getServices().subscribe({
+      next: (data) => { this.services = data; this.servicesLoading = false; },
+      error: () => this.servicesLoading = false
+    });
+  }
+
+  onSearch(): void {
+    if (!this.searchCity) {
+      this.filteredLocations = this.locations;
+    } else {
+      this.filteredLocations = this.locations.filter(l =>
+        l.city.toLowerCase().includes(this.searchCity.toLowerCase())
+      );
+    }
+  }
+
+  toggleActiveOnly(): void {
+    this.showActiveOnly = !this.showActiveOnly;
+    if (this.showActiveOnly) {
+      this.loading = true;
+      this.bookingService.getLocationsWithAvailableWorkplaces().subscribe({
+        next: (data) => {
+          this.locations = data;
+          this.onSearch();
+          this.loading = false;
+        },
+        error: () => this.loading = false
+      });
+    } else {
+      this.loadLocations();
+    }
+  }
+
+  loadRecentWorkplaces(): void {
+    this.bookingService.getRecentlyBookedWorkplaces(5).subscribe({
+      next: (data) => { this.recentWorkplaces = data; this.recentLoading = false; },
+      error: () => this.recentLoading = false
+    });
+  }
+
+  scrollTo(id: string): void {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+
+================================================
+FILE: src\app\components\manager\manager.component.css
+================================================
+.page-title {
+  margin-bottom: 24px;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form-card {
+  margin-bottom: 16px;
+}
+
+.form-title {
+  margin-bottom: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+.list-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-row-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card-row-start {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card-title {
+  font-size: 16px;
+}
+
+.card-subtitle {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.card-desc {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.card-price {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 14px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-group-center {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.delete-btn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.toggle-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.status-available {
+  color: #22c55e;
+  font-size: 13px;
+}
+
+.status-occupied {
+  color: #ef4444;
+  font-size: 13px;
+}
+
+.booking-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.booking-date {
+  font-size: 14px;
+}
+
+.contract-number {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.card-mb {
+  margin-bottom: 12px;
+}
+
+.btn-success {
+  background-color: #22c55e;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #16a34a;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.detail-btn-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.detail-btn-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.modal-close:hover {
+  background: #f1f5f9;
+}
+
+.modal-body {
+  display: grid;
+  gap: 12px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+}
+
+.detail-label {
+  color: #64748b;
+}
+
+.detail-price {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 16px;
+}
+
+.services-subtitle {
+  margin: 16px 0 8px;
+  font-size: 14px;
+}
+
+
+================================================
+FILE: src\app\components\manager\manager.component.html
+================================================
+<div class="container">
+  <h1 class="page-title">Панель менеджера</h1>
+
+  <div class="tab-bar">
+    <button class="btn" [class.btn-primary]="activeTab === 'locations'" (click)="activeTab = 'locations'">Локации</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'workplaces'" (click)="activeTab = 'workplaces'">Рабочие места</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'services'" (click)="activeTab = 'services'">Услуги</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">Бронирования</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'contracts'" (click)="activeTab = 'contracts'">Контракты</button>
+  </div>
+
+  <div *ngIf="activeTab === 'locations'">
+    <div class="section-header">
+      <h2>Локации</h2>
+      <button class="btn btn-primary" (click)="startAddLocation()">+ Добавить</button>
+    </div>
+
+    <div *ngIf="locationForm" class="card form-card">
+      <h3 class="form-title">{{ editingLocationId ? 'Редактировать' : 'Новая' }} локация</h3>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="locationForm.name" />
+      </div>
+      <div class="form-group">
+        <label>Адрес</label>
+        <input type="text" [(ngModel)]="locationForm.address" />
+      </div>
+      <div class="form-group">
+        <label>Город</label>
+        <input type="text" [(ngModel)]="locationForm.city" />
+      </div>
+      <div class="form-group">
+        <label>Время открытия</label>
+        <input type="time" [(ngModel)]="locationForm.openingTime" />
+      </div>
+      <div class="form-group">
+        <label>Время закрытия</label>
+        <input type="time" [(ngModel)]="locationForm.closingTime" />
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="text" [(ngModel)]="locationForm.contactPhone" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="saveLocation()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancelLocationForm()">Отмена</button>
+      </div>
+    </div>
+
+    <div *ngIf="locationsLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!locationsLoading && locations.length === 0" class="empty-state">
+      Локации не найдены
+    </div>
+    <div *ngIf="!locationsLoading && locations.length > 0" class="list-grid">
+      <div *ngFor="let loc of locations" class="card card-row">
+        <div>
+          <h3 class="card-title">{{ loc.name }}</h3>
+          <p class="card-subtitle">{{ loc.address }}, {{ loc.city }}</p>
+          <p class="card-subtitle">{{ loc.openingTime }} — {{ loc.closingTime }} | {{ loc.contactPhone }}</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" (click)="startEditLocation(loc)">✏️</button>
+          <button class="btn delete-btn" (click)="deleteLocation(loc.id)">🗑️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'workplaces'">
+    <div class="section-header-wrap">
+      <h2>Рабочие места</h2>
+      <div class="filter-group">
+        <select [(ngModel)]="wpFilterLocation" (change)="loadWorkplaces()" class="filter-select">
+          <option value="">Все локации</option>
+          <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+        </select>
+        <button class="btn btn-primary" (click)="startAddWorkplace()">+ Добавить</button>
+      </div>
+    </div>
+
+    <div *ngIf="wpForm" class="card form-card">
+      <h3 class="form-title">{{ editingWpId ? 'Редактировать' : 'Новое' }} рабочее место</h3>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="wpForm.name" />
+      </div>
+      <div class="form-group">
+        <label>Локация</label>
+        <select [(ngModel)]="wpForm.locationId">
+          <option value="">Выберите локацию</option>
+          <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Вместимость (чел.)</label>
+        <input type="number" [(ngModel)]="wpForm.capacity" />
+      </div>
+      <div class="form-group">
+        <label>Описание</label>
+        <textarea [(ngModel)]="wpForm.description" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Цена за час (₽)</label>
+        <input type="number" [(ngModel)]="wpForm.priceForHour" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="saveWorkplace()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancelWpForm()">Отмена</button>
+      </div>
+    </div>
+
+    <div *ngIf="wpLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!wpLoading && workplaces.length === 0" class="empty-state">
+      Рабочие места не найдены
+    </div>
+    <div *ngIf="!wpLoading && workplaces.length > 0" class="list-grid">
+      <div *ngFor="let wp of workplaces" class="card card-row">
+        <div>
+          <h3 class="card-title">{{ wp.name }}</h3>
+          <p class="card-subtitle">{{ wp.locationName }} | Вместимость: {{ wp.capacity }} чел. | {{ wp.priceForHour }} ₽/час</p>
+          <p *ngIf="wp.description" class="card-desc">{{ wp.description }}</p>
+        </div>
+        <div class="btn-group-center">
+          <span *ngIf="wp.available" class="status-available">Доступно</span>
+          <span *ngIf="!wp.available" class="status-occupied">Занято</span>
+          <button class="btn btn-secondary toggle-btn" (click)="toggleAvailability(wp)">Переключить</button>
+          <button class="btn btn-secondary" (click)="startEditWorkplace(wp)">✏️</button>
+          <button class="btn delete-btn" (click)="deleteWorkplace(wp.id)">🗑️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'services'">
+    <div class="section-header">
+      <h2>Услуги</h2>
+      <button class="btn btn-primary" (click)="startAddService()">+ Добавить</button>
+    </div>
+
+    <div *ngIf="svcForm" class="card form-card">
+      <h3 class="form-title">{{ editingSvcId ? 'Редактировать' : 'Новая' }} услуга</h3>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="svcForm.name" />
+      </div>
+      <div class="form-group">
+        <label>Описание</label>
+        <textarea [(ngModel)]="svcForm.description" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Цена (₽)</label>
+        <input type="number" [(ngModel)]="svcForm.price" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="saveService()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancelSvcForm()">Отмена</button>
+      </div>
+    </div>
+
+    <div *ngIf="svcLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!svcLoading && services.length === 0" class="empty-state">
+      Услуги не найдены
+    </div>
+    <div *ngIf="!svcLoading && services.length > 0" class="list-grid">
+      <div *ngFor="let svc of services" class="card card-row">
+        <div>
+          <h3 class="card-title">{{ svc.name }}</h3>
+          <p class="card-subtitle">{{ svc.description }}</p>
+          <p class="card-price">{{ svc.price }} ₽</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" (click)="startEditService(svc)">✏️</button>
+          <button class="btn delete-btn" (click)="deleteService(svc.id)">🗑️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div *ngIf="activeTab === 'bookings'">
+  <div class="section-header">
+    <h2>Бронирования</h2>
+    <button class="btn btn-secondary" (click)="showPendingOnly ? loadActiveBookings() : loadAllBookings()">Обновить</button>
+  </div>
+  
+  <div class="filter-bar">
+    <button class="btn btn-secondary" [class.btn-primary]="!showPendingOnly" (click)="loadAllBookings(); showPendingOnly = false">
+      📋 Все бронирования
+    </button>
+    <button class="btn btn-secondary" [class.btn-primary]="showPendingOnly" (click)="loadActiveBookings(); showPendingOnly = true">
+      🔥 Активные
+    </button>
+  </div>
+
+  <div *ngIf="bkLoading" class="loading"><p>Загрузка...</p></div>
+
+  <div *ngIf="!bkLoading && bookings.length === 0" class="empty-state">
+    Бронирования не найдены
+  </div>
+  
+  <div *ngIf="!bkLoading && bookings.length > 0">
+    <div *ngFor="let bk of bookings" class="card card-mb">
+      <div class="card-row-start">
+        <div>
+          <p class="booking-name">{{ bk.workPlaceName || bk.workPlaceId }}</p>
+          <p class="card-subtitle">Клиент: {{ bk.clientName || bk.clientId }}</p>
+          <p class="booking-date">{{ formatDate(bk.startTime) }} — {{ formatDate(bk.endTime) }}</p>
+          <span class="badge" [ngStyle]="{
+            'background': getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Оплачено' ? '#dcfce7' : 
+                         getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Активно' ? '#dbeafe' : '#fef3c7',
+            'color': getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Оплачено' ? '#16a34a' : 
+                     getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Активно' ? '#2563eb' : '#d97706'
+          }">
+            {{ getBookingStatusLabel(bk.paymentStatus, bk.endTime) }}
+          </span>
+        </div>
+        <div class="detail-btn-wrap">
+          <button class="btn btn-secondary" (click)="openBookingDetails(bk)">Подробнее</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="activeTab === 'contracts'">
+  <div class="section-header">
+    <h2>Контракты</h2>
+    <button class="btn btn-secondary" (click)="loadPendingContracts()">Обновить</button>
+  </div>
+  <div class="filter-bar">
+    <button class="btn btn-secondary" [class.btn-primary]="showPendingOnly" (click)="loadPendingContracts(); showPendingOnly = true">
+      ⏳ Ожидают оплаты
+    </button>
+    <button class="btn btn-secondary" [class.btn-primary]="!showPendingOnly" (click)="loadAllContracts(); showPendingOnly = false">
+      📋 Все контракты
+    </button>
+  </div>
+  <div *ngIf="ctLoading" class="loading"><p>Загрузка...</p></div>
+  <div *ngIf="!ctLoading && contracts.length === 0" class="empty-state">
+    Контракты не найдены
+  </div>
+  <div *ngIf="!ctLoading && contracts.length > 0" class="list-grid">
+    <div *ngFor="let ct of contracts" class="card card-row-wrap">
+      <div>
+        <p class="contract-number">📄 Контракт #{{ ct.contractNumber }}</p>
+        <p class="card-subtitle">Сумма: {{ ct.totalAmount }} ₽</p>
+        <p class="card-desc">Статус: {{ getPaymentStatusLabel(ct.paymentStatus) }}</p>
+      </div>
+      <div class="detail-btn-group">
+        <button class="btn btn-secondary" (click)="openContractDetails(ct)">Подробнее</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedBookingDetail" (click)="closeBookingDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Детали бронирования</h3>
+      <button class="modal-close" (click)="closeBookingDetails()">✕</button>
+    </div>
+    <div *ngIf="bookingDetailLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!bookingDetailLoading" class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Рабочее место</span>
+        <span>{{ selectedBookingDetail.workPlaceName || selectedBookingDetail.workPlaceId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Локация</span>
+        <span>{{ selectedBookingDetail.locationName || '—' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Клиент</span>
+        <span>{{ selectedBookingDetail.clientName || selectedBookingDetail.clientId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Начало</span>
+        <span>{{ formatDate(selectedBookingDetail.startTime) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Конец</span>
+        <span>{{ formatDate(selectedBookingDetail.endTime) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Статус оплаты</span>
+        <span class="badge" [ngStyle]="{'background': selectedBookingDetail.paymentStatus === 'PAID' ? '#dcfce7' : '#fef3c7', 'color': selectedBookingDetail.paymentStatus === 'PAID' ? '#16a34a' : '#d97706'}">
+          {{ getBookingStatusLabel(selectedBookingDetail.paymentStatus, selectedBookingDetail.endTime) }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="selectedBookingDetail.totalAmount">
+        <span class="detail-label">Сумма</span>
+        <span class="detail-price">{{ selectedBookingDetail.totalAmount }} ₽</span>
+      </div>
+      <div *ngIf="bookingServicesDetail.length > 0">
+        <h4 class="services-subtitle">Услуги</h4>
+        <div *ngFor="let s of bookingServicesDetail" class="detail-row">
+          <span>{{ s.serviceName || 'Услуга' }} × {{ s.quantity }}</span>
+          <span>{{ s.priceAtBookingTime * s.quantity }} ₽</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedContractDetail" (click)="closeContractDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Детали контракта</h3>
+      <button class="modal-close" (click)="closeContractDetails()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Номер контракта</span>
+        <span>{{ selectedContractDetail.contractNumber }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">ID бронирования</span>
+        <span>{{ selectedContractDetail.bookingId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Сумма</span>
+        <span class="detail-price">{{ selectedContractDetail.totalAmount }} ₽</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Статус</span>
+        <span>{{ getPaymentStatusLabel(selectedContractDetail.paymentStatus) }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedContractDetail.paymentDate">
+        <span class="detail-label">Дата оплаты</span>
+        <span>{{ formatDate(selectedContractDetail.paymentDate) }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedContractDetail.paymentMethod">
+        <span class="detail-label">Способ оплаты</span>
+        <span>{{ selectedContractDetail.paymentMethod }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+================================================
+FILE: src\app\components\manager\manager.component.ts
+================================================
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BookingService } from '../../services/booking.service';
+
+interface LocationItem {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  openingTime: string;
+  closingTime: string;
+  contactPhone: string;
+  workplacesCount?: number;
+}
+
+interface WorkPlaceItem {
+  id: string;
+  name: string;
+  capacity: number;
+  description: string;
+  locationId: string;
+  priceForHour: number;
+  available: boolean;
+  locationName?: string;
+}
+
+interface ServiceItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+}
+
+interface BookingItem {
+  id: string;
+  startTime: string;
+  endTime: string;
+  clientId: string;
+  clientName?: string;
+  workPlaceId: string;
+  workPlaceName?: string;
+  locationName?: string;
+  paymentStatus?: string;
+  contractId?: string;
+  totalAmount?: number;
+}
+
+interface ContractItem {
+  id: string;
+  contractNumber: string;
+  totalAmount: number;
+  paymentStatus: string;
+  paymentDate: string;
+  paymentMethod: string;
+  bookingId: string;
+}
+
+@Component({
+  standalone: false,
+  selector: 'app-manager',
+  templateUrl: './manager.component.html',
+  styleUrls: ['./manager.component.css']
+})
+export class ManagerComponent implements OnInit {
+  private apiUrl = 'http://localhost:8080/api';
+  activeTab = 'locations';
+
+  locations: LocationItem[] = [];
+  locationsLoading = true;
+  locationForm: any = null;
+  editingLocationId: string | null = null;
+
+  workplaces: WorkPlaceItem[] = [];
+  wpLoading = true;
+  wpForm: any = null;
+  editingWpId: string | null = null;
+  wpFilterLocation = '';
+
+  services: ServiceItem[] = [];
+  svcLoading = true;
+  svcForm: any = null;
+  editingSvcId: string | null = null;
+
+  bookings: BookingItem[] = [];
+  pendingBookings: BookingItem[] = [];
+  bkLoading = true;
+  dateStart = '';
+  dateEnd = '';
+  showPendingOnly = false;
+
+  contracts: ContractItem[] = [];
+  ctLoading = true;
+
+  selectedBookingDetail: any = null;
+  selectedContractDetail: any = null;
+  bookingServicesDetail: any[] = [];
+  bookingDetailLoading = false;
+
+  constructor(
+    private http: HttpClient,
+    private bookingService: BookingService
+  ) {}
+
+ ngOnInit(): void {
+  this.loadLocations();
+  this.loadServices();
+  this.loadWorkplaces();
+  this.loadAllBookings();
+  this.loadAllContracts();
+}
+
+  private getHeaders() {
+    const user = localStorage.getItem('currentUser');
+    const token = user ? JSON.parse(user).token : '';
+    return { Authorization: `Bearer ${token}` };
+  }
+
+  loadLocations(): void {
+    this.locationsLoading = true;
+    this.http.get<LocationItem[]>(`${this.apiUrl}/locations`).subscribe({
+      next: (data) => { this.locations = data; this.locationsLoading = false; },
+      error: () => this.locationsLoading = false
+    });
+  }
+
+  startAddLocation(): void {
+    this.editingLocationId = null;
+    this.locationForm = { name: '', address: '', city: '', openingTime: '09:00', closingTime: '21:00', contactPhone: '' };
+  }
+
+  startEditLocation(loc: LocationItem): void {
+    this.editingLocationId = loc.id;
+    this.locationForm = {
+      name: loc.name,
+      address: loc.address,
+      city: loc.city,
+      openingTime: loc.openingTime?.substring(0, 5),
+      closingTime: loc.closingTime?.substring(0, 5),
+      contactPhone: loc.contactPhone
+    };
+  }
+
+  cancelLocationForm(): void {
+    this.locationForm = null;
+    this.editingLocationId = null;
+  }
+
+  saveLocation(): void {
+    const body = {
+      branchName: this.locationForm.name,
+      address: this.locationForm.address,
+      city: this.locationForm.city,
+      openingTime: this.locationForm.openingTime,
+      closingTime: this.locationForm.closingTime,
+      contactPhone: this.locationForm.contactPhone
+    };
+
+    if (this.editingLocationId) {
+      this.http.put(`${this.apiUrl}/locations/${this.editingLocationId}`, body, { headers: this.getHeaders() })
+        .subscribe({ next: () => { this.cancelLocationForm(); this.loadLocations(); } });
+    } else {
+      this.http.post(`${this.apiUrl}/locations`, body, { headers: this.getHeaders() })
+        .subscribe({ next: () => { this.cancelLocationForm(); this.loadLocations(); } });
+    }
+  }
+
+  deleteLocation(id: string): void {
+    if (!confirm('Удалить локацию?')) return;
+    this.http.delete(`${this.apiUrl}/locations/${id}`, { headers: this.getHeaders() })
+      .subscribe({ next: () => this.loadLocations() });
+  }
+
+  loadWorkplaces(): void {
+    this.wpLoading = true;
+    const url = this.wpFilterLocation
+      ? `${this.apiUrl}/workplaces/location/${this.wpFilterLocation}`
+      : `${this.apiUrl}/workplaces`;
+
+    this.http.get<WorkPlaceItem[]>(url).subscribe({
+      next: (data) => {
+        this.workplaces = data.map(wp => ({
+          ...wp,
+          locationName: this.locations.find(l => l.id === wp.locationId)?.name || wp.locationId
+        }));
+        this.wpLoading = false;
+      },
+      error: () => this.wpLoading = false
+    });
+  }
+
+  startAddWorkplace(): void {
+    this.editingWpId = null;
+    this.wpForm = { name: '', locationId: '', capacity: 1, description: '', priceForHour: 0 };
+  }
+
+  startEditWorkplace(wp: WorkPlaceItem): void {
+    this.editingWpId = wp.id;
+    this.wpForm = { name: wp.name, locationId: wp.locationId, capacity: wp.capacity, description: wp.description, priceForHour: wp.priceForHour };
+  }
+
+  cancelWpForm(): void {
+    this.wpForm = null;
+    this.editingWpId = null;
+  }
+
+  saveWorkplace(): void {
+    const body = {
+      name: this.wpForm.name,
+      locationId: this.wpForm.locationId,
+      capacity: this.wpForm.capacity,
+      description: this.wpForm.description,
+      priceForHour: this.wpForm.priceForHour
+    };
+
+    if (this.editingWpId) {
+      this.http.put(`${this.apiUrl}/workplaces/${this.editingWpId}`, body, { headers: this.getHeaders() })
+        .subscribe({ next: () => { this.cancelWpForm(); this.loadWorkplaces(); } });
+    } else {
+      this.http.post(`${this.apiUrl}/workplaces`, body, { headers: this.getHeaders() })
+        .subscribe({ next: () => { this.cancelWpForm(); this.loadWorkplaces(); } });
+    }
+  }
+
+  deleteWorkplace(id: string): void {
+    if (!confirm('Удалить рабочее место?')) return;
+    this.http.delete(`${this.apiUrl}/workplaces/${id}`, { headers: this.getHeaders() })
+      .subscribe({ next: () => this.loadWorkplaces() });
+  }
+
+  toggleAvailability(wp: WorkPlaceItem): void {
+    this.http.patch(`${this.apiUrl}/workplaces/${wp.id}/toggle-availability`, {}, { headers: this.getHeaders() })
+      .subscribe({ next: () => this.loadWorkplaces() });
+  }
+
+  loadServices(): void {
+    this.svcLoading = true;
+    this.http.get<ServiceItem[]>(`${this.apiUrl}/services`).subscribe({
+      next: (data) => { this.services = data; this.svcLoading = false; },
+      error: () => this.svcLoading = false
+    });
+  }
+
+  startAddService(): void {
+    this.editingSvcId = null;
+    this.svcForm = { name: '', description: '', price: 0 };
+  }
+
+  startEditService(svc: ServiceItem): void {
+    this.editingSvcId = svc.id;
+    this.svcForm = { name: svc.name, description: svc.description, price: svc.price };
+  }
+
+  cancelSvcForm(): void {
+    this.svcForm = null;
+    this.editingSvcId = null;
+  }
+
+  saveService(): void {
+    const body = { name: this.svcForm.name, description: this.svcForm.description, price: this.svcForm.price };
+
+    if (this.editingSvcId) {
+      this.http.put(`${this.apiUrl}/services/${this.editingSvcId}`, body, { headers: this.getHeaders() })
+        .subscribe({ next: () => { this.cancelSvcForm(); this.loadServices(); } });
+    } else {
+      this.http.post(`${this.apiUrl}/services`, body, { headers: this.getHeaders() })
+        .subscribe({ next: () => { this.cancelSvcForm(); this.loadServices(); } });
+    }
+  }
+
+  deleteService(id: string): void {
+    if (!confirm('Удалить услугу?')) return;
+    this.http.delete(`${this.apiUrl}/services/${id}`, { headers: this.getHeaders() })
+      .subscribe({ next: () => this.loadServices() });
+  }
+
+  loadAllBookings(): void {
+  this.bkLoading = true;
+  this.showPendingOnly = false;
+  this.http.get<BookingItem[]>(`${this.apiUrl}/bookings`, { 
+    headers: this.getHeaders() 
+  }).subscribe({
+    next: (data) => { 
+      this.bookings = data; 
+      this.bkLoading = false;
+    },
+    error: (err) => { 
+      console.error('Ошибка загрузки бронирований:', err);
+      this.bkLoading = false;
+      this.bookings = [];
+    }
+  });
+}
+
+  loadActiveBookings(): void {
+    this.bkLoading = true;
+    this.showPendingOnly = false;
+    this.http.get<BookingItem[]>(`${this.apiUrl}/bookings/active`, { headers: this.getHeaders() })
+      .subscribe({ next: (data) => { this.bookings = data; this.bkLoading = false; }, error: () => this.bkLoading = false });
+  }
+
+  loadBookingsByDateRange(): void {
+    if (!this.dateStart || !this.dateEnd) return;
+    this.bkLoading = true;
+    this.showPendingOnly = false;
+    this.http.get<BookingItem[]>(`${this.apiUrl}/bookings/date-range?start=${this.dateStart}&end=${this.dateEnd}`, { headers: this.getHeaders() })
+      .subscribe({ next: (data) => { this.bookings = data; this.bkLoading = false; }, error: () => this.bkLoading = false });
+  }
+
+  loadAllContracts(): void {
+  this.ctLoading = true;
+  this.http.get<ContractItem[]>(`${this.apiUrl}/contracts`, { 
+    headers: this.getHeaders() 
+  }).subscribe({
+    next: (data) => { 
+      this.contracts = data; 
+      this.ctLoading = false;
+    },
+    error: (err) => { 
+      console.error('Ошибка загрузки контрактов:', err);
+      this.ctLoading = false;
+      this.contracts = [];
+    }
+  });
+}
+
+  loadPendingContracts(): void {
+    this.ctLoading = true;
+    this.http.get<ContractItem[]>(`${this.apiUrl}/contracts/pending`, {
+      headers: this.getHeaders()
+    }).subscribe({
+      next: (data) => {
+        this.contracts = data;
+        this.ctLoading = false;
+      },
+      error: (err) => {
+        console.error('Ошибка загрузки ожидающих контрактов:', err);
+        this.ctLoading = false;
+        this.contracts = [];
+      }
+    });
+  }
+  openBookingDetails(bk: any): void {
+    this.bookingDetailLoading = true;
+    this.bookingService.getBookingWithServices(bk.id).subscribe({
+      next: (data) => {
+        this.selectedBookingDetail = data;
+        this.bookingServicesDetail = data.services || [];
+        this.bookingDetailLoading = false;
+      },
+      error: () => {
+        this.selectedBookingDetail = bk;
+        this.bookingServicesDetail = [];
+        this.bookingDetailLoading = false;
+      }
+    });
+  }
+
+  closeBookingDetails(): void {
+    this.selectedBookingDetail = null;
+    this.bookingServicesDetail = [];
+  }
+
+  openContractDetails(ct: any): void {
+    this.selectedContractDetail = ct;
+  }
+
+  closeContractDetails(): void {
+    this.selectedContractDetail = null;
+  }
+
+  formatDate(dateStr: string): string {
+    return new Date(dateStr).toLocaleString('ru-RU', {
+      day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  getPaymentStatusLabel(status: string): string {
+    const map: { [key: string]: string } = { 
+      PAID: 'Оплачен', 
+      PENDING: 'Ожидает оплаты', 
+      CANCELLED: 'Отменён', 
+      COMPLETED: 'Завершён', 
+      REFUNDED: 'Возвращён',
+      APPROVED: 'Одобрен'
+    };
+    return map[status] || status;
+  }
+
+  getBookingStatusLabel(paymentStatus?: string, endTime?: string): string {
+    if (paymentStatus === 'CANCELLED') return 'Отменено';
+    if (paymentStatus === 'PAID') {
+        if (endTime && new Date(endTime) < new Date()) return 'Завершено';
+        return 'Оплачено';
+    }
+    if (paymentStatus === 'PENDING') {
+        if (endTime && new Date(endTime) < new Date()) return 'Просрочено';
+        return 'Ожидает оплаты';
+    }
+    return paymentStatus || 'Новое';
+}
+
+  getBookingCardClass(paymentStatus?: string): string {
+    if (paymentStatus === 'PAID') return 'booking-paid';
+    if (paymentStatus === 'CANCELLED') return 'booking-cancelled';
+    if (paymentStatus === 'APPROVED') return 'booking-approved';
+    return 'booking-pending';
+  }
+}
+
+================================================
+FILE: src\app\components\profile\profile.component.css
+================================================
+.profile-container {
+  max-width: 700px;
+  padding-top: 32px;
+}
+.profile-title {
+  margin-bottom: 24px;
+}
+.avatar-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.avatar-initial {
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+}
+.info-grid {
+  display: grid;
+  gap: 16px;
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+.info-label {
+  color: #64748b;
+}
+.card-mt {
+  margin-top: 24px;
+}
+.section-title {
+  margin-bottom: 20px;
+}
+.error-mb {
+  margin-bottom: 16px;
+}
+.success-msg {
+  margin-bottom: 16px;
+  color: #22c55e;
+  font-size: 14px;
+}
+.btn-full {
+  width: 100%;
+}
+.empty-state {
+  text-align: center;
+  padding: 40px;
+}
+.empty-text {
+  color: #64748b;
+}
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.booking-card {
+  background: #f8fafc;
+}
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.booking-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.booking-location {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.booking-time {
+  color: #64748b;
+  font-size: 14px;
+}
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-paid {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+.status-unpaid {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.status-expired {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.status-completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+.status-cancelled {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+.booking-price-wrap {
+  text-align: right;
+  white-space: nowrap;
+}
+.booking-price {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--primary);
+}
+
+
+================================================
+FILE: src\app\components\profile\profile.component.html
+================================================
+<div class="container profile-container">
+  <h1 class="profile-title">Профиль</h1>
+  
+  <div class="card">
+    <div class="avatar-wrap">
+      <div class="avatar">
+        <span class="avatar-initial">
+          {{ profile?.login?.charAt(0)?.toUpperCase() }}
+        </span>
+      </div>
+    </div>
+    
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-label">Логин</span>
+        <span>{{ profile?.login }}</span>
+      </div>
+      
+      <div class="info-row">
+        <span class="info-label">Роль</span>
+        <span [style.color]="getRoleColor()">{{ getRoleName() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-mt">
+    <h2 class="section-title">Редактирование профиля</h2>
+    
+    <form (ngSubmit)="saveProfile()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="editForm.email" name="email" required />
+      </div>
+
+      <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
+        <label>ФИО</label>
+        <input type="text" [(ngModel)]="editForm.fullName" name="fullName" />
+      </div>
+
+      <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
+        <label>Телефон</label>
+        <input type="tel" [(ngModel)]="editForm.phone" name="phone" />
+      </div>
+
+      <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
+        <label>Дата рождения</label>
+        <input type="date" [(ngModel)]="editForm.birthday" name="birthday" />
+      </div>
+      
+      <div *ngIf="profileError" class="error error-mb">
+        {{ profileError }}
+      </div>
+      
+      <div *ngIf="profileSuccess" class="success-msg">
+        {{ profileSuccess }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="profileLoading">
+        {{ profileLoading ? 'Сохранение...' : 'Сохранить изменения' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="card card-mt">
+    <h2 class="section-title">Смена пароля</h2>
+    
+    <form (ngSubmit)="changePassword()">
+      <div class="form-group">
+        <label>Старый пароль</label>
+        <input type="password" [(ngModel)]="pwForm.oldPassword" name="oldPassword" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Новый пароль</label>
+        <input type="password" [(ngModel)]="pwForm.newPassword" name="newPassword" required minlength="6" />
+      </div>
+      
+      <div class="form-group">
+        <label>Повторите новый пароль</label>
+        <input type="password" [(ngModel)]="pwForm.confirmPassword" name="confirmPassword" required />
+      </div>
+      
+      <div *ngIf="pwError" class="error error-mb">
+        {{ pwError }}
+      </div>
+      
+      <div *ngIf="pwSuccess" class="success-msg">
+        {{ pwSuccess }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="pwLoading">
+        {{ pwLoading ? 'Сохранение...' : 'Сменить пароль' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="card card-mt" *ngIf="profile?.role !== 'ROLE_MANAGER' && profile?.role !== 'ROLE_ADMIN'">
+    <h2 class="section-title">Мои бронирования</h2>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Загрузка...</p>
+    </div>
+    
+    <div *ngIf="!loading && bookings.length === 0" class="empty-state">
+      <p class="empty-text">На данный момент у вас нет бронирований</p>
+    </div>
+    
+    <div *ngIf="!loading && bookings.length > 0" class="bookings-list">
+      <div *ngFor="let booking of bookings" class="card booking-card">
+        <div class="booking-header">
+          <div>
+            <p class="booking-name">{{ booking.workPlaceName }}</p>
+            <p class="booking-location">
+              {{ booking.locationName }}, {{ booking.locationAddress }}
+            </p>
+            <p class="booking-time">
+              {{ formatDate(booking.startTime) }} — {{ formatDate(booking.endTime) }}
+            </p>
+            <span *ngIf="getBookingStatus(booking) === 'PAID'"
+                  class="status-badge status-paid">
+              Оплачено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'PENDING'"
+                  class="status-badge status-pending">
+              Ожидает оплаты
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'UNPAID'"
+                  class="status-badge status-unpaid">
+              Не оплачено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'EXPIRED'"
+                  class="status-badge status-expired">
+              Просрочено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'COMPLETED'"
+                  class="status-badge status-completed">
+              Завершено
+            </span>
+            <span *ngIf="getBookingStatus(booking) === 'CANCELLED'"
+                  class="status-badge status-cancelled">
+              Отменено
+            </span>
+          </div>
+          <div class="booking-price-wrap">
+            <span class="booking-price">{{ totalBookingPrice(booking) }} ₽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+================================================
+FILE: src\app\components\profile\profile.component.ts
+================================================
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { BookingService } from '../../services/booking.service';
+import { Booking } from '../../models/booking.model';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  standalone: false,
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
+})
+export class ProfileComponent implements OnInit {
+  profile: any = null;
+  bookings: Booking[] = [];
+  loading = true;
+  workplacePricesMap: Map<string, number> = new Map();
+  bookingServicesTotal: Map<string, number> = new Map();
+  editForm = { email: '', fullName: '', phone: '', birthday: '' };
+  profileError = '';
+  profileSuccess = '';
+  profileLoading = false;
+  pwForm = { oldPassword: '', newPassword: '', confirmPassword: '' };
+  pwError = '';
+  pwSuccess = '';
+  pwLoading = false;
+  private apiUrl = 'http://localhost:8080/api';
+
+  constructor(
+    private authService: AuthService,
+    private bookingService: BookingService,
+    private http: HttpClient
+  ) {}
+
+  ngOnInit(): void {
+    this.loadProfile();
+  }
+
+  loadProfile(): void {
+    this.http.get<any>(`${this.apiUrl}/auth/profile`, {
+      headers: { Authorization: `Bearer ${this.authService.getToken()}` }
+    }).subscribe({
+      next: (data) => {
+        this.profile = data;
+        this.editForm = {
+          email: data.email || '',
+          fullName: data.fullName || '',
+          phone: data.phone || '',
+          birthday: data.birthday || ''
+        };
+        this.loadBookings();
+      },
+      error: () => {
+        const stored = localStorage.getItem('currentUser');
+        this.profile = stored ? JSON.parse(stored) : null;
+        this.loadBookings();
+      }
+    });
+  }
+
+  loadBookings(): void {
+    const role = this.profile?.role;
+    if (role === 'ROLE_USER') {
+      this.bookingService.getWorkplaces().subscribe({
+        next: (workplaces) => {
+          workplaces.forEach(wp => this.workplacePricesMap.set(wp.id, wp.priceForHour));
+        }
+      });
+      this.bookingService.getMyBookings().subscribe({
+        next: (data) => {
+          this.bookings = data;
+          data.forEach(booking => {
+            this.bookingService.getServicesByBooking(booking.id).subscribe({
+              next: (services) => {
+                this.bookingServicesTotal.set(booking.id,
+                  services.reduce((sum, s) => sum + s.priceAtBookingTime * s.quantity, 0));
+              }
+            });
+          });
+          this.loading = false;
+        },
+        error: () => { this.loading = false; }
+      });
+    } else {
+      this.loading = false;
+    }
+  }
+
+  saveProfile(): void {
+    this.profileError = '';
+    this.profileSuccess = '';
+    this.profileLoading = true;
+
+    this.http.put(`${this.apiUrl}/auth/profile`, {
+      email: this.editForm.email,
+      fullName: this.editForm.fullName,
+      phone: this.editForm.phone,
+      birthday: this.editForm.birthday
+    }, {
+      headers: { Authorization: `Bearer ${this.authService.getToken()}` }
+    }).subscribe({
+      next: () => {
+        this.profileSuccess = 'Профиль обновлён';
+        this.profileLoading = false;
+        this.loadProfile();
+      },
+      error: (err) => {
+        this.profileError = err.error?.message || 'Ошибка при сохранении';
+        this.profileLoading = false;
+      }
+    });
+  }
+
+  changePassword(): void {
+    this.pwError = '';
+    this.pwSuccess = '';
+
+    if (this.pwForm.newPassword !== this.pwForm.confirmPassword) {
+      this.pwError = 'Новые пароли не совпадают';
+      return;
+    }
+
+    if (this.pwForm.newPassword.length < 6) {
+      this.pwError = 'Новый пароль должен быть не менее 6 символов';
+      return;
+    }
+
+    this.pwLoading = true;
+
+    this.http.post(`${this.apiUrl}/auth/change-password`, {
+      oldPassword: this.pwForm.oldPassword,
+      newPassword: this.pwForm.newPassword
+    }, {
+      headers: { Authorization: `Bearer ${this.authService.getToken()}` }
+    }).subscribe({
+      next: () => {
+        this.pwSuccess = 'Пароль успешно изменён';
+        this.pwForm = { oldPassword: '', newPassword: '', confirmPassword: '' };
+        this.pwLoading = false;
+      },
+      error: (err) => {
+        this.pwError = err.error?.message || 'Ошибка при смене пароля';
+        this.pwLoading = false;
+      }
+    });
+  }
+
+  getBookingStatus(booking: Booking): string {
+    const paymentStatus = booking.paymentStatus;
+    const endTime = new Date(booking.endTime);
+    const now = new Date();
+    
+    if (paymentStatus === 'CANCELLED') return 'CANCELLED';
+    if (paymentStatus === 'PAID') {
+        return endTime < now ? 'COMPLETED' : 'PAID';
+    }
+    if (paymentStatus === 'PENDING') {
+        return endTime < now ? 'EXPIRED' : 'PENDING';
+    }
+    return endTime < now ? 'EXPIRED' : 'UNPAID';
+}
+
+  totalBookingPrice(booking: Booking): number {
+    const start = new Date(booking.startTime);
+    const end = new Date(booking.endTime);
+    const hours = Math.max(1, Math.round((end.getTime() - start.getTime()) / 3600000));
+    const wpPrice = (this.workplacePricesMap.get(booking.workPlaceId) || 0) * hours;
+    const servicesPrice = this.bookingServicesTotal.get(booking.id) || 0;
+    return wpPrice + servicesPrice;
+  }
+
+  formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleString('ru-RU', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  getRoleName(): string {
+    const roleMap: { [key: string]: string } = {
+      'ROLE_ADMIN': 'Администратор',
+      'ROLE_MANAGER': 'Менеджер',
+      'ROLE_USER': 'Клиент'
+    };
+    return roleMap[this.profile?.role] || this.profile?.role;
+  }
+
+  getRoleColor(): string {
+    const colorMap: { [key: string]: string } = {
+      'ROLE_ADMIN': '#ef4444',
+      'ROLE_MANAGER': '#f59e0b',
+      'ROLE_USER': '#22c55e'
+    };
+    return colorMap[this.profile?.role] || '#64748b';
+  }
+}
+
+
+================================================
+FILE: src\app\components\workplaces\workplaces.component.css
+================================================
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.breadcrumb {
+  margin-bottom: 24px;
+}
+
+.breadcrumb-link {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.location-header {
+  margin-bottom: 32px;
+}
+
+.location-header h1 {
+  margin-bottom: 8px;
+}
+
+.location-address {
+  color: #64748b;
+}
+
+.filter-section {
+  margin-bottom: 24px;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.filter-section h3 {
+  margin-bottom: 16px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.filter-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+.workplaces-list h2 {
+  margin-bottom: 16px;
+}
+
+.workplaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.workplace-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+.workplace-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.workplace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.workplace-header h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.workplace-capacity {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.workplace-description {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.workplace-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workplace-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.booking-sidebar {
+  position: relative;
+}
+
+.booking-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 24px;
+}
+
+.booking-card h3 {
+  margin-bottom: 16px;
+}
+
+.booking-workplace-name {
+  margin-bottom: 8px;
+}
+
+.booking-price {
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.empty-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #64748b;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-outline:hover {
+  background-color: #f8fafc;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.btn-block:first-of-type {
+  margin-top: 0;
+}
+
+.alert {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.alert-success {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.alert-warning {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.services-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.services-section h4 {
+  margin-bottom: 12px;
+}
+
+.service-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.service-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.service-price {
+  color: #64748b;
+}
+
+.price-summary {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.price-total span:last-child {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.badge-danger {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .two-columns {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-buttons {
+    margin-top: 8px;
+  }
+  
+  .filter-buttons button {
+    flex: 1;
+  }
+  
+  .workplaces-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+================================================
+FILE: src\app\components\workplaces\workplaces.component.html
+================================================
+<div class="container">
+  <div class="breadcrumb">
+    <a routerLink="/" class="breadcrumb-link">← На главную</a>
+  </div>
+  
+  <div *ngIf="location" class="location-header">
+    <h1>{{ location.name }}</h1>
+    <p class="location-address">{{ location.address }} | {{ location.city }}</p>
+  </div>
+  
+  <div class="filter-section">
+    <h3>Фильтр по времени</h3>
+    
+    <div class="filter-controls">
+      <div class="filter-field">
+        <label>Дата и время начала</label>
+        <input type="datetime-local" 
+               [(ngModel)]="filterStart" 
+               (change)="validateFilterDates()"
+               [min]="minDateTime"
+               [max]="maxDateTime"
+               step="3600" />
+      </div>
+
+      <div class="filter-field">
+        <label>Дата и время окончания</label>
+        <input type="datetime-local" 
+               [(ngModel)]="filterEnd" 
+               (change)="validateFilterDates()"
+               [min]="filterStart"
+               [max]="maxDateTime"
+               step="3600" />
+      </div>
+
+      <div class="filter-buttons">
+        <button class="btn btn-primary" (click)="applyFilter()" [disabled]="isFilterInvalid()">
+          Показать свободные
+        </button>
+        <button class="btn btn-outline" (click)="clearFilter()">
+          Сбросить
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="error" class="alert alert-error">
+      ⚠️ {{ error }}
+    </div>
+    
+    <div *ngIf="filterActive && !error && !loading" class="alert alert-success">
+      ✓ Показаны места, свободные в выбранный промежуток времени
+    </div>
+    
+    <div *ngIf="filterActive && workplaces.length === 0 && !error && !loading" class="alert alert-warning">
+      ⚠️ Нет свободных мест на выбранное время
+    </div>
+  </div>
+
+  <div class="two-columns">
+    <div class="workplaces-list">
+      <h2>Рабочие места</h2>
+      
+      <div *ngIf="loading" class="loading">
+        <p>Загрузка...</p>
+      </div>
+      
+      <div class="workplaces-grid">
+        <div *ngFor="let workplace of workplaces" class="workplace-card">
+          <div class="workplace-header">
+            <h3>{{ workplace.name }}</h3>
+            <span *ngIf="!workplace.available" class="badge badge-danger">
+              Занято
+            </span>
+          </div>
+          
+          <p class="workplace-capacity">
+            Вместимость: {{ workplace.capacity }} чел.
+          </p>
+          
+          <p *ngIf="workplace.description" class="workplace-description">
+            {{ workplace.description }}
+          </p>
+          
+          <div class="workplace-footer">
+            <span class="workplace-price">
+              {{ workplace.priceForHour }} ₽/час
+            </span>
+            
+            <button class="btn btn-primary btn-sm" 
+                    (click)="selectWorkplace(workplace)"
+                    [disabled]="!workplace.available">
+              Выбрать
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngIf="!loading && workplaces.length === 0" class="empty-state">
+        Нет доступных рабочих мест
+      </div>
+    </div>
+    
+    <div class="booking-sidebar">
+      <div *ngIf="selectedWorkplace" class="booking-card">
+        <h3>Бронирование</h3>
+        
+        <p class="booking-workplace-name"><strong>{{ selectedWorkplace.name }}</strong></p>
+        <p class="booking-price">{{ selectedWorkplace.priceForHour }} ₽/час</p>
+        
+        <div class="form-group">
+          <label>Дата и время начала</label>
+          <input type="datetime-local" 
+                 [(ngModel)]="bookingStart" 
+                 (ngModelChange)="onTimesChange()" 
+                 [min]="minDateTime" 
+                 [max]="maxDateTime" 
+                 step="3600" />
+        </div>
+        
+        <div class="form-group">
+          <label>Дата и время окончания</label>
+          <input type="datetime-local" 
+                 [(ngModel)]="bookingEnd" 
+                 (ngModelChange)="onTimesChange()"  
+                 [min]="bookingStart" 
+                 [max]="maxDateTime" 
+                 step="3600" />
+        </div>
+        
+        <div *ngIf="!isWithinWorkingHours() && bookingStart" class="alert alert-warning">
+          ⚠️ Время вне часов работы локации ({{ location?.openingTime }} - {{ location?.closingTime }})
+        </div>
+        
+        <div *ngIf="availabilityChecked && !available" class="alert alert-error">
+          ❌ Это время уже занято
+        </div>
+        
+        <div *ngIf="availabilityChecked && available && isWithinWorkingHours()" class="alert alert-success">
+          ✓ Место доступно для бронирования
+        </div>
+        
+        <div *ngIf="getTotalPrice() > 0" class="price-summary">
+          <div class="price-row">
+            <span>Аренда рабочего места:</span>
+            <span>{{ getWorkplacePrice() }} ₽</span>
+          </div>
+          <div *ngIf="getServicesTotal() > 0" class="price-row">
+            <span>Услуги:</span>
+            <span>{{ getServicesTotal() }} ₽</span>
+          </div>
+          <div class="price-total">
+            <span>Итого:</span>
+            <span>{{ getTotalPrice() }} ₽</span>
+          </div>
+        </div>
+        
+        <div class="services-section">
+          <h4>Дополнительные услуги</h4>
+          
+          <div *ngFor="let service of services" class="service-item">
+            <label class="service-label">
+              <input type="checkbox" 
+                     [checked]="selectedServices.has(service.id)"
+                     (change)="toggleService(service)" />
+              {{ service.name }}
+            </label>
+            <span class="service-price">{{ service.price }} ₽</span>
+          </div>
+        </div>
+        
+        <div *ngIf="bookingError" class="alert alert-error">
+          ❌ {{ bookingError }}
+        </div>
+        
+        <button class="btn btn-primary btn-block" 
+                (click)="createBooking()"
+                [disabled]="!canBook()">
+          {{ selectedServices.size > 0 ? 'Забронировать с услугами' : 'Забронировать' }}
+        </button>
+        
+        <button class="btn btn-outline btn-block" 
+                (click)="clearSelection()">
+          Отменить выбор
+        </button>
+      </div>
+      
+      <div *ngIf="!selectedWorkplace" class="empty-card">
+        <p>Выберите рабочее место для бронирования</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+================================================
+FILE: src\app\components\workplaces\workplaces.component.ts
+================================================
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BookingService } from '../../services/booking.service';
+import { WorkPlace, Location, AdditionalService } from '../../models/booking.model';
+import { AuthService } from '../../services/auth.service';
+
+@Component({
+  standalone: false,
+  selector: 'app-workplaces',
+  templateUrl: './workplaces.component.html',
+  styleUrls: ['./workplaces.component.css']
+})
+export class WorkplacesComponent implements OnInit {
+  locationId: string | null = null;
+  location: Location | null = null;
+  workplaces: WorkPlace[] = [];
+  services: AdditionalService[] = [];
+  selectedWorkplace: WorkPlace | null = null;
+  selectedServices = new Set<string>();
+  
+  bookingStart = '';
+  bookingEnd = '';
+  filterStart = '';
+  filterEnd = '';
+  filterActive = false;
+  error = '';
+  bookingError = '';
+  loading = true;
+  available = true;
+  availabilityChecked = false;
+  
+  minDateTime = '';
+  maxDateTime = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private bookingService: BookingService,
+    public authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.locationId = this.route.snapshot.paramMap.get('id');
+    
+    const now = new Date();
+    const nextHour = this.roundToNextHour(now);
+    this.minDateTime = this.formatLocalHour(nextHour);
+    
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 3);
+    this.maxDateTime = this.formatLocalHour(maxDate);
+    
+    if (this.locationId) {
+      this.loadData();
+    }
+  }
+
+  private selectWorkplaceById(id: string): void {
+    const wp = this.workplaces.find(w => w.id === id);
+    if (wp) {
+      this.selectWorkplace(wp);
+    }
+  }
+
+  private roundToNextHour(date: Date): Date {
+    const rounded = new Date(date);
+    rounded.setMinutes(0, 0, 0);
+    if (date.getMinutes() > 0 || date.getSeconds() > 0) {
+      rounded.setHours(rounded.getHours() + 1);
+    }
+    return rounded;
+  }
+
+  private formatLocalHour(d: Date): string {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const year = d.getFullYear();
+    const month = pad(d.getMonth() + 1);
+    const day = pad(d.getDate());
+    const hours = pad(d.getHours());
+    return `${year}-${month}-${day}T${hours}:00`;
+  }
+
+  loadData(): void {
+    if (this.locationId) {
+      this.bookingService.getLocationById(this.locationId).subscribe(loc => this.location = loc);
+      this.bookingService.getWorkplacesByLocation(this.locationId).subscribe(data => {
+        this.workplaces = data;
+        this.loading = false;
+        const selectedId = this.route.snapshot.queryParamMap.get('selected');
+        if (selectedId) {
+          this.selectWorkplaceById(selectedId);
+        }
+      });
+    }
+    
+    this.bookingService.getServices().subscribe(services => {
+      this.services = services;
+    });
+
+    const now = new Date();
+    const nextHour = this.roundToNextHour(now);
+    const later = new Date(nextHour.getTime() + 2 * 60 * 60 * 1000);
+    this.filterStart = this.formatLocalHour(nextHour);
+    this.filterEnd = this.formatLocalHour(later);
+  }
+
+  validateFilterDates(): void {
+    if (!this.filterStart || !this.filterEnd) return;
+    
+    const start = new Date(this.filterStart);
+    const end = new Date(this.filterEnd);
+    
+    if (end <= start) {
+      const newEnd = new Date(start.getTime() + 2 * 60 * 60 * 1000);
+      this.filterEnd = this.formatLocalHour(newEnd);
+      this.error = 'Время окончания должно быть позже начала. Автоматически установлено +2 часа';
+    } else if (this.error) {
+      this.error = '';
+    }
+  }
+
+  isFilterInvalid(): boolean {
+    if (!this.filterStart || !this.filterEnd) return true;
+    const start = new Date(this.filterStart);
+    const end = new Date(this.filterEnd);
+    return end <= start;
+  }
+
+  applyFilter(): void {
+    if (!this.locationId || !this.filterStart || !this.filterEnd) return;
+    
+    const startDate = new Date(this.filterStart);
+    const endDate = new Date(this.filterEnd);
+    
+    if (endDate <= startDate) {
+      this.error = 'Дата окончания не может быть раньше даты начала';
+      return;
+    }
+    
+    this.error = '';
+    this.loading = true;
+    this.filterActive = true;
+    
+    let start = new Date(this.filterStart);
+    let end = new Date(this.filterEnd);
+    start.setMinutes(0, 0, 0);
+    end.setMinutes(0, 0, 0);
+    
+    const startStr = this.formatLocalHour(start);
+    const endStr = this.formatLocalHour(end);
+    
+    this.filterStart = startStr;
+    this.filterEnd = endStr;
+    
+    this.bookingService.getWorkplacesByLocation(this.locationId).subscribe({
+      next: (allWorkplaces) => {
+        const availablePromises = allWorkplaces.map(async (workplace) => {
+          try {
+            const isAvailable = await this.bookingService.checkWorkplaceAvailability(
+              workplace.id, startStr, endStr
+            ).toPromise();
+            return { workplace, available: isAvailable };
+          } catch {
+            return { workplace, available: false };
+          }
+        });
+        
+        Promise.all(availablePromises).then(results => {
+          this.workplaces = results
+            .filter(r => r.available && r.workplace.available)
+            .map(r => r.workplace);
+          this.loading = false;
+          
+          if (this.workplaces.length === 0) {
+            this.error = 'Нет свободных мест на выбранное время';
+          }
+        });
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Ошибка при загрузке рабочих мест';
+      }
+    });
+  }
+
+  clearFilter(): void {
+    this.filterActive = false;
+    this.error = '';
+    if (!this.locationId) return;
+    this.loading = true;
+    this.bookingService.getWorkplacesByLocation(this.locationId).subscribe(data => {
+      this.workplaces = data;
+      this.loading = false;
+    });
+    
+    const now = new Date();
+    const nextHour = this.roundToNextHour(now);
+    const later = new Date(nextHour.getTime() + 2 * 60 * 60 * 1000);
+    this.filterStart = this.formatLocalHour(nextHour);
+    this.filterEnd = this.formatLocalHour(later);
+  }
+
+  selectWorkplace(workplace: WorkPlace): void {
+    this.selectedWorkplace = workplace;
+    this.bookingError = '';
+    this.availabilityChecked = false;
+    this.selectedServices.clear();
+    
+    const now = new Date();
+    const roundedStart = this.roundToNextHour(now);
+    const endTime = new Date(roundedStart.getTime() + 2 * 60 * 60 * 1000);
+    this.bookingStart = this.formatLocalHour(roundedStart);
+    this.bookingEnd = this.formatLocalHour(endTime);
+    this.onTimesChange();
+  }
+
+  clearSelection(): void {
+    this.selectedWorkplace = null;
+    this.selectedServices.clear();
+    this.availabilityChecked = false;
+    this.bookingError = '';
+  }
+
+  onTimesChange(): void {
+    this.availabilityChecked = false;
+    
+    if (!this.selectedWorkplace || !this.bookingStart || !this.bookingEnd) return;
+    
+    let startDate = new Date(this.bookingStart);
+    let endDate = new Date(this.bookingEnd);
+    
+    startDate.setMinutes(0, 0, 0);
+    endDate.setMinutes(0, 0, 0);
+    
+    if (endDate <= startDate) {
+      endDate = new Date(startDate.getTime() + 3600000);
+    }
+    
+    this.bookingStart = this.formatLocalHour(startDate);
+    this.bookingEnd = this.formatLocalHour(endDate);
+    
+    this.bookingService.checkWorkplaceAvailability(
+      this.selectedWorkplace.id, 
+      this.bookingStart, 
+      this.bookingEnd
+    ).subscribe({
+      next: (isAvailable) => {
+        this.available = isAvailable;
+        this.availabilityChecked = true;
+      },
+      error: () => {
+        this.available = false;
+        this.availabilityChecked = true;
+      }
+    });
+  }
+
+  toggleService(service: AdditionalService): void {
+    if (this.selectedServices.has(service.id)) {
+      this.selectedServices.delete(service.id);
+    } else {
+      this.selectedServices.add(service.id);
+    }
+  }
+
+  getWorkplacePrice(): number {
+    if (!this.selectedWorkplace || !this.bookingStart || !this.bookingEnd) return 0;
+    const start = new Date(this.bookingStart);
+    const end = new Date(this.bookingEnd);
+    const diffMs = end.getTime() - start.getTime();
+    const hours = Math.max(1, Math.round(diffMs / 3600000));
+    return this.selectedWorkplace.priceForHour * hours;
+  }
+
+  getServicesTotal(): number {
+    let total = 0;
+    this.services.forEach(service => {
+      if (this.selectedServices.has(service.id)) {
+        total += service.price;
+      }
+    });
+    return total;
+  }
+
+  getTotalPrice(): number {
+    return this.getWorkplacePrice() + this.getServicesTotal();
+  }
+
+  isWithinWorkingHours(): boolean {
+    if (!this.location || !this.bookingStart) return true;
+    
+    const start = new Date(this.bookingStart);
+    const startHour = start.getHours();
+    
+    const openHour = parseInt(this.location.openingTime?.substring(0, 2) || '0');
+    const closeHour = parseInt(this.location.closingTime?.substring(0, 2) || '24');
+    
+    return startHour >= openHour && startHour < closeHour;
+  }
+
+  canBook(): boolean {
+    return !!this.selectedWorkplace && 
+           !!this.bookingStart && 
+           !!this.bookingEnd && 
+           this.authService.isAuthenticated() && 
+           this.available &&
+           this.isWithinWorkingHours();
+  }
+
+ createBooking(): void {
+  if (!this.selectedWorkplace || !this.bookingStart || !this.bookingEnd) return;
+
+  this.bookingError = '';
+  
+  this.bookingService.createBooking({
+    workPlaceId: this.selectedWorkplace.id,
+    startTime: this.bookingStart,
+    endTime: this.bookingEnd
+  }).subscribe({
+    next: (booking) => {
+      this.bookingService.createContract(booking.id).subscribe({
+        next: (contract) => {
+          console.log('Договор создан:', contract);
+          this.addServicesToBooking(booking.id);
+        },
+        error: (err) => {
+          console.error('Ошибка создания договора:', err);
+          this.addServicesToBooking(booking.id);
+        }
+      });
+    },
+    error: (err) => {
+      this.bookingError = err.error?.message || 'Ошибка бронирования';
+    }
+  });
+}
+
+  addServicesToBooking(bookingId: string): void {
+    const services = Array.from(this.selectedServices);
+    
+    if (services.length === 0) {
+      this.router.navigate(['/'], { queryParams: { booked: 'true' } });
+      return;
+    }
+
+    let completed = 0;
+    services.forEach(serviceId => {
+      this.bookingService.addServiceToBooking(bookingId, serviceId, 1).subscribe({
+        next: () => {
+          completed++;
+          if (completed === services.length) {
+            this.router.navigate(['/'], { queryParams: { booked: 'true' } });
+          }
+        },
+        error: () => {
+          completed++;
+          if (completed === services.length) {
+            this.router.navigate(['/'], { queryParams: { booked: 'true' } });
+          }
+        }
+      });
+    });
+  }
+}
+
+================================================
+FILE: src\app\guards\auth.guard.ts
+================================================
+import { inject } from '@angular/core';
+import { Router, CanActivateFn, ActivatedRouteSnapshot } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.isAuthenticated()) {
+    router.navigate(['/login']);
+    return false;
+  }
+
+  const requiredRole = route.data?.['role'];
+  const currentUser = authService.currentUser;
+
+  if (requiredRole && currentUser?.role !== requiredRole) {
+    router.navigate(['/']);
+    return false;
+  }
+
+  return true;
+};
+
+
+================================================
+FILE: src\app\guards\role.guard.ts
+================================================
+import { inject } from '@angular/core';
+import { Router, CanActivateFn, ActivatedRouteSnapshot } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  const requiredRole = route.data?.['role'];
+
+  if (requiredRole && !authService.hasRole(requiredRole)) {
+    router.navigate(['/']);
+    return false;
+  }
+
+  return true;
+};
+
+
+================================================
+FILE: src\app\interceptors\auth.interceptor.ts
+================================================
+import { Injectable } from '@angular/core';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor
+} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
+
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    const token = this.authService.getToken();
+
+    if (token) {
+      const cloned = request.clone({
+        headers: request.headers.set('Authorization', `Bearer ${token}`)
+      });
+      return next.handle(cloned);
+    }
+
+    return next.handle(request);
+  }
+}
+
+
+================================================
+FILE: src\app\models\auth.model.ts
+================================================
+export interface AuthResponse {
+  userId: string;
+  login: string;
+  role: string;
+  token: string;
+}
+
+export interface LoginRequest {
+  login: string;
+  password: string;
+}
+
+export interface RegistrationRequest {
+  login: string;
+  password: string;
+  email: string;
+  fullName: string;
+  phone?: string;
+  birthday?: string;
+}
+
+
+================================================
+FILE: src\app\models\booking.model.ts
+================================================
+export interface Location {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  openingTime: string;
+  closingTime: string;
+  contactPhone: string;
+  workplacesCount?: number;
+}
+
+export interface WorkPlace {
+  id: string;
+  name: string;
+  capacity: number;
+  description?: string;
+  priceForHour: number;
+  available: boolean;
+  locationId: string;
+}
+
+export interface AdditionalService {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+}
+
+export interface Client {
+  id: string;
+  fullName: string;
+  phone: string;
+  birthday: string;
+}
+
+export interface Booking {
+  id: string;
+  startTime: string;
+  endTime: string;
+  clientId: string;
+  workPlaceId: string;
+  workPlaceName: string;
+  locationName: string;
+  locationAddress: string;
+  workplace: WorkPlace;
+  services?: BookingService[];
+  totalAmount?: number;
+  contract?: Contract;
+  contractId?: string;
+  paymentStatus?: string;
+}
+
+export interface BookingService {
+  bookingId: string;
+  serviceId: string;
+  serviceName: string;
+  quantity: number;
+  priceAtBookingTime: number;
+  totalPrice: number;
+}
+
+export interface Contract {
+  id: string;
+  bookingId: string;
+  totalAmount: number;
+  paymentStatus: 'PAID' | 'PENDING' | 'CANCELLED' | 'COMPLETED' | 'REFUNDED';
+  paymentMethod?: 'CARD' | 'CASH' | 'TRANSFER';
+  createdAt: string;
+}
+
+
+================================================
+FILE: src\app\services\auth.service.ts
+================================================
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AuthResponse, LoginRequest, RegistrationRequest } from '../models/auth.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private apiUrl = 'http://localhost:8080/api/auth';
+  private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getUserFromStorage());
+  public currentUser$ = this.currentUserSubject.asObservable();
+
+  constructor(private http: HttpClient) {}
+
+  login(request: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request).pipe(
+      tap(response => {
+        this.setUser(response);
+      })
+    );
+  }
+
+  register(request: RegistrationRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/registration`, request).pipe(
+      tap(response => {
+        this.setUser(response);
+      })
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+  }
+
+  getToken(): string | null {
+    const user = this.getUserFromStorage();
+    return user?.token || null;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.getUserFromStorage();
+    return user?.role === role;
+  }
+
+  getCurrentRole(): string | null {
+    return this.getUserFromStorage()?.role || null;
+  }
+
+  get currentUser(): AuthResponse | null {
+    return this.getUserFromStorage();
+  }
+
+  private setUser(response: AuthResponse): void {
+    localStorage.setItem('currentUser', JSON.stringify(response));
+    this.currentUserSubject.next(response);
+  }
+
+  private getUserFromStorage(): AuthResponse | null {
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
+  }
+}
+
+
+================================================
+FILE: src\app\services\booking.service.ts
+================================================
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Location, WorkPlace, AdditionalService, Booking, BookingService as BookingServiceModel, Contract } from '../models/booking.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BookingService {
+  private apiUrl = 'http://localhost:8080/api';
+
+  constructor(private http: HttpClient) {}
+
+  getLocations(): Observable<Location[]> {
+    return this.http.get<Location[]>(`${this.apiUrl}/locations`);
+  }
+
+  getLocationById(id: string): Observable<Location> {
+    return this.http.get<Location>(`${this.apiUrl}/locations/${id}`);
+  }
+
+  getLocationsByCity(city: string): Observable<Location[]> {
+    return this.http.get<Location[]>(`${this.apiUrl}/locations/city/${city}`);
+  }
+
+  getLocationsWithAvailableWorkplaces(): Observable<Location[]> {
+    return this.http.get<Location[]>(`${this.apiUrl}/locations/with-available-workplaces`);
+  }
+
+  getWorkplaces(): Observable<WorkPlace[]> {
+    return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces`);
+  }
+
+  getWorkplaceById(id: string): Observable<WorkPlace> {
+    return this.http.get<WorkPlace>(`${this.apiUrl}/workplaces/${id}`);
+  }
+
+  getWorkplacesByLocation(locationId: string): Observable<WorkPlace[]> {
+    return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}`);
+  }
+
+  getRecentlyBookedWorkplaces(limit: number = 5): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/workplaces/recently-booked?limit=${limit}`);
+  }
+
+  getAvailableWorkplaces(locationId: string): Observable<WorkPlace[]> {
+    return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}/available`);
+  }
+
+  getAvailableWorkplacesByTime(locationId: string, startTime: string, endTime: string): Observable<WorkPlace[]> {
+    const params = new HttpParams()
+      .set('startTime', startTime)
+      .set('endTime', endTime);
+    return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}/available-by-time`, { params });
+  }
+
+  getServices(): Observable<AdditionalService[]> {
+    return this.http.get<AdditionalService[]>(`${this.apiUrl}/services`);
+  }
+
+  getServiceById(id: string): Observable<AdditionalService> {
+    return this.http.get<AdditionalService>(`${this.apiUrl}/services/${id}`);
+  }
+
+  getMyBookings(): Observable<Booking[]> {
+    return this.http.get<Booking[]>(`${this.apiUrl}/bookings/my`);
+  }
+
+  getBookingById(id: string): Observable<Booking> {
+    return this.http.get<Booking>(`${this.apiUrl}/bookings/${id}`);
+  }
+
+  getBookingWithServices(id: string): Observable<Booking> {
+    return this.http.get<Booking>(`${this.apiUrl}/bookings/${id}/with-services`);
+  }
+createBooking(booking: { 
+  clientId?: string;
+  workPlaceId: string; 
+  startTime: string; 
+  endTime: string 
+}): Observable<Booking> {
+  return this.http.post<Booking>(`${this.apiUrl}/bookings`, booking);
+}
+
+  updateBooking(id: string, booking: { clientId: string; workPlaceId: string; startTime: string; endTime: string }): Observable<Booking> {
+  return this.http.put<Booking>(`${this.apiUrl}/bookings/${id}`, booking);
+}
+
+  deleteBooking(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/bookings/${id}`);
+  }
+
+  cancelBooking(id: string): Observable<Booking> {
+    return this.http.post<Booking>(`${this.apiUrl}/bookings/${id}/cancel`, {});
+  }
+
+ checkWorkplaceAvailability(workplaceId: string, start: string, end: string, excludeBookingId?: string): Observable<boolean> {
+    let params = new HttpParams()
+        .set('start', start)
+        .set('end', end);
+    
+    if (excludeBookingId) {
+        params = params.set('excludeBookingId', excludeBookingId);
+    }
+    
+    return this.http.get<boolean>(`${this.apiUrl}/bookings/workplace/${workplaceId}/check`, { params });
+}
+ addServiceToBooking(bookingId: string, serviceId: string, quantity: number): Observable<BookingServiceModel> {
+  return this.http.post<BookingServiceModel>(`${this.apiUrl}/bookings/services`, {
+    bookingId,
+    serviceId,
+    quantity
+  });
+}
+
+ updateServiceQuantity(bookingId: string, serviceId: string, quantity: number): Observable<BookingServiceModel> {
+  return this.http.put<BookingServiceModel>(
+    `${this.apiUrl}/bookings/services/${bookingId}/${serviceId}?quantity=${quantity}`,
+    {}
+  );
+}
+
+  removeServiceFromBooking(bookingId: string, serviceId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/bookings/services/${bookingId}/${serviceId}`);
+  }
+
+  getServicesByBooking(bookingId: string): Observable<BookingServiceModel[]> {
+  return this.http.get<BookingServiceModel[]>(`${this.apiUrl}/bookings/services/booking/${bookingId}`);
+}
+
+  getContractByBooking(bookingId: string): Observable<Contract> {
+    return this.http.get<Contract>(`${this.apiUrl}/contracts/booking/${bookingId}`);
+  }
+
+  createContract(bookingId: string): Observable<Contract> {
+    return this.http.post<Contract>(`${this.apiUrl}/contracts`, { bookingId });
+  }
+
+  payContract(contractId: string, method: 'CARD' | 'CASH' | 'BANK_TRANSFER'): Observable<Contract> {
+    return this.http.post<Contract>(
+      `${this.apiUrl}/contracts/${contractId}/pay?method=${method}`,
+      {}
+    );
+  }
+}
+
+
+================================================
+FILE: src\index.html
+================================================
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Booking System</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+
+
+================================================
+FILE: src\main.ts
+================================================
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+
+
+================================================
+FILE: src\styles.css
+================================================
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #64748b;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --background: #f5f5f5;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--background);
+}
+
+.card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.navbar {
+  background-color: var(--surface);
+  padding: 16px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar-brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 24px;
+}
+
+.navbar-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navbar-links a:hover {
+  color: var(--primary);
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-auth a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navbar-auth a:hover {
+  color: var(--primary);
+}
+
+.container {
+  padding-top: 32px;
+}
+
+================================================
+FILE: tsconfig.app.json
+================================================
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
+}
+
+
+================================================
+FILE: tsconfig.json
+================================================
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": ["ES2022", "dom"]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
+

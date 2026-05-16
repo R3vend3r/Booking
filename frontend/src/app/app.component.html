@@ -1,0 +1,55 @@
+<nav class="navbar">
+  <div class="navbar-content">
+    <a routerLink="/" class="navbar-brand">Booking</a>
+    
+    <div class="navbar-links" *ngIf="!authService.isAuthenticated() || authService.hasRole('ROLE_USER')">
+      <a (click)="scrollTo('about')">О нас</a>
+      <a (click)="scrollTo('services')">Услуги</a>
+      <a (click)="scrollTo('locations')">Локации</a>
+      <a (click)="scrollTo('contacts')">Контакты</a>
+    </div>
+    
+    <div class="navbar-auth">
+      <ng-container *ngIf="!authService.isAuthenticated()">
+        <a routerLink="/login">Вход</a>
+        <a routerLink="/register" class="btn btn-primary register-btn">Регистрация</a>
+      </ng-container>
+      <ng-container *ngIf="authService.isAuthenticated()">
+        <a routerLink="/profile" *ngIf="authService.hasRole('ROLE_USER') || authService.hasRole('ROLE_MANAGER')">Профиль</a>
+        <a routerLink="/bookings" *ngIf="authService.hasRole('ROLE_USER')">Мои бронирования</a>
+        <a routerLink="/admin" *ngIf="authService.hasRole('ROLE_ADMIN')">Админ</a>
+        <a routerLink="/manager" *ngIf="authService.hasRole('ROLE_MANAGER')">Менеджер</a>
+        <a (click)="logout()" class="logout-link">Выход</a>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="site-footer" *ngIf="!isAdminPage()">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Booking</h4>
+        <p>Сервис аренды рабочих мест и коворкингов. Найдите идеальное место для работы.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Навигация</h4>
+        <a routerLink="/">Главная</a>
+        <a routerLink="/workplaces">Локации</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <span>+7 (495) 123-45-67</span>
+        <span>info@booking.ru</span>
+        <span>Пн—Пт: 9:00 — 21:00</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Booking. Все права защищены.</p>
+    </div>
+  </div>
+</footer>

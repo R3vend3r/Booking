@@ -1,0 +1,23 @@
+.register-container {
+  max-width: 400px;
+  padding-top: 40px;
+}
+.register-title {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.error-mb {
+  margin-bottom: 16px;
+}
+.btn-full {
+  width: 100%;
+}
+.register-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+.field-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+}

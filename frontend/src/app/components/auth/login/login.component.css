@@ -1,0 +1,18 @@
+.login-container {
+  max-width: 400px;
+  padding-top: 60px;
+}
+.login-title {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.error-mb {
+  margin-bottom: 16px;
+}
+.btn-full {
+  width: 100%;
+}
+.login-footer {
+  text-align: center;
+  margin-top: 16px;
+}

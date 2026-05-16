@@ -1,0 +1,130 @@
+.profile-container {
+  max-width: 700px;
+  padding-top: 32px;
+}
+.profile-title {
+  margin-bottom: 24px;
+}
+.avatar-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.avatar-initial {
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+}
+.info-grid {
+  display: grid;
+  gap: 16px;
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+.info-label {
+  color: #64748b;
+}
+.card-mt {
+  margin-top: 24px;
+}
+.section-title {
+  margin-bottom: 20px;
+}
+.error-mb {
+  margin-bottom: 16px;
+}
+.success-msg {
+  margin-bottom: 16px;
+  color: #22c55e;
+  font-size: 14px;
+}
+.btn-full {
+  width: 100%;
+}
+.empty-state {
+  text-align: center;
+  padding: 40px;
+}
+.empty-text {
+  color: #64748b;
+}
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.booking-card {
+  background: #f8fafc;
+}
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.booking-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.booking-location {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.booking-time {
+  color: #64748b;
+  font-size: 14px;
+}
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-paid {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+.status-unpaid {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.status-expired {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.status-completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+.status-cancelled {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+.booking-price-wrap {
+  text-align: right;
+  white-space: nowrap;
+}
+.booking-price {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--primary);
+}

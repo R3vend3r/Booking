@@ -1,0 +1,201 @@
+<div class="container">
+  <div class="breadcrumb">
+    <a routerLink="/" class="breadcrumb-link">← На главную</a>
+  </div>
+  
+  <div *ngIf="location" class="location-header">
+    <h1>{{ location.name }}</h1>
+    <p class="location-address">{{ location.address }} | {{ location.city }}</p>
+    <p class="location-hours">
+      Часы работы: {{ location.openingTime }} — {{ location.closingTime }}
+      <span class="status-dot" [class.open]="isLocationOpenNow()" [class.closed]="!isLocationOpenNow()">
+        {{ isLocationOpenNow() ? 'Открыто' : 'Закрыто' }}
+      </span>
+    </p>
+  </div>
+  
+  <div class="filter-section">
+    <h3>Фильтр по времени</h3>
+    
+    <div class="filter-controls">
+      <div class="filter-field">
+        <label>Дата и время начала</label>
+        <input type="datetime-local" 
+               [(ngModel)]="filterStart" 
+               (change)="validateFilterDates()"
+               [min]="minDateTime"
+               [max]="maxDateTime"
+               step="3600" />
+      </div>
+
+      <div class="filter-field">
+        <label>Дата и время окончания</label>
+        <input type="datetime-local" 
+               [(ngModel)]="filterEnd" 
+               (change)="validateFilterDates()"
+               [min]="filterStart"
+               [max]="maxDateTime"
+               step="3600" />
+      </div>
+
+      <div class="filter-buttons">
+        <button class="btn btn-primary" (click)="applyFilter()" [disabled]="isFilterInvalid()">
+          Показать свободные
+        </button>
+        <button class="btn btn-outline" (click)="clearFilter()">
+          Сбросить
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="error" class="alert alert-error">
+      ❌ {{ error }}
+    </div>
+    
+    <div *ngIf="filterActive && !error && !loading && workplaces.length > 0" class="alert alert-success">
+      ✓ Показаны места, свободные в выбранный промежуток времени
+    </div>
+    
+    <div *ngIf="filterActive && workplaces.length === 0 && !error && !loading" class="alert alert-warning">
+      ⚠️ Нет свободных мест на выбранное время
+    </div>
+  </div>
+
+  <div class="two-columns">
+    <div class="workplaces-list">
+      <h2>Рабочие места</h2>
+      
+      <div *ngIf="loading" class="loading">
+        <p>Загрузка...</p>
+      </div>
+      
+      <div class="workplaces-grid">
+        <div *ngFor="let workplace of workplaces" class="workplace-card">
+          <div class="workplace-header">
+            <h3>{{ workplace.name }}</h3>
+            <span *ngIf="!workplace.available" class="badge badge-danger">
+              Занято
+            </span>
+          </div>
+          
+          <p class="workplace-capacity">
+            Вместимость: {{ workplace.capacity }} чел.
+          </p>
+          
+          <p *ngIf="workplace.description" class="workplace-description">
+            {{ workplace.description }}
+          </p>
+          
+          <div class="workplace-footer">
+            <span class="workplace-price">
+              {{ workplace.priceForHour }} ₽/час
+            </span>
+            
+            <button class="btn btn-primary btn-sm" 
+                    (click)="selectWorkplace(workplace)"
+                    [disabled]="!workplace.available">
+              Выбрать
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngIf="!loading && workplaces.length === 0" class="empty-state">
+        Нет доступных рабочих мест
+      </div>
+    </div>
+    
+    <div class="booking-sidebar">
+      <div *ngIf="selectedWorkplace" class="booking-card">
+        <h3>Бронирование</h3>
+        
+        <p class="booking-workplace-name"><strong>{{ selectedWorkplace.name }}</strong></p>
+        <p class="booking-price">{{ selectedWorkplace.priceForHour }} ₽/час</p>
+        
+        <div class="form-group">
+          <label>Дата и время начала</label>
+          <input type="datetime-local" 
+                 [(ngModel)]="bookingStart" 
+                 (ngModelChange)="onTimesChange()" 
+                 [min]="minDateTime" 
+                 [max]="maxDateTime" 
+                 step="3600" />
+        </div>
+        
+        <div class="form-group">
+          <label>Дата и время окончания</label>
+          <input type="datetime-local" 
+                 [(ngModel)]="bookingEnd" 
+                 (ngModelChange)="onTimesChange()"  
+                 [min]="bookingStart" 
+                 [max]="maxDateTime" 
+                 step="3600" />
+        </div>
+        
+        <div *ngIf="!isWithinWorkingHours() && bookingStart" class="alert alert-warning">
+          ⚠️ Время вне часов работы локации ({{ location?.openingTime }} - {{ location?.closingTime }})
+        </div>
+        
+        <div *ngIf="getBookingValidationError()" class="alert alert-error">
+          ❌ {{ getBookingValidationError() }}
+        </div>
+        
+        <div *ngIf="availabilityChecked && !available" class="alert alert-error">
+          ❌ Это время уже занято
+        </div>
+        
+        <div *ngIf="availabilityChecked && available && isWithinWorkingHours()" class="alert alert-success">
+          ✓ Место доступно для бронирования
+        </div>
+        
+        <div *ngIf="getTotalPrice() > 0" class="price-summary">
+          <div class="price-row">
+            <span>Аренда рабочего места:</span>
+            <span>{{ getWorkplacePrice() }} ₽</span>
+          </div>
+          <div *ngIf="getServicesTotal() > 0" class="price-row">
+            <span>Услуги:</span>
+            <span>{{ getServicesTotal() }} ₽</span>
+          </div>
+          <div class="price-total">
+            <span>Итого:</span>
+            <span>{{ getTotalPrice() }} ₽</span>
+          </div>
+        </div>
+        
+        <div class="services-section">
+          <h4>Дополнительные услуги</h4>
+          
+          <div *ngFor="let service of services" class="service-item">
+            <label class="service-label">
+              <input type="checkbox" 
+                     [checked]="selectedServices.has(service.id)"
+                     (change)="toggleService(service)" />
+              {{ service.name }}
+            </label>
+            <span class="service-price">{{ service.price }} ₽</span>
+          </div>
+        </div>
+        
+        <div *ngIf="bookingError" class="alert alert-error">
+          ❌ {{ bookingError }}
+        </div>
+        
+        <button class="btn btn-primary btn-block" 
+                (click)="createBooking()"
+                [disabled]="!canBook()">
+          {{ selectedServices.size > 0 ? 'Забронировать с услугами' : 'Забронировать' }}
+        </button>
+        
+        <button class="btn btn-outline btn-block" 
+                (click)="clearSelection()">
+          Отменить выбор
+        </button>
+      </div>
+      
+      <div *ngIf="!selectedWorkplace" class="empty-card">
+        <p>Выберите рабочее место для бронирования</p>
+      </div>
+    </div>
+  </div>
+</div>

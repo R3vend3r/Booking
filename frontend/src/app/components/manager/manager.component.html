@@ -1,0 +1,426 @@
+<div class="container page-wrap">
+  <h1 class="page-title">Панель менеджера</h1>
+
+  <div class="tab-bar">
+    <button class="btn" [class.btn-primary]="activeTab === 'locations'" (click)="activeTab = 'locations'"> Локации</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'workplaces'" (click)="activeTab = 'workplaces'"> Рабочие места</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'services'" (click)="activeTab = 'services'"> Услуги</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'bookings'" (click)="activeTab = 'bookings'"> Бронирования</button>
+    <button class="btn" [class.btn-primary]="activeTab === 'contracts'" (click)="activeTab = 'contracts'">Контракты</button>
+  </div>
+
+  <div *ngIf="activeTab === 'locations'">
+    <div class="section-header">
+      <h2>Локации</h2>
+      <div class="header-actions">
+        <select class="filter-select" [(ngModel)]="locFilterCity" (change)="onLocFilterChange()">
+          <option value="">Все города</option>
+          <option *ngFor="let city of locationCities" [value]="city">{{ city }}</option>
+        </select>
+        <button class="btn btn-primary" (click)="startAddLocation()">+ Добавить</button>
+      </div>
+    </div>
+
+    <div *ngIf="locationForm" class="card form-card">
+      <h3 class="form-title">{{ editingLocationId ? 'Редактировать' : 'Новая' }} локация</h3>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="locationForm.name" />
+        <p class="form-error" *ngIf="locationFormErrors.name">{{ locationFormErrors.name }}</p>
+      </div>
+      <div class="form-group">
+        <label>Адрес</label>
+        <input type="text" [(ngModel)]="locationForm.address" />
+        <p class="form-error" *ngIf="locationFormErrors.address">{{ locationFormErrors.address }}</p>
+      </div>
+      <div class="form-group">
+        <label>Город</label>
+        <input type="text" [(ngModel)]="locationForm.city" />
+        <p class="form-error" *ngIf="locationFormErrors.city">{{ locationFormErrors.city }}</p>
+      </div>
+      <div class="form-group">
+        <label>Время открытия</label>
+        <input type="time" [(ngModel)]="locationForm.openingTime" />
+      </div>
+      <div class="form-group">
+        <label>Время закрытия</label>
+        <input type="time" [(ngModel)]="locationForm.closingTime" />
+        <p class="form-error" *ngIf="locationFormErrors.closingTime">{{ locationFormErrors.closingTime }}</p>
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="text" [(ngModel)]="locationForm.contactPhone" />
+        <p class="form-error" *ngIf="locationFormErrors.contactPhone">{{ locationFormErrors.contactPhone }}</p>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="saveLocation()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancelLocationForm()">Отмена</button>
+      </div>
+    </div>
+
+    <div *ngIf="locationsLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!locationsLoading && filteredLocations.length === 0" class="empty-state">
+      Локации не найдены
+    </div>
+    <div *ngIf="!locationsLoading && filteredLocations.length > 0">
+      <div class="list-grid">
+        <div *ngFor="let loc of filteredLocations | slice:locPage*pageSize:(locPage+1)*pageSize" class="card card-row">
+          <div>
+            <h3 class="card-title">{{ loc.name }}</h3>
+            <p class="card-subtitle">{{ loc.address }}, {{ loc.city }}</p>
+            <p class="card-subtitle">{{ loc.openingTime }} — {{ loc.closingTime }} | {{ loc.contactPhone }}</p>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary" (click)="startEditLocation(loc)">✏️</button>
+            <button class="btn delete-btn" (click)="deleteLocation(loc.id)">🗑️</button>
+          </div>
+        </div>
+      </div>
+      <div class="pagination">
+        <button class="btn btn-secondary" (click)="prevPage('locations')" [disabled]="locPage === 0">← Назад</button>
+        <span class="page-info">{{ locPage + 1 }} / {{ Math.ceil(filteredLocations.length / pageSize) || 1 }}</span>
+        <button class="btn btn-secondary" (click)="nextPage('locations')" [disabled]="(locPage + 1) * pageSize >= filteredLocations.length">Вперёд →</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'workplaces'">
+    <div class="section-header-wrap">
+      <h2>Рабочие места</h2>
+      <div class="filter-group">
+        <select [(ngModel)]="wpFilterLocation" (change)="loadWorkplaces()" class="filter-select">
+          <option value="">Все локации</option>
+          <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+        </select>
+        <button class="btn btn-primary" (click)="startAddWorkplace()">+ Добавить</button>
+      </div>
+    </div>
+
+    <div *ngIf="wpForm" class="card form-card">
+      <h3 class="form-title">{{ editingWpId ? 'Редактировать' : 'Новое' }} рабочее место</h3>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="wpForm.name" />
+        <p class="form-error" *ngIf="wpFormErrors.name">{{ wpFormErrors.name }}</p>
+      </div>
+      <div class="form-group">
+        <label>Локация</label>
+        <select [(ngModel)]="wpForm.locationId">
+          <option value="">Выберите локацию</option>
+          <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+        </select>
+        <p class="form-error" *ngIf="wpFormErrors.locationId">{{ wpFormErrors.locationId }}</p>
+      </div>
+      <div class="form-group">
+        <label>Вместимость (чел.)</label>
+        <input type="number" [(ngModel)]="wpForm.capacity" />
+        <p class="form-error" *ngIf="wpFormErrors.capacity">{{ wpFormErrors.capacity }}</p>
+      </div>
+      <div class="form-group">
+        <label>Описание</label>
+        <textarea [(ngModel)]="wpForm.description" rows="3"></textarea>
+        <p class="form-error" *ngIf="wpFormErrors.description">{{ wpFormErrors.description }}</p>
+      </div>
+      <div class="form-group">
+        <label>Цена за час (₽)</label>
+        <input type="number" [(ngModel)]="wpForm.priceForHour" />
+        <p class="form-error" *ngIf="wpFormErrors.priceForHour">{{ wpFormErrors.priceForHour }}</p>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="saveWorkplace()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancelWpForm()">Отмена</button>
+      </div>
+    </div>
+
+    <div *ngIf="wpLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!wpLoading && workplaces.length === 0" class="empty-state">
+      Рабочие места не найдены
+    </div>
+    <div *ngIf="!wpLoading && workplaces.length > 0">
+      <div class="list-grid">
+        <div *ngFor="let wp of workplaces | slice:wpPage*pageSize:(wpPage+1)*pageSize" class="card card-row">
+          <div>
+            <h3 class="card-title">{{ wp.name }}</h3>
+            <p class="card-subtitle">{{ wp.locationName }} | Вместимость: {{ wp.capacity }} чел. | {{ wp.priceForHour }} ₽/час</p>
+            <p *ngIf="wp.description" class="card-desc">{{ wp.description }}</p>
+          </div>
+          <div class="btn-group-center">
+            <span *ngIf="wp.available" class="status-available">Доступно</span>
+            <span *ngIf="!wp.available" class="status-occupied">Занято</span>
+            <button class="btn btn-secondary toggle-btn" (click)="toggleAvailability(wp)">Переключить</button>
+            <button class="btn btn-secondary" (click)="startEditWorkplace(wp)">✏️</button>
+            <button class="btn delete-btn" (click)="deleteWorkplace(wp.id)">🗑️</button>
+          </div>
+        </div>
+      </div>
+      <div class="pagination">
+        <button class="btn btn-secondary" (click)="prevPage('workplaces')" [disabled]="wpPage === 0">← Назад</button>
+        <span class="page-info">{{ wpPage + 1 }} / {{ Math.ceil(workplaces.length / pageSize) || 1 }}</span>
+        <button class="btn btn-secondary" (click)="nextPage('workplaces')" [disabled]="(wpPage + 1) * pageSize >= workplaces.length">Вперёд →</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'services'">
+    <div class="section-header">
+      <h2>Услуги</h2>
+      <button class="btn btn-primary" (click)="startAddService()">+ Добавить</button>
+    </div>
+
+    <div *ngIf="svcForm" class="card form-card">
+      <h3 class="form-title">{{ editingSvcId ? 'Редактировать' : 'Новая' }} услуга</h3>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="svcForm.name" />
+        <p class="form-error" *ngIf="svcFormErrors.name">{{ svcFormErrors.name }}</p>
+      </div>
+      <div class="form-group">
+        <label>Описание</label>
+        <textarea [(ngModel)]="svcForm.description" rows="3"></textarea>
+        <p class="form-error" *ngIf="svcFormErrors.description">{{ svcFormErrors.description }}</p>
+      </div>
+      <div class="form-group">
+        <label>Цена (₽)</label>
+        <input type="number" [(ngModel)]="svcForm.price" />
+        <p class="form-error" *ngIf="svcFormErrors.price">{{ svcFormErrors.price }}</p>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="saveService()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancelSvcForm()">Отмена</button>
+      </div>
+    </div>
+
+    <div *ngIf="svcLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!svcLoading && services.length === 0" class="empty-state">
+      Услуги не найдены
+    </div>
+    <div *ngIf="!svcLoading && services.length > 0">
+      <div class="list-grid">
+        <div *ngFor="let svc of services | slice:svcPage*pageSize:(svcPage+1)*pageSize" class="card card-row">
+          <div>
+            <h3 class="card-title">{{ svc.name }}</h3>
+            <p class="card-subtitle">{{ svc.description }}</p>
+            <p class="card-price">{{ svc.price }} ₽</p>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary" (click)="startEditService(svc)">✏️</button>
+            <button class="btn delete-btn" (click)="deleteService(svc.id)">🗑️</button>
+          </div>
+        </div>
+      </div>
+      <div class="pagination">
+        <button class="btn btn-secondary" (click)="prevPage('services')" [disabled]="svcPage === 0">← Назад</button>
+        <span class="page-info">{{ svcPage + 1 }} / {{ Math.ceil(services.length / pageSize) || 1 }}</span>
+        <button class="btn btn-secondary" (click)="nextPage('services')" [disabled]="(svcPage + 1) * pageSize >= services.length">Вперёд →</button>
+      </div>
+    </div>
+  </div>
+
+<div *ngIf="activeTab === 'bookings'">
+  <div class="section-header">
+    <h2>Бронирования</h2>
+    <div class="header-actions">
+      <input type="text" class="filter-select" [(ngModel)]="bkSearchId" (input)="bkPage = 0" placeholder="Поиск по ID..." style="width:200px" />
+      <button class="btn btn-secondary" [class.btn-primary]="bkShowFilters" (click)="toggleBkFilters()">Фильтры</button>
+      <button class="btn btn-secondary" (click)="refreshBookings()">Обновить</button>
+    </div>
+    <div class="modal-overlay" *ngIf="bkShowFilters" (click)="bkShowFilters = false">
+      <div class="modal-content" (click)="$event.stopPropagation()" style="max-width:900px">
+        <div class="modal-header">
+          <h3>Фильтры</h3>
+          <button class="modal-close" (click)="bkShowFilters = false">✕</button>
+        </div>
+        <div class="filter-panel" style="border:none;padding:0;margin:0">
+          <div class="filter-col">
+            <h4>Город</h4>
+            <div class="filter-check" *ngFor="let opt of bookingCityOptions" (click)="onBkFilterChange('city', opt.value)">
+              <input type="checkbox" [checked]="bkFilterCityTemp.includes(opt.value)" (click)="$event.stopPropagation()" />
+              <span>{{ opt.value }} <span class="filter-count">({{ opt.count }})</span></span>
+            </div>
+          </div>
+          <div class="filter-col">
+            <h4>Локация</h4>
+            <div class="filter-check" *ngFor="let opt of bookingLocationOptions" (click)="onBkFilterChange('location', opt.value)">
+              <input type="checkbox" [checked]="bkFilterLocationTemp.includes(opt.value)" />
+              <span>{{ opt.value }} <span class="filter-count">({{ opt.count }})</span></span>
+            </div>
+          </div>
+          <div class="filter-col">
+            <h4>Рабочее место</h4>
+            <div class="filter-check" *ngFor="let opt of bookingWorkplaceOptions" (click)="onBkFilterChange('workplace', opt.value)">
+              <input type="checkbox" [checked]="bkFilterWorkplaceTemp.includes(opt.value)" />
+              <span>{{ opt.value }} <span class="filter-count">({{ opt.count }})</span></span>
+            </div>
+          </div>
+          <div class="filter-col">
+            <h4>Статус</h4>
+            <div class="filter-check" *ngFor="let opt of bookingStatusOptions" (click)="onBkFilterChange('status', opt.value)">
+              <input type="checkbox" [checked]="bkFilterStatusTemp.includes(opt.value)" />
+              <span>{{ getBookingStatusLabel(opt.value) }} <span class="filter-count">({{ opt.count }})</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" (click)="applyBkFilters()">Применить</button>
+          <button class="btn btn-secondary" (click)="resetBkFilters()">Сбросить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="bkLoading" class="loading"><p>Загрузка...</p></div>
+
+  <div *ngIf="!bkLoading && filteredBookings.length === 0" class="empty-state">
+    Бронирования не найдены
+  </div>
+  
+  <div *ngIf="!bkLoading && filteredBookings.length > 0">
+    <div *ngFor="let bk of filteredBookings | slice:bkPage*pageSize:(bkPage+1)*pageSize" class="card card-mb">
+      <div class="card-row-start">
+        <div>
+          <p class="booking-name">{{ bk.workPlaceName || bk.workPlaceId }}</p>
+          <p class="card-subtitle">Клиент: {{ bk.clientName || bk.clientId }}</p>
+          <p class="booking-date">{{ formatDate(bk.startTime) }} — {{ formatDate(bk.endTime) }}</p>
+          <span class="badge" [ngStyle]="{
+            'background': getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Оплачено' ? '#dcfce7' : 
+                         getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Активно' ? '#dbeafe' : '#fef3c7',
+            'color': getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Оплачено' ? '#16a34a' : 
+                     getBookingStatusLabel(bk.paymentStatus, bk.endTime) === 'Активно' ? '#2563eb' : '#d97706'
+          }">
+            {{ getBookingStatusLabel(bk.paymentStatus, bk.endTime) }}
+          </span>
+        </div>
+        <div class="detail-btn-wrap">
+          <button class="btn btn-secondary" (click)="openBookingDetails(bk)">Подробнее</button>
+        </div>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-secondary" (click)="prevPage('bookings')" [disabled]="bkPage === 0">← Назад</button>
+      <span class="page-info">{{ bkPage + 1 }} / {{ Math.ceil(filteredBookings.length / pageSize) || 1 }}</span>
+      <button class="btn btn-secondary" (click)="nextPage('bookings')" [disabled]="(bkPage + 1) * pageSize >= filteredBookings.length">Вперёд →</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="activeTab === 'contracts'">
+  <div class="section-header">
+    <h2>Контракты</h2>
+    <button class="btn btn-secondary" (click)="loadPendingContracts()">Обновить</button>
+  </div>
+  <div class="filter-bar">
+    <button class="btn btn-secondary" [class.btn-primary]="showPendingOnly" (click)="loadPendingContracts(); showPendingOnly = true">
+      ⏳ Ожидают оплаты
+    </button>
+    <button class="btn btn-secondary" [class.btn-primary]="!showPendingOnly" (click)="loadAllContracts(); showPendingOnly = false">
+      📋 Все контракты
+    </button>
+  </div>
+  <div *ngIf="ctLoading" class="loading"><p>Загрузка...</p></div>
+  <div *ngIf="!ctLoading && contracts.length === 0" class="empty-state">
+    Контракты не найдены
+  </div>
+  <div *ngIf="!ctLoading && contracts.length > 0">
+    <div class="list-grid">
+      <div *ngFor="let ct of contracts | slice:ctPage*pageSize:(ctPage+1)*pageSize" class="card card-row-wrap">
+        <div>
+          <p class="contract-number">📄 Контракт #{{ ct.contractNumber }}</p>
+          <p class="card-subtitle">Сумма: {{ ct.totalAmount }} ₽</p>
+          <p class="card-desc">Статус: {{ getPaymentStatusLabel(ct.paymentStatus) }}</p>
+        </div>
+        <div class="detail-btn-group">
+          <button class="btn btn-secondary" (click)="openContractDetails(ct)">Подробнее</button>
+        </div>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-secondary" (click)="prevPage('contracts')" [disabled]="ctPage === 0">← Назад</button>
+      <span class="page-info">{{ ctPage + 1 }} / {{ Math.ceil(contracts.length / pageSize) || 1 }}</span>
+      <button class="btn btn-secondary" (click)="nextPage('contracts')" [disabled]="(ctPage + 1) * pageSize >= contracts.length">Вперёд →</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedBookingDetail" (click)="closeBookingDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Детали бронирования</h3>
+      <button class="modal-close" (click)="closeBookingDetails()">✕</button>
+    </div>
+    <div *ngIf="bookingDetailLoading" class="loading"><p>Загрузка...</p></div>
+    <div *ngIf="!bookingDetailLoading" class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Рабочее место</span>
+        <span>{{ selectedBookingDetail.workPlaceName || selectedBookingDetail.workPlaceId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Локация</span>
+        <span>{{ selectedBookingDetail.locationName || '—' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Клиент</span>
+        <span>{{ selectedBookingDetail.clientName || selectedBookingDetail.clientId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Начало</span>
+        <span>{{ formatDate(selectedBookingDetail.startTime) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Конец</span>
+        <span>{{ formatDate(selectedBookingDetail.endTime) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Статус оплаты</span>
+        <span class="badge" [ngStyle]="{'background': selectedBookingDetail.paymentStatus === 'PAID' ? '#dcfce7' : '#fef3c7', 'color': selectedBookingDetail.paymentStatus === 'PAID' ? '#16a34a' : '#d97706'}">
+          {{ getBookingStatusLabel(selectedBookingDetail.paymentStatus, selectedBookingDetail.endTime) }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="selectedBookingDetail.totalAmount">
+        <span class="detail-label">Сумма</span>
+        <span class="detail-price">{{ selectedBookingDetail.totalAmount }} ₽</span>
+      </div>
+      <div *ngIf="bookingServicesDetail.length > 0">
+        <h4 class="services-subtitle">Услуги</h4>
+        <div *ngFor="let s of bookingServicesDetail" class="detail-row">
+          <span>{{ s.serviceName || 'Услуга' }} × {{ s.quantity }}</span>
+          <span>{{ s.priceAtBookingTime * s.quantity }} ₽</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedContractDetail" (click)="closeContractDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Детали контракта</h3>
+      <button class="modal-close" (click)="closeContractDetails()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Номер контракта</span>
+        <span>{{ selectedContractDetail.contractNumber }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">ID бронирования</span>
+        <span>{{ selectedContractDetail.bookingId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Сумма</span>
+        <span class="detail-price">{{ selectedContractDetail.totalAmount }} ₽</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Статус</span>
+        <span>{{ getPaymentStatusLabel(selectedContractDetail.paymentStatus) }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedContractDetail.paymentDate">
+        <span class="detail-label">Дата оплаты</span>
+        <span>{{ formatDate(selectedContractDetail.paymentDate) }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedContractDetail.paymentMethod">
+        <span class="detail-label">Способ оплаты</span>
+        <span>{{ selectedContractDetail.paymentMethod }}</span>
+      </div>
+    </div>
+  </div>
+</div>
