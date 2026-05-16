@@ -116,5 +116,10 @@ public class LocationService {
         return location.getWorkplaces() != null ? location.getWorkplaces().size() : 0;
     }
 
-    //посмотреть нужна ли пагинация
+    @Transactional(readOnly = true)
+    public List<LocationResponse> getLocationsWithAvailableWorkplaces() {
+        return locationRepository.findLocationsWithAvailableWorkplaces().stream()
+                .map(locationMapper::toResponse)
+                .collect(Collectors.toList());
+    }
 }

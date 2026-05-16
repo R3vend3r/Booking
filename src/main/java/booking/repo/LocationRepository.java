@@ -20,4 +20,7 @@ public interface LocationRepository extends JpaRepository<Location, String> {
 
     @Query("SELECT l FROM Location l LEFT JOIN FETCH l.workplaces WHERE l.id = :id")
     Optional<Location> findByIdWithWorkplaces(@Param("id") String id);
+
+    @Query(value = "SELECT * FROM locations WHERE id IN (SELECT DISTINCT location_id FROM workplaces WHERE available = true)", nativeQuery = true)
+    List<Location> findLocationsWithAvailableWorkplaces();
 }

@@ -73,4 +73,9 @@ public class LocationController {
         int count = locationService.getWorkplacesCount(id);
         return ResponseEntity.ok(count);
     }
+
+    @GetMapping("/with-available-workplaces")
+    public ResponseEntity<List<LocationResponse>> getLocationsWithAvailableWorkplaces() {
+        return ResponseEntity.ok(locationService.getLocationsWithAvailableWorkplaces());
+    }
 }

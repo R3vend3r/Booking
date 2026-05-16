@@ -1,9 +1,9 @@
 package booking.enums;
 
 public enum PaymentStatus {
-    PAID,
     PENDING,
+    PAID,
     CANCELLED,
-    COMPLiTED,
-    REFUNDED
+    COMPLETED,
+    EXPIRED
 }

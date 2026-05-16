@@ -1,14 +1,17 @@
 package booking.controller;
 
 import booking.dto.request.WorkPlaceRequest;
+import booking.dto.response.RecentWorkplaceResponse;
 import booking.dto.response.WorkPlaceResponse;
 import booking.service.WorkPlaceService;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -52,6 +55,15 @@ public class WorkPlaceController {
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/location/{locationId}/available-by-time")
+    public ResponseEntity<List<WorkPlaceResponse>> getAvailableWorkPlacesByLocationAndTime(
+            @PathVariable String locationId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime) {
+        List<WorkPlaceResponse> responses = workPlaceService.findAvailableByLocationAndTime(locationId, startTime, endTime);
+        return ResponseEntity.ok(responses);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<WorkPlaceResponse> updateWorkPlace(
@@ -73,5 +85,11 @@ public class WorkPlaceController {
     public ResponseEntity<WorkPlaceResponse> toggleAvailability(@PathVariable String id) {
         WorkPlaceResponse response = workPlaceService.toggleAvailability(id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/recently-booked")
+    public ResponseEntity<List<RecentWorkplaceResponse>> getRecentlyBooked(
+            @RequestParam(defaultValue = "5") int limit) {
+        return ResponseEntity.ok(workPlaceService.getRecentlyBooked(limit));
     }
 }

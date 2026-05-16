@@ -22,6 +22,8 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     @Query("SELECT b FROM Booking b LEFT JOIN FETCH b.bookingServices bs LEFT JOIN FETCH bs.service WHERE b.id = :id")
     Optional<Booking> findByIdWithServices(@Param("id") String id);
 
+    @Query("SELECT b.endTime FROM Booking b WHERE b.workPlace.id = :workplaceId AND b.startTime <= :now AND b.endTime > :now")
+    List<LocalDateTime> findCurrentBookingEndTime(@Param("workplaceId") String workplaceId, @Param("now") LocalDateTime now);
     // нужно ли с договорами делать? Добавлю уже в процессе
 
     @Query("SELECT b FROM Booking b JOIN FETCH b.client")

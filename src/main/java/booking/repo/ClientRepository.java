@@ -18,4 +18,7 @@ public interface ClientRepository extends JpaRepository<Client, String> {
 
     @Query("SELECT c FROM Client c WHERE c.user.id = :userId")
     Optional<Client> findByUserId(@Param("userId") Long userId);
+
+    @Query(value = "SELECT * FROM clients WHERE id IN (SELECT client_id FROM bookings GROUP BY client_id ORDER BY client_id LIMIT :limit OFFSET :offset)", nativeQuery = true)
+    List<Client> findClientsWithBookingsPaginated(@Param("limit") int limit, @Param("offset") int offset);
 }
