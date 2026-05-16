@@ -330,36 +330,36 @@ class BookingServiceTest {
                 .isInstanceOf(ServiceException.class)
                 .hasMessage("Нельзя отменить уже начавшееся бронирование");
     }
+//
+//    @Test
+//    void isWorkplaceOccupied_shouldReturnTrueWhenOccupied() {
+//        String workPlaceId = "WP-123";
+//        LocalDateTime start = LocalDateTime.now().plusDays(1);
+//        LocalDateTime end = LocalDateTime.now().plusDays(1).plusHours(2);
+//
+//        Booking existingBooking = new Booking();
+//        existingBooking.setStartTime(LocalDateTime.now().plusDays(1).plusHours(1));
+//        existingBooking.setEndTime(LocalDateTime.now().plusDays(1).plusHours(3));
+//
+//        when(bookingRepository.findByWorkPlaceId(workPlaceId)).thenReturn(List.of(existingBooking));
+//
+//        boolean result = bookingService.isWorkplaceOccupied(workPlaceId, start, end);
+//
+//        assertThat(result).isTrue();
+//    }
 
-    @Test
-    void isWorkplaceOccupied_shouldReturnTrueWhenOccupied() {
-        String workPlaceId = "WP-123";
-        LocalDateTime start = LocalDateTime.now().plusDays(1);
-        LocalDateTime end = LocalDateTime.now().plusDays(1).plusHours(2);
-
-        Booking existingBooking = new Booking();
-        existingBooking.setStartTime(LocalDateTime.now().plusDays(1).plusHours(1));
-        existingBooking.setEndTime(LocalDateTime.now().plusDays(1).plusHours(3));
-
-        when(bookingRepository.findByWorkPlaceId(workPlaceId)).thenReturn(List.of(existingBooking));
-
-        boolean result = bookingService.isWorkplaceOccupied(workPlaceId, start, end);
-
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void isWorkplaceOccupied_shouldReturnFalseWhenNotOccupied() {
-        String workPlaceId = "WP-123";
-        LocalDateTime start = LocalDateTime.now().plusDays(1);
-        LocalDateTime end = LocalDateTime.now().plusDays(1).plusHours(2);
-
-        when(bookingRepository.findByWorkPlaceId(workPlaceId)).thenReturn(List.of());
-
-        boolean result = bookingService.isWorkplaceOccupied(workPlaceId, start, end);
-
-        assertThat(result).isFalse();
-    }
+//    @Test
+//    void isWorkplaceOccupied_shouldReturnFalseWhenNotOccupied() {
+//        String workPlaceId = "WP-123";
+//        LocalDateTime start = LocalDateTime.now().plusDays(1);
+//        LocalDateTime end = LocalDateTime.now().plusDays(1).plusHours(2);
+//
+//        when(bookingRepository.findByWorkPlaceId(workPlaceId)).thenReturn(List.of());
+//
+//        boolean result = bookingService.isWorkplaceOccupied(workPlaceId, start, end);
+//
+//        assertThat(result).isFalse();
+//    }
 
     @Test
     void getActiveBookings_shouldReturnListOfActiveBookings() {

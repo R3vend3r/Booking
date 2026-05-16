@@ -42,7 +42,7 @@ public class BookingController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<List<BookingResponse>> getAllBookings() {
         List<BookingResponse> responses = bookingService.getAllBookings();
         return ResponseEntity.ok(responses);
@@ -95,18 +95,26 @@ public class BookingController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteBooking(@PathVariable String id) {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/cancel")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity<BookingResponse> cancelBooking(@PathVariable String id) {
+        BookingResponse response = bookingService.cancelBooking(id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/workplace/{workPlaceId}/check")
     public ResponseEntity<Boolean> checkWorkplaceAvailability(
             @PathVariable String workPlaceId,
             @RequestParam LocalDateTime start,
-            @RequestParam LocalDateTime end) {
-        boolean isAvailable = !bookingService.isWorkplaceOccupied(workPlaceId, start, end);
+            @RequestParam LocalDateTime end,
+            @RequestParam(required = false) String excludeBookingId) {
+        boolean isAvailable = !bookingService.isWorkplaceOccupied(workPlaceId, start, end, excludeBookingId);
         return ResponseEntity.ok(isAvailable);
     }
 }

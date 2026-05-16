@@ -1,11 +1,9 @@
 package booking.dto.mapper;
 
-import booking.dto.request.BookingServiceRequest;
 import booking.dto.response.BookingServiceResponse;
 import booking.entity.AdditionalService;
 import booking.entity.Booking;
 import booking.entity.BookingService;
-import booking.entity.BookingServiceId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

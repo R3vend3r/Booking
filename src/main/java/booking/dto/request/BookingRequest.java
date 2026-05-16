@@ -16,7 +16,6 @@ public class BookingRequest {
     @Future(message = "Время окончания должно быть в будущем")
     private LocalDateTime endTime;
 
-    @NotNull(message = "Клиент должен быть зарегистрирован")
     private String clientId;
 
     @NotNull(message = "Выберите рабочее место")
