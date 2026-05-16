@@ -19,4 +19,9 @@ public interface BookingServiceRepository extends JpaRepository<BookingService, 
 
     @Query("SELECT SUM(bs.quantity) FROM BookingService bs WHERE bs.service.id = :serviceId")
     Integer getTotalQuantityForService(@Param("serviceId") String serviceId);
+
+    @Query(value = "SELECT s.name, SUM(bs.quantity) AS total " +
+            "FROM booking_services bs JOIN services s ON s.id = bs.service_id " +
+            "GROUP BY s.name ORDER BY total DESC LIMIT 5", nativeQuery = true)
+    List<Object[]> findTopServicesNative();
 }

@@ -72,6 +72,9 @@ public class GlobalExceptionHandler {
         );
         response.put("errors", errors);
 
+        String firstError = errors.values().stream().findFirst().orElse("Ошибка валидации");
+        response.put("message", firstError);
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

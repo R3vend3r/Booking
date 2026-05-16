@@ -25,6 +25,6 @@ public class RegistrationRequest {
        @Past(message = "Дата рождения должна быть в прошлом")
        private LocalDate birthday;
 
-       @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Неверный формат телефона")
+       @Pattern(regexp = "^$|^\\+?[0-9]{10,15}$", message = "Неверный формат телефона")
        private String phone;
 }

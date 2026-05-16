@@ -3,14 +3,14 @@ package booking.dto.auth;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
-public class UserResponse {
-    private String id;
+public class ManagerResponse {
+    private Long id;
     private String login;
     private String email;
-    private String fullName;
-    private String phone;
     private boolean enabled;
-    private long bookingsCount;
+    private LocalDateTime createdAt;
 }

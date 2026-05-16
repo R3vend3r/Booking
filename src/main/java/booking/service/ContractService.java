@@ -99,25 +99,35 @@ public class ContractService {
         return response;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ContractResponse> getAllContracts() {
+        cleanupExpiredContracts();
         return contractRepository.findAll().stream()
                 .map(contractMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ContractResponse> getAllContractsWithBookings() {
+        cleanupExpiredContracts();
         return contractRepository.findAllWithContracts().stream()
                 .map(booking -> contractMapper.toResponse(booking.getContract()))
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ContractResponse> getPendingContracts() {
+        cleanupExpiredContracts();
         return contractRepository.findByPaymentStatus(PaymentStatus.PENDING).stream()
                 .map(contractMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    private void cleanupExpiredContracts() {
+        List<Contract> expired = contractRepository.findExpiredPendingContracts(java.time.LocalDateTime.now());
+        if (!expired.isEmpty()) {
+            contractRepository.deleteAll(expired);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -139,6 +149,7 @@ public class ContractService {
         }
 
         contract.markAsPaid(method);
+        Booking booking = contract.getBooking();
         Contract saved = contractRepository.save(contract);
         return contractMapper.toResponse(saved);
     }

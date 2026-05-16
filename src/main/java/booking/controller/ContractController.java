@@ -23,7 +23,7 @@ public class ContractController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<ContractResponse> createContract(@Valid @RequestBody ContractRequest request) {
         ContractResponse response = contractService.createContract(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -48,7 +48,7 @@ public class ContractController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public ResponseEntity<List<ContractResponse>> getAllContracts() {
         List<ContractResponse> responses = contractService.getAllContracts();
         return ResponseEntity.ok(responses);
@@ -69,7 +69,7 @@ public class ContractController {
     }
 
     @PostMapping("/{contractId}/pay")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<ContractResponse> payContract(
             @PathVariable String contractId,
             @RequestParam PaymentMethod method) {
