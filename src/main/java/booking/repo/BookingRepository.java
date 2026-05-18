@@ -42,6 +42,15 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     @Query("SELECT b.startTime, b.endTime FROM Booking b WHERE b.workPlace.id = :workplaceId AND b.startTime > :now ORDER BY b.startTime ASC")
     List<Object[]> findNextBookingTimeRange(@Param("workplaceId") String workplaceId, @Param("now") LocalDateTime now);
 
+    @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.workPlace.id = :workPlaceId AND b.id <> :excludeId AND b.startTime < :end AND b.endTime > :start")
+    boolean existsOverlappingBooking(
+            @Param("workPlaceId") String workPlaceId,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end,
+            @Param("excludeId") String excludeId
+    );
+
+
     @Query("SELECT COUNT(b) FROM Booking b JOIN b.client c WHERE c.user.id = :userId")
     long countByUserId(@Param("userId") Long userId);
 }

@@ -2,8 +2,12 @@
 *.iml
 out/
 /data/
-*.json
+/data/*.json
 !**/src/main/**/out/
 !**/src/test/**/out/
 target
 logs/
+frontend/dist/
+frontend/node_modules
+frontend/.angular/cache
+.env

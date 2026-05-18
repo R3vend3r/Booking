@@ -8,6 +8,7 @@ import booking.entity.User;
 import booking.exception.ServiceException;
 import booking.repo.ClientRepository;
 import booking.repo.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,11 @@ public class ClientService {
         String login = auth.getName();
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
         Client client = user.getClient();
         if (client == null) {
-            throw new ServiceException("Клиент не найден");
+            throw new ServiceException("Клиент не найден", HttpStatus.NOT_FOUND);
         }
         return clientMapper.toResponse(client);
     }
@@ -58,14 +59,14 @@ public class ClientService {
     @Transactional(readOnly = true)
     public ClientResponse getClientById(String id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Клиент с ID " + id + " не найден"));
+                .orElseThrow(() -> new ServiceException("Клиент с ID " + id + " не найден", HttpStatus.NOT_FOUND));
         return clientMapper.toResponse(client);
     }
 
     @Transactional(readOnly = true)
     public ClientResponse getClientByPhone(String phone) {
         Client client = clientRepository.findByPhone(phone)
-                .orElseThrow(() -> new ServiceException("Клиент с телефоном " + phone + " не найден"));
+                .orElseThrow(() -> new ServiceException("Клиент с телефоном " + phone + " не найден", HttpStatus.NOT_FOUND));
         return clientMapper.toResponse(client);
     }
 
@@ -79,7 +80,7 @@ public class ClientService {
     @Transactional
     public ClientResponse updateClient(String id, ClientRequest request) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Клиент с ID " + id + " не найден"));
+                .orElseThrow(() -> new ServiceException("Клиент с ID " + id + " не найден", HttpStatus.NOT_FOUND));
 
         checkClientOwnership(client);
 
@@ -105,7 +106,7 @@ public class ClientService {
 
         if (!isAdmin) {
             User user = userRepository.findByLogin(login)
-                    .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                    .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
             if (user.getClient() != null && !user.getClient().getId().equals(client.getId())) {
                 throw new ServiceException("Вы можете редактировать только свой профиль");
@@ -116,7 +117,7 @@ public class ClientService {
     @Transactional
     public void deleteClient(String id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Клиент с ID " + id + " не найден"));
+                .orElseThrow(() -> new ServiceException("Клиент с ID " + id + " не найден", HttpStatus.NOT_FOUND));
 
         if (client.getBookings() != null && !client.getBookings().isEmpty()) {
             throw new ServiceException("Нельзя удалить клиента, у которого есть бронирования");

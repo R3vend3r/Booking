@@ -6,6 +6,7 @@ import booking.dto.response.ServiceResponse;
 import booking.entity.AdditionalService;
 import booking.exception.ServiceException;
 import booking.repo.AdditionalServiceRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class AdditionalServiceService {
 
     @Transactional(readOnly = true)
     public ServiceResponse findServiceById(String id){
-        AdditionalService service = serviceRepository.findById(id).orElseThrow(() -> new ServiceException("Такой услуги не существует"));
+        AdditionalService service = serviceRepository.findById(id).orElseThrow(() -> new ServiceException("Такая услуга не найдена", HttpStatus.NOT_FOUND));
         return serviceMapper.toResponse(service);
     }
 
@@ -47,18 +48,18 @@ public class AdditionalServiceService {
 
     @Transactional(readOnly = true)
     public ServiceResponse findServiceByName(String name){
-        AdditionalService service = serviceRepository.findByName(name).orElseThrow(() -> new ServiceException("Такой услуги не существует"));
+        AdditionalService service = serviceRepository.findByName(name).orElseThrow(() -> new ServiceException("Такая услуга не найдена", HttpStatus.NOT_FOUND));
         return serviceMapper.toResponse(service);
     }
 
     @Transactional
     public ServiceResponse updateService(String id, ServiceRequest request){
         AdditionalService service = serviceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Такой услуги не существует"));
+                .orElseThrow(() -> new ServiceException("Такая услуга не найдена", HttpStatus.NOT_FOUND));
 
         if (!service.getName().equals(request.getName())) {
             if (serviceRepository.findByName(request.getName()).isPresent()) {
-                throw new ServiceException("Услуга с названием '" + request.getName() + "' уже существует");
+                throw new ServiceException("Услуга с названием '" + request.getName() + "' уже существует", HttpStatus.NOT_FOUND);
             }
         }
 
@@ -72,7 +73,7 @@ public class AdditionalServiceService {
     @Transactional
     public void deleteService(String id) {
         AdditionalService service = serviceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Услуга с ID " + id + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Услуга с ID " + id + " не найдена", HttpStatus.NOT_FOUND));
 
         if (service.getBookingServices() != null && !service.getBookingServices().isEmpty()) {
             throw new ServiceException("Нельзя удалить услугу, которая используется в бронированиях");

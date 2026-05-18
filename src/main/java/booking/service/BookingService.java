@@ -16,7 +16,9 @@ import booking.repo.ClientRepository;
 import booking.repo.ContractRepository;
 import booking.repo.UserRepository;
 import booking.repo.WorkPlaceRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,11 +57,11 @@ public class BookingService {
         String login = auth.getName();
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
         Client client = user.getClient();
         if (client == null) {
-            throw new ServiceException("Клиент не найден");
+            throw new ServiceException("Клиент не найден", HttpStatus.NOT_FOUND);
         }
 
         return bookingRepository.findByClientIdWithDetails(client.getId()).stream()
@@ -72,14 +74,14 @@ public class BookingService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String login = auth.getName();
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
         Client client = user.getClient();
         if (client == null) {
-            throw new ServiceException("Клиент не найден");
+            throw new ServiceException("Клиент не найден", HttpStatus.NOT_FOUND);
         }
 
         WorkPlace workPlace = workPlaceRepository.findById(request.getWorkPlaceId())
-                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + request.getWorkPlaceId() + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + request.getWorkPlaceId() + " не найдено", HttpStatus.NOT_FOUND));
 
         if (!request.getStartTime().isBefore(request.getEndTime())) {
             throw new ServiceException("Время окончания должно быть позже времени начала");
@@ -115,7 +117,6 @@ public class BookingService {
         Booking booking = bookingMapper.toEntity(request);
         booking.setClient(client);
         booking.setWorkPlace(workPlace);
-//        booking.createContract();
 
         Booking saved = bookingRepository.save(booking);
         return bookingMapper.toResponse(saved);
@@ -124,14 +125,17 @@ public class BookingService {
     @Transactional(readOnly = true)
     public BookingResponse getBookingById(String id) {
         Booking booking = bookingRepository.findByIdWithDetails(id)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
+
+        checkBookingOwnership(booking);
+
         return bookingMapper.toResponse(booking);
     }
 
     @Transactional(readOnly = true)
     public BookingResponse getBookingByIdWithServices(String id) {
         Booking booking = bookingRepository.findByIdWithServices(id)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
         return bookingMapper.toResponseWithServices(booking);
     }
 
@@ -145,7 +149,7 @@ public class BookingService {
     @Transactional(readOnly = true)
     public List<BookingResponse> getBookingsByClient(String clientId) {
         clientRepository.findById(clientId)
-                .orElseThrow(() -> new ServiceException("Клиент с ID " + clientId + " не найден"));
+                .orElseThrow(() -> new ServiceException("Клиент с ID " + clientId + " не найден", HttpStatus.NOT_FOUND));
 
         return bookingRepository.findByClientId(clientId).stream()
                 .map(bookingMapper::toResponse)
@@ -155,7 +159,7 @@ public class BookingService {
     @Transactional(readOnly = true)
     public List<BookingResponse> getBookingsByWorkPlace(String workPlaceId) {
         workPlaceRepository.findById(workPlaceId)
-                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + workPlaceId + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + workPlaceId + " не найдено", HttpStatus.NOT_FOUND));
 
         return bookingRepository.findByWorkPlaceId(workPlaceId).stream()
                 .map(bookingMapper::toResponse)
@@ -172,7 +176,7 @@ public class BookingService {
     @Transactional
     public BookingResponse updateBooking(String id, BookingRequest request) {
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
 
         checkBookingOwnership(booking);
 
@@ -204,7 +208,7 @@ public class BookingService {
         }
 
         WorkPlace workPlace = workPlaceRepository.findById(request.getWorkPlaceId())
-                .orElseThrow(() -> new ServiceException("Рабочее место не найдено"));
+                .orElseThrow(() -> new ServiceException("Рабочее место не найдено", HttpStatus.NOT_FOUND));
 
         booking.setStartTime(request.getStartTime());
         booking.setEndTime(request.getEndTime());
@@ -217,7 +221,7 @@ public class BookingService {
     @Transactional
     public void deleteBooking(String id) {
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
 
         checkBookingOwnership(booking);
 
@@ -231,7 +235,7 @@ public class BookingService {
     @Transactional
     public BookingResponse cancelBooking(String id) {
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
 
         checkBookingOwnership(booking);
 
@@ -263,22 +267,26 @@ public class BookingService {
         String login = auth.getName();
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
-        if (user.getClient() != null && !user.getClient().getId().equals(booking.getClient().getId())) {
-            throw new ServiceException("Вы можете редактировать только свои бронирования");
+        boolean isAdminOrManager = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("ROLE_ADMIN") || role.equals("ROLE_MANAGER"));
+
+        if (isAdminOrManager) {
+            return;
+        }
+
+        if (user.getClient() == null || !user.getClient().getId().equals(booking.getClient().getId())) {
+            throw new ServiceException("Вы можете редактировать только свои бронирования", HttpStatus.FORBIDDEN);
         }
     }
 
     @Transactional(readOnly = true)
-    public boolean isWorkplaceOccupied(String workPlaceId, LocalDateTime start, LocalDateTime end, String excludeBookingId) {
-        List<Booking> bookings = bookingRepository.findByWorkPlaceId(workPlaceId);
-
-        return bookings.stream()
-                .filter(booking -> !booking.getId().equals(excludeBookingId))
-                .anyMatch(booking ->
-                        (start.isBefore(booking.getEndTime()) && end.isAfter(booking.getStartTime()))
-                );
+    public boolean isWorkplaceOccupied(String workPlaceId, LocalDateTime start,
+                                       LocalDateTime end, String excludeBookingId) {
+        String excludeId = excludeBookingId != null ? excludeBookingId : "";
+        return bookingRepository.existsOverlappingBooking(workPlaceId, start, end, excludeId);
     }
 
     @Transactional(readOnly = true)

@@ -33,6 +33,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT COUNT(u) FROM User u WHERE u.role = 'ROLE_USER' AND u.enabled = true")
     long countAllActiveClients();
 
+    @Query("SELECT u.id, COUNT(b.id) FROM User u " +
+            "LEFT JOIN u.client c " +
+            "LEFT JOIN c.bookings b " +
+            "WHERE u.role = 'ROLE_USER' AND u.enabled = true " +
+            "GROUP BY u.id")
+    List<Object[]> findActiveClientBookingCounts();
+
+
     @Query("SELECT u FROM User u WHERE u.role = 'ROLE_MANAGER' ORDER BY u.id")
     List<User> findAllManagers();
 }

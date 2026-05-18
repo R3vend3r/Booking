@@ -11,6 +11,7 @@ import booking.enums.PaymentStatus;
 import booking.exception.ServiceException;
 import booking.repo.BookingRepository;
 import booking.repo.ContractRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +36,7 @@ public class ContractService {
     @Transactional
     public ContractResponse createContract(ContractRequest request) {
         Booking booking = contractRepository.findByIdWithContractAndServices(request.getBookingId())
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + request.getBookingId() + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + request.getBookingId() + " не найдено", HttpStatus.NOT_FOUND));
 
         if (booking.getContract() != null) {
             throw new ServiceException("Договор для этого бронирования уже существует");
@@ -66,25 +67,25 @@ public class ContractService {
     @Transactional(readOnly = true)
     public ContractResponse getContractById(String id) {
         Contract contract = contractRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Договор с ID " + id + " не найден"));
+                .orElseThrow(() -> new ServiceException("Договор с ID " + id + " не найден", HttpStatus.NOT_FOUND));
         return contractMapper.toResponse(contract);
     }
 
     @Transactional(readOnly = true)
     public ContractResponse getContractByBookingId(String bookingId) {
         Contract contract = contractRepository.findByBookingId(bookingId)
-                .orElseThrow(() -> new ServiceException("Договор для бронирования " + bookingId + " не найден"));
+                .orElseThrow(() -> new ServiceException("Договор для бронирования " + bookingId + " не найден", HttpStatus.NOT_FOUND));
         return contractMapper.toResponse(contract);
     }
 
     @Transactional(readOnly = true)
     public ContractResponse getContractWithDetails(String id) {
         Booking booking = contractRepository.findByIdWithContractAndServices(id)
-                .orElseThrow(() -> new ServiceException("Договор с ID " + id + " не найден"));
+                .orElseThrow(() -> new ServiceException("Договор с ID " + id + " не найден", HttpStatus.NOT_FOUND));
 
         Contract contract = booking.getContract();
         if (contract == null) {
-            throw new ServiceException("Договор не найден");
+            throw new ServiceException("Договор не найден", HttpStatus.NOT_FOUND);
         }
 
         ContractResponse response = contractMapper.toResponse(contract);
@@ -138,7 +139,7 @@ public class ContractService {
     @Transactional
     public ContractResponse payContract(String contractId, PaymentMethod method) {
         Contract contract = contractRepository.findById(contractId)
-                .orElseThrow(() -> new ServiceException("Договор с ID " + contractId + " не найден"));
+                .orElseThrow(() -> new ServiceException("Договор с ID " + contractId + " не найден", HttpStatus.NOT_FOUND));
 
         if (contract.getPaymentStatus() == PaymentStatus.PAID) {
             throw new ServiceException("Договор уже оплачен");
@@ -157,7 +158,7 @@ public class ContractService {
     @Transactional
     public ContractResponse cancelContract(String contractId) {
         Contract contract = contractRepository.findById(contractId)
-                .orElseThrow(() -> new ServiceException("Договор с ID " + contractId + " не найден"));
+                .orElseThrow(() -> new ServiceException("Договор с ID " + contractId + " не найден", HttpStatus.NOT_FOUND));
 
         if (contract.getPaymentStatus() == PaymentStatus.PAID) {
             throw new ServiceException("Нельзя отменить оплаченный договор");

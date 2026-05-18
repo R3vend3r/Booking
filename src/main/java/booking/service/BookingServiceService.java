@@ -14,6 +14,7 @@ import booking.repo.AdditionalServiceRepository;
 import booking.repo.BookingRepository;
 import booking.repo.BookingServiceRepository;
 import booking.repo.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -45,13 +46,13 @@ public class BookingServiceService {
     @Transactional
     public BookingServiceResponse addServiceToBooking(BookingServiceRequest request) {
         Booking booking = bookingRepository.findById(request.getBookingId())
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + request.getBookingId() + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + request.getBookingId() + " не найдено", HttpStatus.NOT_FOUND));
 
         checkBookingOwnership(booking);
         checkBookingNotPaid(booking);
 
         AdditionalService service = additionalServiceRepository.findById(request.getServiceId())
-                .orElseThrow(() -> new ServiceException("Услуга с ID " + request.getServiceId() + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Услуга с ID " + request.getServiceId() + " не найдена", HttpStatus.NOT_FOUND));
 
         BookingServiceId id = new BookingServiceId(request.getBookingId(), request.getServiceId());
         if (bookingServiceRepository.findById(id).isPresent()) {
@@ -79,14 +80,14 @@ public class BookingServiceService {
     @Transactional
     public BookingServiceResponse updateServiceQuantity(String bookingId, String serviceId, int quantity) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + bookingId + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + bookingId + " не найдено", HttpStatus.NOT_FOUND));
 
         checkBookingOwnership(booking);
         checkBookingNotPaid(booking);
 
         BookingServiceId id = new BookingServiceId(bookingId, serviceId);
         BookingService bookingService = bookingServiceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Услуга не найдена в бронировании"));
+                .orElseThrow(() -> new ServiceException("Услуга не найдена в бронировании", HttpStatus.NOT_FOUND));
 
         if (quantity <= 0) {
             throw new ServiceException("Количество должно быть больше 0");
@@ -100,14 +101,14 @@ public class BookingServiceService {
     @Transactional
     public void removeServiceFromBooking(String bookingId, String serviceId) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ServiceException("Бронирование с ID " + bookingId + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Бронирование с ID " + bookingId + " не найдено", HttpStatus.NOT_FOUND));
 
         checkBookingOwnership(booking);
         checkBookingNotPaid(booking);
 
         BookingServiceId id = new BookingServiceId(bookingId, serviceId);
         BookingService bookingService = bookingServiceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Услуга не найдена в бронировании"));
+                .orElseThrow(() -> new ServiceException("Услуга не найдена в бронировании", HttpStatus.NOT_FOUND));
 
         bookingServiceRepository.delete(bookingService);
     }
@@ -134,7 +135,7 @@ public class BookingServiceService {
         if (isAdmin) return;
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
         if (user.getClient() == null) {
             throw new ServiceException("У вас нет профиля клиента");

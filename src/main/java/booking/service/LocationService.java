@@ -6,6 +6,7 @@ import booking.dto.response.LocationResponse;
 import booking.entity.Location;
 import booking.exception.ServiceException;
 import booking.repo.LocationRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,7 @@ public class LocationService {
     @Transactional(readOnly = true)
     public LocationResponse findLocationById(String id){
         Location location = locationRepository.findById(id)
-                .orElseThrow(()-> new ServiceException("Локация с таким id не найдена"));
+                .orElseThrow(()-> new ServiceException("Локация с таким id не найдена", HttpStatus.NOT_FOUND));
         return locationMapper.toResponse(location);
     }
     @Transactional(readOnly = true)
@@ -73,7 +74,7 @@ public class LocationService {
     @Transactional
     public LocationResponse update(String id, LocationRequest request){
         Location location = locationRepository.findById(id)
-                .orElseThrow(()-> new ServiceException("Локация с таким id не найдена"));
+                .orElseThrow(()-> new ServiceException("Локация с таким id не найдена", HttpStatus.NOT_FOUND));
         location.setBranchName(request.getBranchName());
         location.setAddress(request.getAddress());
         location.setCity(request.getCity());
@@ -97,7 +98,7 @@ public class LocationService {
     @Transactional
     public void delete(String id) {
         Location location = locationRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Локация с таким id не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с таким id не найдена", HttpStatus.NOT_FOUND));
         if (location.getWorkplaces() != null && !location.getWorkplaces().isEmpty()) {
             throw new ServiceException("Нельзя удалить локацию с рабочими местами");
         }
@@ -106,13 +107,13 @@ public class LocationService {
     @Transactional(readOnly = true)
     public boolean isOpenNow(String id){
         Location location = locationRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Локация с таким id не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с таким id не найдена", HttpStatus.NOT_FOUND));
         return location.isOpenAt(LocalTime.now());
     }
     @Transactional(readOnly = true)
     public int getWorkplacesCount(String id) {
         Location location = locationRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Локация не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация не найдена", HttpStatus.NOT_FOUND));
         return location.getWorkplaces() != null ? location.getWorkplaces().size() : 0;
     }
 

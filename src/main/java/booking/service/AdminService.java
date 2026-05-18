@@ -16,6 +16,7 @@ import booking.repo.BookingServiceRepository;
 import booking.repo.ClientRepository;
 import booking.repo.ContractRepository;
 import booking.repo.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +49,15 @@ public class AdminService {
         this.bookingServiceRepository = bookingServiceRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @Transactional(readOnly = true)
     public List<UserResponse> getAllActiveClients() {
+        Map<Long, Long> counts = userRepository.findActiveClientBookingCounts()
+                .stream()
+                .collect(Collectors.toMap(
+                        row -> ((Number) row[0]).longValue(),
+                        row -> ((Number) row[1]).longValue()
+                ));
+
         return userRepository.findAllActiveClients().stream()
                 .map(user -> new UserResponse(
                         user.getId().toString(),
@@ -59,7 +66,7 @@ public class AdminService {
                         user.getClient().getFullName(),
                         user.getClient().getPhone(),
                         user.isEnabled(),
-                        bookingRepository.countByUserId(user.getId())
+                        counts.getOrDefault(user.getId(), 0L)
                 ))
                 .collect(Collectors.toList());
     }
@@ -186,7 +193,7 @@ public class AdminService {
     @Transactional
     public ManagerResponse updateManager(Long id, UpdateManagerRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Менеджер не найден"));
+                .orElseThrow(() -> new ServiceException("Менеджер не найден", HttpStatus.NOT_FOUND));
         if (request.getLogin() != null) {
             if (!user.getLogin().equals(request.getLogin()) && userRepository.findByLogin(request.getLogin()).isPresent()) {
                 throw new ServiceException("Менеджер с таким логином уже существует");
@@ -209,7 +216,7 @@ public class AdminService {
     @Transactional
     public void deleteManager(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Менеджер не найден"));
+                .orElseThrow(() ->new ServiceException("Менеджер не найден", HttpStatus.NOT_FOUND));
         userRepository.delete(user);
     }
 }

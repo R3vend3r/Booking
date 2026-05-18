@@ -1,8 +1,10 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     url: jdbc:postgresql://localhost:5432/booking_db
-    username: postgres
-    password: qwerty123
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:qwerty123}
     driver-class-name: org.postgresql.Driver
 
   security:
@@ -21,7 +23,8 @@ spring:
         format_sql: true
 
 jwt:
-  secret: XyZ123Abc456Def789Ghi012Jkl345Mno678Pqr901Stu234Vwx567Zab890Cde123Fgh456Ijl789Klm012Nop345Qrs678Tuv901Wxy234Zab567Cde890Fgh123Ijk456Lmn789Opq012Rst345Uvw678Xyz901
+  secret: ${JWT_SECRET}
+  expiration: 86400000
 
 logging:
   level:

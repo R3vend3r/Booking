@@ -11,6 +11,7 @@ import booking.exception.ServiceException;
 import booking.repo.BookingRepository;
 import booking.repo.LocationRepository;
 import booking.repo.WorkPlaceRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +36,7 @@ public class WorkPlaceService {
     @Transactional
     public WorkPlaceResponse add(WorkPlaceRequest request) {
         Location location = locationRepository.findById(request.getLocationId())
-                .orElseThrow(() -> new ServiceException("Локация с ID " + request.getLocationId() + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с ID " + request.getLocationId() + " не найдена", HttpStatus.NOT_FOUND));
 
         List<WorkPlace> existing = workPlaceRepository.findByLocationId(request.getLocationId());
         boolean nameExists = existing.stream()
@@ -55,7 +56,7 @@ public class WorkPlaceService {
 
     @Transactional(readOnly = true)
     public WorkPlaceResponse findById(String id){
-        WorkPlace workPlace = workPlaceRepository.findById(id).orElseThrow(()-> new ServiceException("Данного рабочего места не существует"));
+        WorkPlace workPlace = workPlaceRepository.findById(id).orElseThrow(()-> new ServiceException("Данного рабочего места не существует", HttpStatus.NOT_FOUND));
         return workPlaceMapper.toResponse(workPlace);
     }
 
@@ -68,7 +69,7 @@ public class WorkPlaceService {
     @Transactional(readOnly = true)
     public List<WorkPlaceResponse> findByLocationId(String locationId) {
         locationRepository.findById(locationId)
-                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена", HttpStatus.NOT_FOUND));
 
         return workPlaceRepository.findByLocationId(locationId).stream()
                 .map(workPlaceMapper::toResponse)
@@ -78,7 +79,7 @@ public class WorkPlaceService {
     @Transactional(readOnly = true)
     public List<WorkPlaceResponse> findAvailableByLocationId(String locationId) {
         locationRepository.findById(locationId)
-                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена", HttpStatus.NOT_FOUND));
 
         return workPlaceRepository.findByLocationIdAndAvailable(locationId, true).stream()
                 .map(workPlaceMapper::toResponse)
@@ -87,10 +88,10 @@ public class WorkPlaceService {
     @Transactional
     public WorkPlaceResponse update(String id, WorkPlaceRequest request) {
         WorkPlace workPlace = workPlaceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
 
         Location location = locationRepository.findById(request.getLocationId())
-                .orElseThrow(() -> new ServiceException("Локация с ID " + request.getLocationId() + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с ID " + request.getLocationId() + " не найдена", HttpStatus.NOT_FOUND));
 
         if (!workPlace.getName().equalsIgnoreCase(request.getName())) {
             List<WorkPlace> existing = workPlaceRepository.findByLocationId(request.getLocationId());
@@ -115,7 +116,7 @@ public class WorkPlaceService {
     @Transactional
     public void delete(String id) {
         WorkPlace workPlace = workPlaceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
 
         if (workPlace.getBookings() != null && !workPlace.getBookings().isEmpty()) {
             throw new ServiceException("Нельзя удалить рабочее место, у которого есть бронирования");
@@ -127,7 +128,7 @@ public class WorkPlaceService {
     @Transactional(readOnly = true)
     public List<WorkPlaceResponse> findAvailableByLocationAndTime(String locationId, LocalDateTime startTime, LocalDateTime endTime) {
         locationRepository.findById(locationId)
-                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена", HttpStatus.NOT_FOUND));
 
         if (startTime != null && endTime != null && !startTime.isBefore(endTime)) {
             throw new ServiceException("Время начала должно быть раньше времени окончания");
@@ -142,7 +143,7 @@ public class WorkPlaceService {
     @Transactional
     public WorkPlaceResponse toggleAvailability(String id) {
         WorkPlace workPlace = workPlaceRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + id + " не найдено"));
+                .orElseThrow(() -> new ServiceException("Рабочее место с ID " + id + " не найдено", HttpStatus.NOT_FOUND));
 
         workPlace.setAvailable(!workPlace.isAvailable());
         WorkPlace updated = workPlaceRepository.save(workPlace);
@@ -152,7 +153,7 @@ public class WorkPlaceService {
     @Transactional(readOnly = true)
     public List<WorkplaceStatusResponse> findWorkplacesWithStatusByLocation(String locationId) {
         locationRepository.findById(locationId)
-                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена"));
+                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена", HttpStatus.NOT_FOUND));
 
         LocalDateTime now = LocalDateTime.now();
         return workPlaceRepository.findByLocationId(locationId).stream()

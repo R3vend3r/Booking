@@ -18,23 +18,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<Map<String, Object>> handleServiceException(ServiceException e) {
-        logger.error("ServiceException перехвачена: {}", e.getMessage(), e);
+        logger.error("ServiceException: {}", e.getMessage(), e);
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
-
-        HttpStatus status;
-        String message = e.getMessage();
-
-        if (message != null && (message.contains("не найден") || message.contains("не найдено") || message.contains("не существует"))) {
-            status = HttpStatus.NOT_FOUND;
-        } else {
-            status = HttpStatus.BAD_REQUEST;
-        }
-
-        response.put("status", status.value());
-        response.put("error", status.getReasonPhrase());
+        response.put("status", e.getStatus().value());
+        response.put("error", e.getStatus().getReasonPhrase());
         response.put("message", e.getMessage());
-        return new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, e.getStatus());
     }
 
     @ExceptionHandler(BookingException.class)

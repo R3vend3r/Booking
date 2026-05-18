@@ -13,6 +13,7 @@ import booking.repo.ClientRepository;
 import booking.repo.UserRepository;
 import booking.security.CustomUserDetailsService;
 import booking.security.JwtUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -123,7 +124,7 @@ public class AuthService {
                 getContext().getAuthentication().getPrincipal()).getUsername();
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new ServiceException("Неверный текущий пароль");
@@ -138,7 +139,7 @@ public class AuthService {
                 getContext().getAuthentication().getPrincipal()).getUsername();
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
         String fullName = null;
         String phone = null;
@@ -169,7 +170,7 @@ public class AuthService {
                 getContext().getAuthentication().getPrincipal()).getUsername();
 
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new ServiceException("Пользователь не найден"));
+                .orElseThrow(() -> new ServiceException("Пользователь не найден", HttpStatus.NOT_FOUND));
 
         if (request.getEmail() != null && !request.getEmail().isEmpty()) {
             user.setEmail(request.getEmail());
