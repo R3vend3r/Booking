@@ -11,7 +11,6 @@ export class BookingService {
 
   constructor(private http: HttpClient) {}
 
-  // Locations
   getLocations(): Observable<Location[]> {
     return this.http.get<Location[]>(`${this.apiUrl}/locations`);
   }
@@ -24,7 +23,10 @@ export class BookingService {
     return this.http.get<Location[]>(`${this.apiUrl}/locations/city/${city}`);
   }
 
-  // Workplaces
+  getLocationsWithAvailableWorkplaces(): Observable<Location[]> {
+    return this.http.get<Location[]>(`${this.apiUrl}/locations/with-available-workplaces`);
+  }
+
   getWorkplaces(): Observable<WorkPlace[]> {
     return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces`);
   }
@@ -37,11 +39,25 @@ export class BookingService {
     return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}`);
   }
 
+  getRecentlyBookedWorkplaces(limit: number = 5): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/workplaces/recently-booked?limit=${limit}`);
+  }
+
+  getWorkplacesWithStatusByLocation(locationId: string): Observable<WorkPlace[]> {
+    return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}/with-status`);
+  }
+
   getAvailableWorkplaces(locationId: string): Observable<WorkPlace[]> {
     return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}/available`);
   }
 
-  // Services
+  getAvailableWorkplacesByTime(locationId: string, startTime: string, endTime: string): Observable<WorkPlace[]> {
+    const params = new HttpParams()
+      .set('startTime', startTime)
+      .set('endTime', endTime);
+    return this.http.get<WorkPlace[]>(`${this.apiUrl}/workplaces/location/${locationId}/available-by-time`, { params });
+  }
+
   getServices(): Observable<AdditionalService[]> {
     return this.http.get<AdditionalService[]>(`${this.apiUrl}/services`);
   }
@@ -50,7 +66,6 @@ export class BookingService {
     return this.http.get<AdditionalService>(`${this.apiUrl}/services/${id}`);
   }
 
-  // Bookings
   getMyBookings(): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.apiUrl}/bookings/my`);
   }
@@ -62,51 +77,61 @@ export class BookingService {
   getBookingWithServices(id: string): Observable<Booking> {
     return this.http.get<Booking>(`${this.apiUrl}/bookings/${id}/with-services`);
   }
+createBooking(booking: {
+  clientId?: string;
+  workPlaceId: string;
+  startTime: string;
+  endTime: string
+}): Observable<Booking> {
+  return this.http.post<Booking>(`${this.apiUrl}/bookings`, booking);
+}
 
-  createBooking(booking: { clientId: string; workPlaceId: string; startTime: string; endTime: string }): Observable<Booking> {
-    return this.http.post<Booking>(`${this.apiUrl}/bookings`, booking);
-  }
-
-  updateBooking(id: string, booking: { workPlaceId: string; startTime: string; endTime: string }): Observable<Booking> {
-    return this.http.put<Booking>(`${this.apiUrl}/bookings/${id}`, booking);
-  }
+  updateBooking(id: string, booking: { clientId: string; workPlaceId: string; startTime: string; endTime: string }): Observable<Booking> {
+  return this.http.put<Booking>(`${this.apiUrl}/bookings/${id}`, booking);
+}
 
   deleteBooking(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/bookings/${id}`);
   }
 
-  checkWorkplaceAvailability(workplaceId: string, start: string, end: string): Observable<boolean> {
-    const params = new HttpParams()
-      .set('start', start)
-      .set('end', end);
+  cancelBooking(id: string): Observable<Booking> {
+    return this.http.post<Booking>(`${this.apiUrl}/bookings/${id}/cancel`, {});
+  }
+
+ checkWorkplaceAvailability(workplaceId: string, start: string, end: string, excludeBookingId?: string): Observable<boolean> {
+    let params = new HttpParams()
+        .set('start', start)
+        .set('end', end);
+
+    if (excludeBookingId) {
+        params = params.set('excludeBookingId', excludeBookingId);
+    }
+
     return this.http.get<boolean>(`${this.apiUrl}/bookings/workplace/${workplaceId}/check`, { params });
-  }
+}
+ addServiceToBooking(bookingId: string, serviceId: string, quantity: number): Observable<BookingServiceModel> {
+  return this.http.post<BookingServiceModel>(`${this.apiUrl}/bookings/services`, {
+    bookingId,
+    serviceId,
+    quantity
+  });
+}
 
-  // Booking Services
-  addServiceToBooking(bookingId: string, serviceId: string, quantity: number): Observable<BookingService> {
-    return this.http.post<BookingService>(`${this.apiUrl}/bookings/services`, {
-      bookingId,
-      serviceId,
-      quantity
-    });
-  }
-
-  updateServiceQuantity(bookingId: string, serviceId: string, quantity: number): Observable<BookingService> {
-    return this.http.put<BookingService>(
-      `${this.apiUrl}/bookings/services/${bookingId}/${serviceId}?quantity=${quantity}`,
-      {}
-    );
-  }
+ updateServiceQuantity(bookingId: string, serviceId: string, quantity: number): Observable<BookingServiceModel> {
+  return this.http.put<BookingServiceModel>(
+    `${this.apiUrl}/bookings/services/${bookingId}/${serviceId}?quantity=${quantity}`,
+    {}
+  );
+}
 
   removeServiceFromBooking(bookingId: string, serviceId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/bookings/services/${bookingId}/${serviceId}`);
   }
 
-  getServicesByBooking(bookingId: string): Observable<BookingService[]> {
-    return this.http.get<BookingService[]>(`${this.apiUrl}/bookings/services/booking/${bookingId}`);
-  }
+  getServicesByBooking(bookingId: string): Observable<BookingServiceModel[]> {
+  return this.http.get<BookingServiceModel[]>(`${this.apiUrl}/bookings/services/booking/${bookingId}`);
+}
 
-  // Contracts
   getContractByBooking(bookingId: string): Observable<Contract> {
     return this.http.get<Contract>(`${this.apiUrl}/contracts/booking/${bookingId}`);
   }
@@ -115,7 +140,7 @@ export class BookingService {
     return this.http.post<Contract>(`${this.apiUrl}/contracts`, { bookingId });
   }
 
-  payContract(contractId: string, method: 'CARD' | 'CASH' | 'TRANSFER'): Observable<Contract> {
+  payContract(contractId: string, method: 'CARD' | 'CASH' | 'BANK_TRANSFER'): Observable<Contract> {
     return this.http.post<Contract>(
       `${this.apiUrl}/contracts/${contractId}/pay?method=${method}`,
       {}

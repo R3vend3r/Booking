@@ -6,57 +6,8 @@ import { RegistrationRequest } from '../../../models/auth.model';
 @Component({
   standalone: false,
   selector: 'app-register',
-  template: `
-    <div class="container" style="max-width: 400px; padding-top: 40px;">
-      <div class="card">
-        <h2 style="margin-bottom: 24px; text-align: center;">Регистрация</h2>
-        
-        <form (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Логин</label>
-            <input type="text" [(ngModel)]="request.login" name="login" required minlength="3" maxlength="50" />
-          </div>
-          
-          <div class="form-group">
-            <label>Пароль</label>
-            <input type="password" [(ngModel)]="request.password" name="password" required minlength="6" />
-          </div>
-          
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" [(ngModel)]="request.email" name="email" required />
-          </div>
-          
-          <div class="form-group">
-            <label>ФИО</label>
-            <input type="text" [(ngModel)]="request.fullName" name="fullName" required />
-          </div>
-          
-          <div class="form-group">
-            <label>Телефон</label>
-            <input type="tel" [(ngModel)]="request.phone" name="phone" pattern="\\+?[0-9]{10,15}" />
-          </div>
-          
-          <div class="form-group">
-            <label>Дата рождения</label>
-            <input type="date" [(ngModel)]="request.birthday" name="birthday" />
-          </div>
-          
-          <div *ngIf="error" class="error" style="margin-bottom: 16px;">
-            {{ error }}
-          </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%;" [disabled]="loading">
-            {{ loading ? 'Регистрация...' : 'Зарегистрироваться' }}
-          </button>
-        </form>
-        
-        <p style="text-align: center; margin-top: 16px;">
-          Уже есть аккаунт? <a routerLink="/login">Войти</a>
-        </p>
-      </div>
-    </div>
-  `
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   request: RegistrationRequest = {
@@ -67,6 +18,7 @@ export class RegisterComponent {
     phone: '',
     birthday: ''
   };
+  confirmPassword = '';
   error = '';
   loading = false;
 
@@ -76,17 +28,118 @@ export class RegisterComponent {
   ) {}
 
   onSubmit(): void {
-    this.loading = true;
     this.error = '';
+
+    if (!this.validateInputs()) {
+      this.loading = false;
+      return;
+    }
+
+    this.loading = true;
 
     this.authService.register(this.request).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/login'], {
+          queryParams: { registered: 'success' }
+        });
       },
       error: (err) => {
         this.error = err.error?.message || 'Ошибка регистрации';
         this.loading = false;
       }
     });
+  }
+
+  isPasswordsMatch(): boolean {
+    return this.request.password === this.confirmPassword;
+  }
+
+  isInvalidAge(birthday: string): boolean {
+    if (!birthday) return false;
+
+    const birthDate = new Date(birthday);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age < 18 || age > 120;
+  }
+
+  private validateInputs(): boolean {
+    if (!this.request.login || this.request.login.trim() === '') {
+      this.error = 'Пожалуйста, введите логин';
+      return false;
+    }
+
+    if (this.request.login.length < 3) {
+      this.error = 'Логин должен содержать минимум 3 символа';
+      return false;
+    }
+
+    if (this.request.login.length > 50) {
+      this.error = 'Логин не должен превышать 50 символов';
+      return false;
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(this.request.login)) {
+      this.error = 'Логин может содержать только буквы, цифры и знак подчеркивания';
+      return false;
+    }
+
+    if (!this.request.password) {
+      this.error = 'Пожалуйста, введите пароль';
+      return false;
+    }
+
+    if (this.request.password.length < 6) {
+      this.error = 'Пароль должен содержать минимум 6 символов';
+      return false;
+    }
+
+    if (!this.isPasswordsMatch()) {
+      this.error = 'Пароли не совпадают';
+      return false;
+    }
+
+    if (!this.request.email) {
+      this.error = 'Пожалуйста, введите email';
+      return false;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(this.request.email)) {
+      this.error = 'Пожалуйста, введите корректный email адрес';
+      return false;
+    }
+
+    if (!this.request.fullName || this.request.fullName.trim() === '') {
+      this.error = 'Пожалуйста, введите ФИО';
+      return false;
+    }
+
+    if (this.request.fullName.length < 2) {
+      this.error = 'ФИО должно содержать минимум 2 символа';
+      return false;
+    }
+
+    if (this.request.phone) {
+      const phoneRegex = /^\+?[0-9]{10,15}$/;
+      if (!phoneRegex.test(this.request.phone)) {
+        this.error = 'Пожалуйста, введите корректный номер телефона';
+        return false;
+      }
+    }
+
+    if (this.request.birthday && this.isInvalidAge(this.request.birthday)) {
+      this.error = 'Возраст должен быть от 18 до 120 лет';
+      return false;
+    }
+
+    return true;
   }
 }

@@ -15,6 +15,7 @@ import { WorkplacesComponent } from './components/workplaces/workplaces.componen
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ManagerComponent } from './components/manager/manager.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ManagerComponent } from './components/manager/manager.component';
     WorkplacesComponent,
     ProfileComponent,
     AdminComponent,
-    ManagerComponent
+    ManagerComponent,
+    BookingsComponent
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,6 @@ public interface WorkPlaceRepository extends JpaRepository<WorkPlace, String> {
                                                           @Param("endTime") LocalDateTime endTime,
                                                           @Param("currentTime") LocalDateTime currentTime);
 
-    @Query(value = "SELECT * FROM workplaces WHERE id IN (SELECT workplace_id FROM bookings ORDER BY created_at DESC LIMIT :limit)", nativeQuery = true)
+    @Query(value = "SELECT * FROM workplaces WHERE id IN (SELECT workplace_id FROM bookings GROUP BY workplace_id ORDER BY MAX(created_at) DESC LIMIT :limit)", nativeQuery = true)
     List<WorkPlace> findRecentlyBookedWorkplaces(@Param("limit") int limit);
 }

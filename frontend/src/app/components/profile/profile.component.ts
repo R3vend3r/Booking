@@ -7,142 +7,20 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   standalone: false,
   selector: 'app-profile',
-  template: `
-    <div class="container" style="max-width: 700px; padding-top: 32px;">
-      <h1 style="margin-bottom: 24px;">Профиль</h1>
-      
-      <div class="card">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; 
-                      display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-            <span style="color: white; font-size: 32px; font-weight: 600;">
-              {{ profile?.login?.charAt(0)?.toUpperCase() }}
-            </span>
-          </div>
-        </div>
-        
-        <div style="display: grid; gap: 16px;">
-          <div style="display: flex; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 8px;">
-            <span style="color: #64748b;">Логин</span>
-            <span>{{ profile?.login }}</span>
-          </div>
-          
-          <div style="display: flex; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 8px;">
-            <span style="color: #64748b;">Роль</span>
-            <span [style.color]="getRoleColor()">{{ getRoleName() }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top: 24px;">
-        <h2 style="margin-bottom: 20px;">Редактирование профиля</h2>
-        
-        <form (ngSubmit)="saveProfile()">
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" [(ngModel)]="editForm.email" name="email" required />
-          </div>
-
-          <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
-            <label>ФИО</label>
-            <input type="text" [(ngModel)]="editForm.fullName" name="fullName" />
-          </div>
-
-          <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
-            <label>Телефон</label>
-            <input type="tel" [(ngModel)]="editForm.phone" name="phone" />
-          </div>
-
-          <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
-            <label>Дата рождения</label>
-            <input type="date" [(ngModel)]="editForm.birthday" name="birthday" />
-          </div>
-          
-          <div *ngIf="profileError" class="error" style="margin-bottom: 16px;">
-            {{ profileError }}
-          </div>
-          
-          <div *ngIf="profileSuccess" style="margin-bottom: 16px; color: #22c55e; font-size: 14px;">
-            {{ profileSuccess }}
-          </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%;" [disabled]="profileLoading">
-            {{ profileLoading ? 'Сохранение...' : 'Сохранить изменения' }}
-          </button>
-        </form>
-      </div>
-
-      <div class="card" style="margin-top: 24px;">
-        <h2 style="margin-bottom: 20px;">Смена пароля</h2>
-        
-        <form (ngSubmit)="changePassword()">
-          <div class="form-group">
-            <label>Старый пароль</label>
-            <input type="password" [(ngModel)]="pwForm.oldPassword" name="oldPassword" required />
-          </div>
-          
-          <div class="form-group">
-            <label>Новый пароль</label>
-            <input type="password" [(ngModel)]="pwForm.newPassword" name="newPassword" required minlength="6" />
-          </div>
-          
-          <div class="form-group">
-            <label>Повторите новый пароль</label>
-            <input type="password" [(ngModel)]="pwForm.confirmPassword" name="confirmPassword" required />
-          </div>
-          
-          <div *ngIf="pwError" class="error" style="margin-bottom: 16px;">
-            {{ pwError }}
-          </div>
-          
-          <div *ngIf="pwSuccess" style="margin-bottom: 16px; color: #22c55e; font-size: 14px;">
-            {{ pwSuccess }}
-          </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%;" [disabled]="pwLoading">
-            {{ pwLoading ? 'Сохранение...' : 'Сменить пароль' }}
-          </button>
-        </form>
-      </div>
-
-      <div class="card" style="margin-top: 24px;" *ngIf="profile?.role !== 'ROLE_MANAGER' && profile?.role !== 'ROLE_ADMIN'">
-        <h2 style="margin-bottom: 20px;">Мои бронирования</h2>
-        
-        <div *ngIf="loading" class="loading">
-          <p>Загрузка...</p>
-        </div>
-        
-        <div *ngIf="!loading && bookings.length === 0" style="text-align: center; padding: 40px;">
-          <p style="color: #64748b;">На данный момент у вас нет бронирований</p>
-        </div>
-        
-        <div *ngIf="!loading && bookings.length > 0" style="display: flex; flex-direction: column; gap: 12px;">
-          <div *ngFor="let booking of bookings" class="card" style="background: #f8fafc;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-              <div>
-                <p style="font-weight: 600; margin-bottom: 4px;">{{ booking.workPlaceName }}</p>
-                <p style="color: #64748b; font-size: 13px; margin-bottom: 8px;">
-                  {{ booking.locationName }}, {{ booking.locationAddress }}
-                </p>
-                <p style="color: #64748b; font-size: 14px;">
-                  {{ formatDate(booking.startTime) }} — {{ formatDate(booking.endTime) }}
-                </p>
-              </div>
-              <div style="text-align: right; white-space: nowrap;">
-                <span style="font-weight: 600; font-size: 16px; color: var(--primary);">{{ booking.totalAmount || 0 }} ₽</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  Math = Math;
   profile: any = null;
   bookings: Booking[] = [];
   loading = true;
+  bkPage = 0;
+  bkPageSize = 5;
+  workplacePricesMap: Map<string, number> = new Map();
+  bookingServicesTotal: Map<string, number> = new Map();
   editForm = { email: '', fullName: '', phone: '', birthday: '' };
+  todayDate = new Date().toISOString().split('T')[0];
   profileError = '';
   profileSuccess = '';
   profileLoading = false;
@@ -187,8 +65,24 @@ export class ProfileComponent implements OnInit {
   loadBookings(): void {
     const role = this.profile?.role;
     if (role === 'ROLE_USER') {
+      this.bookingService.getWorkplaces().subscribe({
+        next: (workplaces) => {
+          workplaces.forEach(wp => this.workplacePricesMap.set(wp.id, wp.priceForHour));
+        }
+      });
       this.bookingService.getMyBookings().subscribe({
-        next: (data) => { this.bookings = data; this.loading = false; },
+        next: (data) => {
+          this.bookings = data;
+          data.forEach(booking => {
+            this.bookingService.getServicesByBooking(booking.id).subscribe({
+              next: (services) => {
+                this.bookingServicesTotal.set(booking.id,
+                  services.reduce((sum, s) => sum + s.priceAtBookingTime * s.quantity, 0));
+              }
+            });
+          });
+          this.loading = false;
+        },
         error: () => { this.loading = false; }
       });
     } else {
@@ -196,8 +90,51 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  saveProfile(): void {
+  validateProfileForm(): boolean {
     this.profileError = '';
+
+    if (!this.editForm.email?.trim()) {
+      this.profileError = 'Email обязателен';
+      return false;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(this.editForm.email.trim())) {
+      this.profileError = 'Неверный формат email';
+      return false;
+    }
+
+    if (this.editForm.fullName?.trim() && this.editForm.fullName.trim().length < 2) {
+      this.profileError = 'ФИО должно содержать минимум 2 символа';
+      return false;
+    }
+
+    if (this.editForm.phone?.trim()) {
+      const phoneClean = this.editForm.phone.replace(/[\s\-()]/g, '');
+      if (!/^\+?[0-9]{10,15}$/.test(phoneClean)) {
+        this.profileError = 'Неверный формат телефона';
+        return false;
+      }
+    }
+
+    if (this.editForm.birthday) {
+      const bd = new Date(this.editForm.birthday);
+      if (bd >= new Date()) {
+        this.profileError = 'Дата рождения не может быть в будущем';
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  onProfileFormChange(): void {
+    this.profileError = '';
+  }
+
+  saveProfile(): void {
+    if (!this.validateProfileForm()) return;
+
     this.profileSuccess = '';
     this.profileLoading = true;
 
@@ -221,20 +158,35 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  changePassword(): void {
+  validatePasswordForm(): boolean {
     this.pwError = '';
-    this.pwSuccess = '';
+
+    if (!this.pwForm.oldPassword) {
+      this.pwError = 'Введите старый пароль';
+      return false;
+    }
+
+    if (!this.pwForm.newPassword || this.pwForm.newPassword.length < 6) {
+      this.pwError = 'Новый пароль должен быть не менее 6 символов';
+      return false;
+    }
 
     if (this.pwForm.newPassword !== this.pwForm.confirmPassword) {
       this.pwError = 'Новые пароли не совпадают';
-      return;
+      return false;
     }
 
-    if (this.pwForm.newPassword.length < 6) {
-      this.pwError = 'Новый пароль должен быть не менее 6 символов';
-      return;
-    }
+    return true;
+  }
 
+  onPasswordFormChange(): void {
+    this.pwError = '';
+  }
+
+  changePassword(): void {
+    if (!this.validatePasswordForm()) return;
+
+    this.pwSuccess = '';
     this.pwLoading = true;
 
     this.http.post(`${this.apiUrl}/auth/change-password`, {
@@ -253,6 +205,30 @@ export class ProfileComponent implements OnInit {
         this.pwLoading = false;
       }
     });
+  }
+
+  getBookingStatus(booking: Booking): string {
+    const paymentStatus = booking.paymentStatus;
+    const endTime = new Date(booking.endTime);
+    const now = new Date();
+
+    if (paymentStatus === 'CANCELLED') return 'CANCELLED';
+    if (paymentStatus === 'PAID') {
+        return endTime < now ? 'COMPLETED' : 'PAID';
+    }
+    if (paymentStatus === 'PENDING') {
+        return endTime < now ? 'EXPIRED' : 'PENDING';
+    }
+    return endTime < now ? 'EXPIRED' : 'UNPAID';
+}
+
+  totalBookingPrice(booking: Booking): number {
+    const start = new Date(booking.startTime);
+    const end = new Date(booking.endTime);
+    const hours = Math.max(1, Math.round((end.getTime() - start.getTime()) / 3600000));
+    const wpPrice = (this.workplacePricesMap.get(booking.workPlaceId) || 0) * hours;
+    const servicesPrice = this.bookingServicesTotal.get(booking.id) || 0;
+    return wpPrice + servicesPrice;
   }
 
   formatDate(dateStr: string): string {
@@ -280,4 +256,16 @@ export class ProfileComponent implements OnInit {
     };
     return colorMap[this.profile?.role] || '#64748b';
   }
+
+  get paginatedProfileBookings(): Booking[] {
+    return this.bookings.slice(this.bkPage * this.bkPageSize, (this.bkPage + 1)* this.bkPageSize);
+  }
+
+  prevBkPage(): void {
+    if (this.bkPage > 0) this.bkPage--;
+  }
+   nextBkPage(): void {
+    if ((this.bkPage + 1) * this.bkPageSize< this. bookings.length)
+      this.bkPage++;
+    }
 }

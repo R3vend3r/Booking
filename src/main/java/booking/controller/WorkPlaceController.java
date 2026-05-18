@@ -3,6 +3,7 @@ package booking.controller;
 import booking.dto.request.WorkPlaceRequest;
 import booking.dto.response.RecentWorkplaceResponse;
 import booking.dto.response.WorkPlaceResponse;
+import booking.dto.response.WorkplaceStatusResponse;
 import booking.service.WorkPlaceService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -85,6 +86,13 @@ public class WorkPlaceController {
     public ResponseEntity<WorkPlaceResponse> toggleAvailability(@PathVariable String id) {
         WorkPlaceResponse response = workPlaceService.toggleAvailability(id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/location/{locationId}/with-status")
+    public ResponseEntity<List<WorkplaceStatusResponse>> getWorkplacesWithStatusByLocation(
+            @PathVariable String locationId) {
+        List<WorkplaceStatusResponse> responses = workPlaceService.findWorkplacesWithStatusByLocation(locationId);
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/recently-booked")

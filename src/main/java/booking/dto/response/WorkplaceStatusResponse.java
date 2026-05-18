@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkPlaceResponse {
+public class WorkplaceStatusResponse {
     private String id;
     private String name;
     private int capacity;
@@ -15,4 +17,9 @@ public class WorkPlaceResponse {
     private String locationId;
     private int priceForHour;
     private boolean available;
+    private boolean availableNow;
+    private LocalDateTime currentBookingStart;
+    private LocalDateTime currentBookingEnd;
+    private LocalDateTime nextBookingStart;
+    private LocalDateTime nextBookingEnd;
 }

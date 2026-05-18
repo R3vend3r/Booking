@@ -1,14 +1,14 @@
 <nav class="navbar">
   <div class="navbar-content">
     <a routerLink="/" class="navbar-brand">Booking</a>
-    
+
     <div class="navbar-links" *ngIf="!authService.isAuthenticated() || authService.hasRole('ROLE_USER')">
       <a (click)="scrollTo('about')">О нас</a>
       <a (click)="scrollTo('services')">Услуги</a>
       <a (click)="scrollTo('locations')">Локации</a>
       <a (click)="scrollTo('contacts')">Контакты</a>
     </div>
-    
+
     <div class="navbar-auth">
       <ng-container *ngIf="!authService.isAuthenticated()">
         <a routerLink="/login">Вход</a>

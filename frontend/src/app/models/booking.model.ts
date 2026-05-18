@@ -17,6 +17,11 @@ export interface WorkPlace {
   priceForHour: number;
   available: boolean;
   locationId: string;
+  availableNow?: boolean;
+  currentBookingStart?: string;
+  currentBookingEnd?: string;
+  nextBookingStart?: string;
+  nextBookingEnd?: string;
 }
 
 export interface AdditionalService {
@@ -38,23 +43,25 @@ export interface Booking {
   startTime: string;
   endTime: string;
   clientId: string;
-  workplaceId: string;
+  workPlaceId: string;
   workPlaceName: string;
   locationName: string;
   locationAddress: string;
-  workplace?: WorkPlace;
+  workplace: WorkPlace;
   services?: BookingService[];
   totalAmount?: number;
   contract?: Contract;
+  contractId?: string;
+  paymentStatus?: string;
 }
 
 export interface BookingService {
-  id: string;
   bookingId: string;
   serviceId: string;
-  service?: AdditionalService;
+  serviceName: string;
   quantity: number;
   priceAtBookingTime: number;
+  totalPrice: number;
 }
 
 export interface Contract {

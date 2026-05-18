@@ -165,3 +165,7 @@ body {
 .navbar-auth a:hover {
   color: var(--primary);
 }
+
+.container {
+  padding-top: 32px;
+}

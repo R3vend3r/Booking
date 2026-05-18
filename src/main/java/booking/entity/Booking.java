@@ -30,7 +30,7 @@ public class Booking {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    @JoinColumn(name = "client_id", nullable = false)
     @ToString.Exclude
     private Client client;
 

@@ -58,6 +58,12 @@
       </div>
     </div>
   </div>
+
+  <div class="pagination" *ngIf="bookings.length > pageSize">
+    <button class="btn btn-secondary" (click)="prevPage()" [disabled]="page === 0">← Назад</button>
+    <span class="page-info">{{ page + 1 }} / {{ Math.ceil(bookings.length / pageSize) || 1 }}</span>
+    <button class="btn btn-secondary" (click)="nextPage()" [disabled]="(page + 1) * pageSize >= bookings.length">Вперёд →</button>
+  </div>
 </div>
 
 <div class="modal-overlay" *ngIf="selectedBooking" (click)="closeDetails()">
@@ -96,47 +102,49 @@
       <h3 class="modal-title">Редактирование бронирования</h3>
       <button class="btn btn-sm modal-close" (click)="cancelEdit()">✕</button>
     </div>
-    
+
     <div class="form-group">
       <label>Новое время начала</label>
-      <input type="datetime-local" 
-             [(ngModel)]="editStart" 
+      <input type="datetime-local"
+             [(ngModel)]="editStart"
              (ngModelChange)="onEditTimesChange()"
+             [min]="minDateTime"
              step="3600" />
     </div>
-    
+
     <div class="form-group">
       <label>Новое время окончания</label>
-      <input type="datetime-local" 
-             [(ngModel)]="editEnd" 
+      <input type="datetime-local"
+             [(ngModel)]="editEnd"
              (ngModelChange)="onEditTimesChange()"
+             [min]="editStart"
              step="3600" />
     </div>
-    
+
     <div class="services-section">
       <h4>Дополнительные услуги</h4>
-      
+
       <div *ngIf="editServicesLoading" class="loading-small">Загрузка услуг...</div>
-      
+
       <div *ngFor="let service of allServices" class="service-item">
         <label class="service-label">
-          <input type="checkbox" 
+          <input type="checkbox"
                  [checked]="isServiceSelected(service.id)"
                  (change)="toggleEditService(service)" />
           {{ service.name }}
         </label>
         <span class="service-price">{{ service.price }} ₽</span>
-        
+
         <div *ngIf="isServiceSelected(service.id)" class="service-quantity">
           <label>Кол-во:</label>
-          <input type="number" 
-                 min="1" 
+          <input type="number"
+                 min="1"
                  [(ngModel)]="editServicesQuantities[service.id]"
                  (change)="updateEditServiceQuantity(service.id, editServicesQuantities[service.id])"
                  class="quantity-input" />
         </div>
       </div>
-      
+
       <div class="price-summary" *ngIf="getEditServicesTotal() > 0">
         <div class="price-row">
           <span>Услуги:</span>
@@ -149,26 +157,21 @@
         <div class="price-total">
           <span>Итого:</span>
           <span>{{ getEditWorkplacePrice() + getEditServicesTotal() }} ₽</span>
+        </div>
+      </div>
     </div>
-    <div class="pagination" *ngIf="bookings.length > pageSize">
-      <button class="btn btn-secondary" (click)="prevPage()" [disabled]="page === 0">← Назад</button>
-      <span class="page-info">{{ page + 1 }} / {{ Math.ceil(bookings.length / pageSize) || 1 }}</span>
-      <button class="btn btn-secondary" (click)="nextPage()" [disabled]="(page + 1) * pageSize >= bookings.length">Вперёд →</button>
-    </div>
-  </div>
-</div>
-    
+
     <div *ngIf="editAvailabilityChecked && !editAvailable" class="error edit-error">
       ⚠️ Это время уже занято
     </div>
-    
+
     <div *ngIf="editError" class="error error-mb">{{ editError }}</div>
-    
+
     <div class="edit-actions">
       <button class="btn btn-sm" (click)="cancelEdit()">Отмена</button>
-      <button class="btn btn-sm btn-primary" 
-              (click)="saveEdit()" 
-              [disabled]="!editStart || !editEnd || !editAvailable">
+      <button class="btn btn-sm btn-primary"
+              (click)="saveEdit()"
+              [disabled]="!editStart || !editEnd || !editAvailable || editError">
         Сохранить изменения
       </button>
     </div>

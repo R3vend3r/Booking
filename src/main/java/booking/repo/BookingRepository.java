@@ -36,6 +36,12 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     @Query("SELECT b.endTime FROM Booking b WHERE b.workPlace.id = :workplaceId AND b.startTime <= :now AND b.endTime > :now")
     List<LocalDateTime> findCurrentBookingEndTime(@Param("workplaceId") String workplaceId, @Param("now") LocalDateTime now);
 
+    @Query("SELECT b.startTime, b.endTime FROM Booking b WHERE b.workPlace.id = :workplaceId AND b.startTime <= :now AND b.endTime > :now")
+    List<Object[]> findCurrentBookingTimeRange(@Param("workplaceId") String workplaceId, @Param("now") LocalDateTime now);
+
+    @Query("SELECT b.startTime, b.endTime FROM Booking b WHERE b.workPlace.id = :workplaceId AND b.startTime > :now ORDER BY b.startTime ASC")
+    List<Object[]> findNextBookingTimeRange(@Param("workplaceId") String workplaceId, @Param("now") LocalDateTime now);
+
     @Query("SELECT COUNT(b) FROM Booking b JOIN b.client c WHERE c.user.id = :userId")
     long countByUserId(@Param("userId") Long userId);
 }

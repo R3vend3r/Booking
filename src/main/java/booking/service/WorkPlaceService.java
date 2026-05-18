@@ -4,6 +4,7 @@ import booking.dto.mapper.WorkPlaceMapper;
 import booking.dto.request.WorkPlaceRequest;
 import booking.dto.response.RecentWorkplaceResponse;
 import booking.dto.response.WorkPlaceResponse;
+import booking.dto.response.WorkplaceStatusResponse;
 import booking.entity.Location;
 import booking.entity.WorkPlace;
 import booking.exception.ServiceException;
@@ -146,6 +147,32 @@ public class WorkPlaceService {
         workPlace.setAvailable(!workPlace.isAvailable());
         WorkPlace updated = workPlaceRepository.save(workPlace);
         return workPlaceMapper.toResponse(updated);
+    }
+
+    @Transactional(readOnly = true)
+    public List<WorkplaceStatusResponse> findWorkplacesWithStatusByLocation(String locationId) {
+        locationRepository.findById(locationId)
+                .orElseThrow(() -> new ServiceException("Локация с ID " + locationId + " не найдена"));
+
+        LocalDateTime now = LocalDateTime.now();
+        return workPlaceRepository.findByLocationId(locationId).stream()
+                .map(wp -> {
+                    List<Object[]> currentRange = bookingRepository.findCurrentBookingTimeRange(wp.getId(), now);
+                    boolean availableNow = currentRange.isEmpty();
+                    LocalDateTime currentStart = availableNow ? null : (LocalDateTime) currentRange.get(0)[0];
+                    LocalDateTime currentEnd = availableNow ? null : (LocalDateTime) currentRange.get(0)[1];
+
+                    List<Object[]> nextRange = bookingRepository.findNextBookingTimeRange(wp.getId(), now);
+                    LocalDateTime nextStart = nextRange.isEmpty() ? null : (LocalDateTime) nextRange.get(0)[0];
+                    LocalDateTime nextEnd = nextRange.isEmpty() ? null : (LocalDateTime) nextRange.get(0)[1];
+
+                    return new WorkplaceStatusResponse(
+                            wp.getId(), wp.getName(), wp.getCapacity(), wp.getDescription(),
+                            wp.getLocation().getId(), wp.getPriceForHour(), wp.isAvailable(),
+                            availableNow, currentStart, currentEnd, nextStart, nextEnd
+                    );
+                })
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

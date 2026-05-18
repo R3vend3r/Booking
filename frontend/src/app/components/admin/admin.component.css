@@ -1,12 +1,10 @@
 .admin-layout {
-  display: flex;
-  gap: 0;
-  min-height: calc(100vh - 80px);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 100vh;
 }
 
 .admin-sidebar {
-  width: 200px;
-  flex-shrink: 0;
   background: #1e293b;
   display: flex;
   flex-direction: column;

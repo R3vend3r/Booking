@@ -136,7 +136,15 @@ public class BookingServiceService {
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new ServiceException("Пользователь не найден"));
 
-        if (user.getClient() != null && !user.getClient().getId().equals(booking.getClient().getId())) {
+        if (user.getClient() == null) {
+            throw new ServiceException("У вас нет профиля клиента");
+        }
+
+        if (booking.getClient() == null) {
+            throw new ServiceException("Бронирование не привязано к клиенту");
+        }
+
+        if (!user.getClient().getId().equals(booking.getClient().getId())) {
             throw new ServiceException("Вы можете управлять услугами только в своём бронировании");
         }
     }

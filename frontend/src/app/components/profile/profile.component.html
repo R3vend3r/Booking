@@ -1,6 +1,6 @@
 <div class="container profile-container">
   <h1 class="profile-title">Профиль</h1>
-  
+
   <div class="card">
     <div class="avatar-wrap">
       <div class="avatar">
@@ -9,13 +9,13 @@
         </span>
       </div>
     </div>
-    
+
     <div class="info-grid">
       <div class="info-row">
         <span class="info-label">Логин</span>
         <span>{{ profile?.login }}</span>
       </div>
-      
+
       <div class="info-row">
         <span class="info-label">Роль</span>
         <span [style.color]="getRoleColor()">{{ getRoleName() }}</span>
@@ -25,37 +25,38 @@
 
   <div class="card card-mt">
     <h2 class="section-title">Редактирование профиля</h2>
-    
+
     <form (ngSubmit)="saveProfile()">
       <div class="form-group">
         <label>Email</label>
-        <input type="email" [(ngModel)]="editForm.email" name="email" required />
+        <input type="email" [(ngModel)]="editForm.email" name="email" required (input)="onProfileFormChange()" />
+        <p class="form-error" *ngIf="profileError && !editForm.email?.trim()">{{ 'Email обязателен' }}</p>
       </div>
 
       <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
         <label>ФИО</label>
-        <input type="text" [(ngModel)]="editForm.fullName" name="fullName" />
+        <input type="text" [(ngModel)]="editForm.fullName" name="fullName" (input)="onProfileFormChange()" />
       </div>
 
       <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
         <label>Телефон</label>
-        <input type="tel" [(ngModel)]="editForm.phone" name="phone" />
+        <input type="tel" [(ngModel)]="editForm.phone" name="phone" (input)="onProfileFormChange()" />
       </div>
 
       <div class="form-group" *ngIf="profile?.role === 'ROLE_USER'">
         <label>Дата рождения</label>
-        <input type="date" [(ngModel)]="editForm.birthday" name="birthday" />
+        <input type="date" [(ngModel)]="editForm.birthday" name="birthday" (input)="onProfileFormChange()" [max]="todayDate" />
       </div>
-      
+
       <div *ngIf="profileError" class="error error-mb">
         {{ profileError }}
       </div>
-      
+
       <div *ngIf="profileSuccess" class="success-msg">
         {{ profileSuccess }}
       </div>
-      
-      <button type="submit" class="btn btn-primary btn-full" [disabled]="profileLoading">
+
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="profileLoading || !editForm.email.trim()">
         {{ profileLoading ? 'Сохранение...' : 'Сохранить изменения' }}
       </button>
     </form>
@@ -63,32 +64,35 @@
 
   <div class="card card-mt">
     <h2 class="section-title">Смена пароля</h2>
-    
+
     <form (ngSubmit)="changePassword()">
       <div class="form-group">
         <label>Старый пароль</label>
-        <input type="password" [(ngModel)]="pwForm.oldPassword" name="oldPassword" required />
+        <input type="password" [(ngModel)]="pwForm.oldPassword" name="oldPassword" required (input)="onPasswordFormChange()" />
+        <p class="form-error" *ngIf="pwError && !pwForm.oldPassword">{{ 'Введите старый пароль' }}</p>
       </div>
-      
+
       <div class="form-group">
         <label>Новый пароль</label>
-        <input type="password" [(ngModel)]="pwForm.newPassword" name="newPassword" required minlength="6" />
+        <input type="password" [(ngModel)]="pwForm.newPassword" name="newPassword" required minlength="6" (input)="onPasswordFormChange()" />
+        <p class="form-error" *ngIf="pwForm.newPassword && pwForm.newPassword.length > 0 && pwForm.newPassword.length < 6">Минимум 6 символов</p>
       </div>
-      
+
       <div class="form-group">
         <label>Повторите новый пароль</label>
-        <input type="password" [(ngModel)]="pwForm.confirmPassword" name="confirmPassword" required />
+        <input type="password" [(ngModel)]="pwForm.confirmPassword" name="confirmPassword" required (input)="onPasswordFormChange()" />
+        <p class="form-error" *ngIf="pwForm.confirmPassword && pwForm.confirmPassword.length > 0 && pwForm.newPassword !== pwForm.confirmPassword">Пароли не совпадают</p>
       </div>
-      
+
       <div *ngIf="pwError" class="error error-mb">
         {{ pwError }}
       </div>
-      
+
       <div *ngIf="pwSuccess" class="success-msg">
         {{ pwSuccess }}
       </div>
-      
-      <button type="submit" class="btn btn-primary btn-full" [disabled]="pwLoading">
+
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="pwLoading || !pwForm.oldPassword || !pwForm.newPassword || pwForm.newPassword.length < 6 || !pwForm.confirmPassword || pwForm.newPassword !== pwForm.confirmPassword">
         {{ pwLoading ? 'Сохранение...' : 'Сменить пароль' }}
       </button>
     </form>
@@ -96,15 +100,15 @@
 
   <div class="card card-mt" *ngIf="profile?.role !== 'ROLE_MANAGER' && profile?.role !== 'ROLE_ADMIN'">
     <h2 class="section-title">Мои бронирования</h2>
-    
+
     <div *ngIf="loading" class="loading">
       <p>Загрузка...</p>
     </div>
-    
+
     <div *ngIf="!loading && bookings.length === 0" class="empty-state">
       <p class="empty-text">На данный момент у вас нет бронирований</p>
     </div>
-    
+
     <div *ngIf="!loading && bookings.length > 0" class="bookings-list">
       <div *ngFor="let booking of paginatedProfileBookings" class="card booking-card">
         <div class="booking-header">

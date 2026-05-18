@@ -115,7 +115,7 @@ public class BookingService {
         Booking booking = bookingMapper.toEntity(request);
         booking.setClient(client);
         booking.setWorkPlace(workPlace);
-        booking.createContract();
+//        booking.createContract();
 
         Booking saved = bookingRepository.save(booking);
         return bookingMapper.toResponse(saved);

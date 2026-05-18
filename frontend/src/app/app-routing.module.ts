@@ -7,6 +7,7 @@ import { WorkplacesComponent } from './components/workplaces/workplaces.componen
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ManagerComponent } from './components/manager/manager.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
 
@@ -14,23 +15,28 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'workplaces/:id', component: WorkplacesComponent },
-  { 
-    path: 'profile', 
+  { path: 'workplaces/:id', component: WorkplacesComponent, canActivate: [authGuard] },
+  {
+    path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard]
   },
-  { 
-    path: 'admin', 
+  {
+    path: 'admin',
     component: AdminComponent,
     canActivate: [authGuard, roleGuard],
     data: { role: 'ROLE_ADMIN' }
   },
-  { 
-    path: 'manager', 
+  {
+    path: 'manager',
     component: ManagerComponent,
     canActivate: [authGuard, roleGuard],
     data: { role: 'ROLE_MANAGER' }
+  },
+  {
+    path: 'bookings',
+    component: BookingsComponent,
+    canActivate: [authGuard]
   },
   { path: '**', redirectTo: '' }
 ];

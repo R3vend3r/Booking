@@ -1,23 +1,170 @@
 .register-container {
-  max-width: 400px;
+  max-width: 500px;
   padding-top: 40px;
+  margin: 0 auto;
 }
+
 .register-title {
   margin-bottom: 24px;
   text-align: center;
+  color: #333;
+  font-size: 28px;
 }
+
 .error-mb {
   margin-bottom: 16px;
 }
+
 .btn-full {
   width: 100%;
 }
+
 .register-footer {
   text-align: center;
   margin-top: 16px;
+  color: #666;
 }
-.field-error {
-  color: #dc2626;
+
+.register-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Стили для валидации */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.required-star {
+  color: #dc3545;
+  margin-left: 4px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.form-group input.is-invalid {
+  border-color: #dc3545;
+}
+
+.form-group input.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
+}
+
+.invalid-feedback {
+  color: #dc3545;
   font-size: 12px;
-  margin-top: 4px;
+  margin-top: 5px;
+}
+
+.invalid-feedback div {
+  margin-bottom: 3px;
+}
+
+.form-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+.error {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.error-mb {
+  margin-bottom: 16px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 576px) {
+  .register-container {
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .register-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-group input {
+    font-size: 14px;
+  }
+}
+
+.form-group input.ng-valid.ng-touched:not(.is-invalid) {
+  border-color: #28a745;
+}
+
+.form-group input.ng-valid.ng-touched:not(.is-invalid):focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.1);
 }

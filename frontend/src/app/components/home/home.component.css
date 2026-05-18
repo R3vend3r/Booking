@@ -219,20 +219,14 @@
   color: #16a34a;
 }
 .recent-status.busy {
-  background: #fef3c7;
-  color: #d97706;
+  background: #ffd4cc;
+  color: #c2410c;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-top: 24px;
+.pagination{
+ padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
-
-.page-info {
-  font-size: 14px;
-  color: #64748b;
-}
-

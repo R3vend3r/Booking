@@ -17,7 +17,7 @@
   <div class="container">
     <h2 class="section-title">О нас</h2>
     <p class="about-text">
-      Мы предоставляем современные рабочие места в различных локациях города. 
+      Мы предоставляем современные рабочие места в различных локациях города.
       Коворкинг, переговорные комнаты — всё для комфортной и продуктивной работы.
     </p>
     <div class="features-grid">
@@ -76,23 +76,23 @@
     <div class="locations-header">
       <h2 class="section-title">Локации</h2>
       <div class="locations-controls">
-        <input type="text" 
-               [(ngModel)]="searchCity" 
+        <input type="text"
+               [(ngModel)]="searchCity"
                (input)="onSearch()"
                placeholder="Поиск по городу..."
                class="search-input" />
-        <button class="btn btn-secondary filter-btn" 
+        <button class="btn btn-secondary filter-btn"
                 [class.btn-active]="showActiveOnly"
                 (click)="toggleActiveOnly()">
           Только активные
         </button>
       </div>
     </div>
-    
+
     <div *ngIf="loading" class="loading"><p>Загрузка...</p></div>
-    
+
     <div *ngIf="!loading" class="locations-grid">
-      <div *ngFor="let location of filteredLocations | slice:locPage*locPageSize:(locPage+1)*locPageSize" class="location-card" 
+      <div *ngFor="let location of filteredLocations | slice:locPage*locPageSize:(locPage+1)*locPageSize" class="location-card"
            [routerLink]="['/workplaces', location.id]">
         <div class="location-header">
           <h3>{{ location.name }}</h3>
@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    
+
     <div *ngIf="!loading && filteredLocations.length === 0" class="empty-state">
       <p class="empty-text">Локации не найдены</p>
     </div>

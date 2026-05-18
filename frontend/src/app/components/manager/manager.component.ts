@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BookingService } from '../../services/booking.service';
 
 interface LocationItem {
   id: string;
@@ -35,7 +36,14 @@ interface BookingItem {
   startTime: string;
   endTime: string;
   clientId: string;
+  clientName?: string;
   workPlaceId: string;
+  workPlaceName?: string;
+  locationName?: string;
+  locationCity?: string;
+  paymentStatus?: string;
+  contractId?: string;
+  totalAmount?: number;
 }
 
 interface ContractItem {
@@ -51,281 +59,237 @@ interface ContractItem {
 @Component({
   standalone: false,
   selector: 'app-manager',
-  template: `
-    <div class="container" style="padding-top: 32px;">
-      <h1 style="margin-bottom: 24px;">Панель менеджера</h1>
-
-      <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;">
-        <button class="btn" [class.btn-primary]="activeTab === 'locations'" (click)="activeTab = 'locations'">Локации</button>
-        <button class="btn" [class.btn-primary]="activeTab === 'workplaces'" (click)="activeTab = 'workplaces'">Рабочие места</button>
-        <button class="btn" [class.btn-primary]="activeTab === 'services'" (click)="activeTab = 'services'">Услуги</button>
-        <button class="btn" [class.btn-primary]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">Бронирования</button>
-        <button class="btn" [class.btn-primary]="activeTab === 'contracts'" (click)="activeTab = 'contracts'">Контракты</button>
-      </div>
-
-      <!-- ===== LOCATIONS TAB ===== -->
-      <div *ngIf="activeTab === 'locations'">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h2>Локации</h2>
-          <button class="btn btn-primary" (click)="startAddLocation()">+ Добавить</button>
-        </div>
-
-        <div *ngIf="locationForm" class="card" style="margin-bottom: 16px;">
-          <h3 style="margin-bottom: 16px;">{{ editingLocationId ? 'Редактировать' : 'Новая' }} локация</h3>
-          <div class="form-group">
-            <label>Название</label>
-            <input type="text" [(ngModel)]="locationForm.name" />
-          </div>
-          <div class="form-group">
-            <label>Адрес</label>
-            <input type="text" [(ngModel)]="locationForm.address" />
-          </div>
-          <div class="form-group">
-            <label>Город</label>
-            <input type="text" [(ngModel)]="locationForm.city" />
-          </div>
-          <div class="form-group">
-            <label>Время открытия</label>
-            <input type="time" [(ngModel)]="locationForm.openingTime" />
-          </div>
-          <div class="form-group">
-            <label>Время закрытия</label>
-            <input type="time" [(ngModel)]="locationForm.closingTime" />
-          </div>
-          <div class="form-group">
-            <label>Телефон</label>
-            <input type="text" [(ngModel)]="locationForm.contactPhone" />
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-primary" (click)="saveLocation()">Сохранить</button>
-            <button class="btn btn-secondary" (click)="cancelLocationForm()">Отмена</button>
-          </div>
-        </div>
-
-        <div *ngIf="locationsLoading" class="loading"><p>Загрузка...</p></div>
-        <div *ngIf="!locationsLoading && locations.length === 0" style="text-align: center; padding: 40px; color: #64748b;">
-          Локации не найдены
-        </div>
-        <div *ngIf="!locationsLoading && locations.length > 0" style="display: grid; gap: 12px;">
-          <div *ngFor="let loc of locations" class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h3 style="font-size: 16px;">{{ loc.name }}</h3>
-              <p style="color: #64748b; font-size: 13px;">{{ loc.address }}, {{ loc.city }}</p>
-              <p style="color: #64748b; font-size: 13px;">{{ loc.openingTime }} — {{ loc.closingTime }} | {{ loc.contactPhone }}</p>
-            </div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn btn-secondary" (click)="startEditLocation(loc)">✏️</button>
-              <button class="btn" style="background: #fee2e2; color: #dc2626;" (click)="deleteLocation(loc.id)">🗑️</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== WORKPLACES TAB ===== -->
-      <div *ngIf="activeTab === 'workplaces'">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-          <h2>Рабочие места</h2>
-          <div style="display: flex; gap: 8px;">
-            <select [(ngModel)]="wpFilterLocation" (change)="loadWorkplaces()" style="padding: 8px; border: 1px solid var(--border); border-radius: 8px;">
-              <option value="">Все локации</option>
-              <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
-            </select>
-            <button class="btn btn-primary" (click)="startAddWorkplace()">+ Добавить</button>
-          </div>
-        </div>
-
-        <div *ngIf="wpForm" class="card" style="margin-bottom: 16px;">
-          <h3 style="margin-bottom: 16px;">{{ editingWpId ? 'Редактировать' : 'Новое' }} рабочее место</h3>
-          <div class="form-group">
-            <label>Название</label>
-            <input type="text" [(ngModel)]="wpForm.name" />
-          </div>
-          <div class="form-group">
-            <label>Локация</label>
-            <select [(ngModel)]="wpForm.locationId">
-              <option value="">Выберите локацию</option>
-              <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Вместимость (чел.)</label>
-            <input type="number" [(ngModel)]="wpForm.capacity" />
-          </div>
-          <div class="form-group">
-            <label>Описание</label>
-            <textarea [(ngModel)]="wpForm.description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Цена за час (₽)</label>
-            <input type="number" [(ngModel)]="wpForm.priceForHour" />
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-primary" (click)="saveWorkplace()">Сохранить</button>
-            <button class="btn btn-secondary" (click)="cancelWpForm()">Отмена</button>
-          </div>
-        </div>
-
-        <div *ngIf="wpLoading" class="loading"><p>Загрузка...</p></div>
-        <div *ngIf="!wpLoading && workplaces.length === 0" style="text-align: center; padding: 40px; color: #64748b;">
-          Рабочие места не найдены
-        </div>
-        <div *ngIf="!wpLoading && workplaces.length > 0" style="display: grid; gap: 12px;">
-          <div *ngFor="let wp of workplaces" class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h3 style="font-size: 16px;">{{ wp.name }}</h3>
-              <p style="color: #64748b; font-size: 13px;">{{ wp.locationName }} | Вместимость: {{ wp.capacity }} чел. | {{ wp.priceForHour }} ₽/час</p>
-              <p *ngIf="wp.description" style="color: #94a3b8; font-size: 12px;">{{ wp.description }}</p>
-            </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-              <span *ngIf="wp.available" style="color: #22c55e; font-size: 13px;">Доступно</span>
-              <span *ngIf="!wp.available" style="color: #ef4444; font-size: 13px;">Занято</span>
-              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" (click)="toggleAvailability(wp)">Переключить</button>
-              <button class="btn btn-secondary" (click)="startEditWorkplace(wp)">✏️</button>
-              <button class="btn" style="background: #fee2e2; color: #dc2626;" (click)="deleteWorkplace(wp.id)">🗑️</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== SERVICES TAB ===== -->
-      <div *ngIf="activeTab === 'services'">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h2>Услуги</h2>
-          <button class="btn btn-primary" (click)="startAddService()">+ Добавить</button>
-        </div>
-
-        <div *ngIf="svcForm" class="card" style="margin-bottom: 16px;">
-          <h3 style="margin-bottom: 16px;">{{ editingSvcId ? 'Редактировать' : 'Новая' }} услуга</h3>
-          <div class="form-group">
-            <label>Название</label>
-            <input type="text" [(ngModel)]="svcForm.name" />
-          </div>
-          <div class="form-group">
-            <label>Описание</label>
-            <textarea [(ngModel)]="svcForm.description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Цена (₽)</label>
-            <input type="number" [(ngModel)]="svcForm.price" />
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-primary" (click)="saveService()">Сохранить</button>
-            <button class="btn btn-secondary" (click)="cancelSvcForm()">Отмена</button>
-          </div>
-        </div>
-
-        <div *ngIf="svcLoading" class="loading"><p>Загрузка...</p></div>
-        <div *ngIf="!svcLoading && services.length === 0" style="text-align: center; padding: 40px; color: #64748b;">
-          Услуги не найдены
-        </div>
-        <div *ngIf="!svcLoading && services.length > 0" style="display: grid; gap: 12px;">
-          <div *ngFor="let svc of services" class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h3 style="font-size: 16px;">{{ svc.name }}</h3>
-              <p style="color: #64748b; font-size: 13px;">{{ svc.description }}</p>
-              <p style="font-weight: 600; color: var(--primary); font-size: 14px;">{{ svc.price }} ₽</p>
-            </div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn btn-secondary" (click)="startEditService(svc)">✏️</button>
-              <button class="btn" style="background: #fee2e2; color: #dc2626;" (click)="deleteService(svc.id)">🗑️</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== BOOKINGS TAB ===== -->
-      <div *ngIf="activeTab === 'bookings'">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-          <h2>Бронирования</h2>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <label style="font-size: 13px;">С:</label>
-            <input type="datetime-local" [(ngModel)]="dateStart" style="padding: 6px; border: 1px solid var(--border); border-radius: 8px;" />
-            <label style="font-size: 13px;">По:</label>
-            <input type="datetime-local" [(ngModel)]="dateEnd" style="padding: 6px; border: 1px solid var(--border); border-radius: 8px;" />
-            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" (click)="loadBookingsByDateRange()">Поиск</button>
-            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" (click)="loadActiveBookings()">Активные</button>
-          </div>
-        </div>
-
-        <div *ngIf="bkLoading" class="loading"><p>Загрузка...</p></div>
-        <div *ngIf="!bkLoading && bookings.length === 0" style="text-align: center; padding: 40px; color: #64748b;">
-          Бронирования не найдены
-        </div>
-        <div *ngIf="!bkLoading && bookings.length > 0" style="display: grid; gap: 12px;">
-          <div *ngFor="let bk of bookings" class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <p style="font-size: 14px; font-weight: 500;">Рабочее место: {{ bk.workPlaceId }}</p>
-              <p style="color: #64748b; font-size: 13px;">{{ formatDate(bk.startTime) }} — {{ formatDate(bk.endTime) }}</p>
-              <p style="color: #94a3b8; font-size: 12px;">Клиент: {{ bk.clientId }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== CONTRACTS TAB ===== -->
-      <div *ngIf="activeTab === 'contracts'">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h2>Ожидающие контракты</h2>
-          <button class="btn btn-secondary" (click)="loadPendingContracts()">Обновить</button>
-        </div>
-
-        <div *ngIf="ctLoading" class="loading"><p>Загрузка...</p></div>
-        <div *ngIf="!ctLoading && contracts.length === 0" style="text-align: center; padding: 40px; color: #64748b;">
-          Ожидающие контракты не найдены
-        </div>
-        <div *ngIf="!ctLoading && contracts.length > 0" style="display: grid; gap: 12px;">
-          <div *ngFor="let ct of contracts" class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <p style="font-size: 14px; font-weight: 500;">Контракт #{{ ct.contractNumber }}</p>
-              <p style="color: #64748b; font-size: 13px;">Сумма: {{ ct.totalAmount }} ₽</p>
-              <p style="color: #94a3b8; font-size: 12px;">Статус: {{ getPaymentStatusLabel(ct.paymentStatus) }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './manager.component.html',
+  styleUrls: ['./manager.component.css']
 })
 export class ManagerComponent implements OnInit {
+  Math = Math;
+  pageSize = 5;
   private apiUrl = 'http://localhost:8080/api';
   activeTab = 'locations';
 
-  // Locations
   locations: LocationItem[] = [];
+  locPage = 0;
+  locFilterCity = '';
   locationsLoading = true;
   locationForm: any = null;
+  locationFormErrors: any = {};
   editingLocationId: string | null = null;
 
-  // Workplaces
   workplaces: WorkPlaceItem[] = [];
+  wpPage = 0;
   wpLoading = true;
   wpForm: any = null;
+  wpFormErrors: any = {};
   editingWpId: string | null = null;
   wpFilterLocation = '';
 
-  // Services
   services: ServiceItem[] = [];
+  svcPage = 0;
   svcLoading = true;
   svcForm: any = null;
+  svcFormErrors: any = {};
   editingSvcId: string | null = null;
 
-  // Bookings
-  bookings: BookingItem[] = [];
-  bkLoading = true;
-  dateStart = '';
-  dateEnd = '';
+ bookings: BookingItem[] = [];
+bkPage = 0;
+bkSearchId = '';
+bkShowFilters = false;
+bkFilterCity: string[] = [];
+bkFilterLocation: string[] = [];
+bkFilterWorkplace: string[] = [];
+bkFilterStatus: string[] = [];
+bkFilterCityTemp: string[] = [];
+bkFilterLocationTemp: string[] = [];
+bkFilterWorkplaceTemp: string[] = [];
+bkFilterStatusTemp: string[] = [];
+pendingBookings: BookingItem[] = [];
+bkLoading = true;
+dateStart = '';
+dateEnd = '';
+showPendingOnly = false;
 
-  // Contracts
-  contracts: ContractItem[] = [];
-  ctLoading = true;
+contracts: ContractItem[] = [];
+ctPage = 0;
+ctLoading = true;
 
-  constructor(private http: HttpClient) {}
+selectedBookingDetail: any = null;
+selectedContractDetail: any = null;
+bookingServicesDetail: any[] = [];
+bookingDetailLoading = false;
 
-  ngOnInit(): void {
-    this.loadLocations();
-    this.loadServices();
-    this.loadWorkplaces();
+
+  constructor(
+    private http: HttpClient,
+    private bookingService: BookingService
+  ) {}
+
+ ngOnInit(): void {
+  this.loadLocations();
+  this.loadServices();
+  this.loadWorkplaces();
+  this.loadAllBookings();
+  this.loadAllContracts();
+}
+
+  get locationCities(): string[] {
+    return [...new Set(this.locations.map(l => l.city).filter(c => c))];
   }
+
+  get filteredLocations(): LocationItem[] {
+    return this.locFilterCity ? this.locations.filter(l => l.city === this.locFilterCity) : this.locations;
+  }
+
+  onLocFilterChange(): void {
+    this.locPage = 0;
+  }
+
+  private countWithFilters(extraFilter: (b: BookingItem) => boolean,
+    excludeOwn?: string): number {
+    return this.bookings.filter(b => {
+      if (this.bkSearchId &&
+        !b.id.toLowerCase().includes(this.bkSearchId.toLowerCase())) return false;
+
+      if (this.bkFilterCityTemp.length && (!b.locationCity ||
+        !this.bkFilterCityTemp.includes(b.locationCity))) return false;
+
+      if (this.bkFilterLocationTemp.length && (!b.locationName ||
+        !this.bkFilterLocationTemp.includes(b.locationName))) return false;
+
+      if (this.bkFilterWorkplaceTemp.length && (!b.workPlaceName ||
+        !this.bkFilterWorkplaceTemp.includes(b.workPlaceName))) return false;
+
+      if (this.bkFilterStatusTemp.length && (!b.paymentStatus ||
+        !this.bkFilterStatusTemp.includes(b.paymentStatus))) return false;
+
+      if (excludeOwn !== 'city' && this.bkFilterCityTemp.length && b.locationCity &&
+        !this.bkFilterCityTemp.includes(b.locationCity)) return false;
+
+      if (excludeOwn !== 'location' && this.bkFilterLocationTemp.length && b.locationName &&
+        !this.bkFilterLocationTemp.includes(b.locationName)) return false;
+
+      if (excludeOwn !== 'workplace' && this.bkFilterWorkplaceTemp.length && b.workPlaceName &&
+        !this.bkFilterWorkplaceTemp.includes(b.workPlaceName)) return false;
+
+      if (excludeOwn !== 'status' && this.bkFilterStatusTemp.length && b.paymentStatus &&
+        !this.bkFilterStatusTemp.includes(b.paymentStatus)) return false;
+
+      return extraFilter(b);
+    }).length;
+  }
+
+
+  get bookingCityOptions(): {value: string, count: number}[] {
+    const cities = [...new Set(this.bookings.map(b => b.locationCity).filter((c): c is string => !!c))];
+    return cities.map(city => ({value: city, count: this.countWithFilters(b => b.locationCity === city)}));
+  }
+
+  get bookingLocationOptions(): {value: string, count: number}[] {
+    const locs = [...new Set(this.bookings.map(b => b.locationName).filter((l): l is string => !!l))];
+    return locs.map(loc => ({value: loc, count: this.countWithFilters(b => b.locationName === loc)}));
+  }
+
+  get bookingWorkplaceOptions(): {value: string, count: number}[] {
+    const wps = [...new Set(this.bookings.map(b => b.workPlaceName).filter((w): w is string => !!w))];
+    return wps.map(wp => ({value: wp, count: this.countWithFilters(b => b.workPlaceName === wp)}));
+  }
+
+
+  get bookingStatusOptions(): {value: string, count: number}[] {
+    const sts = [...new Set(this.bookings.map(b =>
+    b.paymentStatus).filter((s): s is string => !!s))];
+    return sts.map(st => ({value: st, count: this.countWithFilters(b => b.paymentStatus === st)}));
+  }
+
+  toggleFilter(arr: string[], val: string): string[] {
+    return arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val];
+  }
+
+resetBkFilters(): void {
+  this.bkFilterCityTemp = [];
+  this.bkFilterLocationTemp = [];
+  this.bkFilterWorkplaceTemp = [];
+  this.bkFilterStatusTemp = [];
+  this.bkSearchId = '';
+}
+
+
+  applyBkFilters(): void {
+    this.bkFilterCity = [...this.bkFilterCityTemp];
+    this.bkFilterLocation = [...this.bkFilterLocationTemp];
+    this.bkFilterWorkplace = [...this.bkFilterWorkplaceTemp];
+    this.bkFilterStatus = [...this.bkFilterStatusTemp];
+    this.bkPage = 0;
+    this.bkShowFilters = false;
+  }
+
+  refreshBookings(): void {
+    this.bkFilterCity = [];
+    this.bkFilterLocation = [];
+    this.bkFilterWorkplace = [];
+    this.bkFilterStatus = [];
+    this.bkFilterCityTemp = [];
+    this.bkFilterLocationTemp = [];
+    this.bkFilterWorkplaceTemp = [];
+    this.bkFilterStatusTemp = [];
+    this.bkSearchId = '';
+    this.bkPage = 0;
+    this.showPendingOnly ? this.loadActiveBookings() : this.loadAllBookings();
+  }
+
+  toggleBkFilters(): void {
+    if (!this.bkShowFilters) {
+      this.bkFilterCityTemp = [...this.bkFilterCity];
+      this.bkFilterLocationTemp = [...this.bkFilterLocation];
+      this.bkFilterWorkplaceTemp = [...this.bkFilterWorkplace];
+      this.bkFilterStatusTemp = [...this.bkFilterStatus];
+    }
+    this.bkShowFilters = !this.bkShowFilters;
+  }
+
+  onBkFilterChange(category: string, val: string): void {
+    if (category === 'city') this.bkFilterCityTemp = this.toggleFilter(this.bkFilterCityTemp, val);
+    if (category === 'location') this.bkFilterLocationTemp = this.toggleFilter(this.bkFilterLocationTemp, val);
+    if (category === 'workplace') this.bkFilterWorkplaceTemp = this.toggleFilter(this.bkFilterWorkplaceTemp, val);
+    if (category === 'status') this.bkFilterStatusTemp = this.toggleFilter(this.bkFilterStatusTemp, val);
+  }
+
+  get filteredBookings(): BookingItem[] {
+    let result = this.bookings;
+
+    if (this.bkSearchId) {
+      result = result.filter(b =>
+        b.id.toLowerCase().includes(this.bkSearchId.toLowerCase())
+      );
+    }
+
+    if (this.bkFilterCity.length) {
+      result = result.filter(b => !!b.locationCity &&
+        this.bkFilterCity.includes(b.locationCity)
+      );
+    }
+
+    if (this.bkFilterLocation.length) {
+      result = result.filter(b => !!b.locationName &&
+        this.bkFilterLocation.includes(b.locationName)
+      );
+    }
+
+    if (this.bkFilterWorkplace.length) {
+      result = result.filter(b => !!b.workPlaceName &&
+        this.bkFilterWorkplace.includes(b.workPlaceName)
+      );
+    }
+
+    if (this.bkFilterStatus.length) {
+      result = result.filter(b => !!b.paymentStatus &&
+        this.bkFilterStatus.includes(b.paymentStatus)
+      );
+    }
+
+    return result;
+  }
+
 
   private getHeaders() {
     const user = localStorage.getItem('currentUser');
@@ -333,10 +297,9 @@ export class ManagerComponent implements OnInit {
     return { Authorization: `Bearer ${token}` };
   }
 
-  // ============ LOCATIONS ============
-
   loadLocations(): void {
     this.locationsLoading = true;
+    this.locPage = 0;
     this.http.get<LocationItem[]>(`${this.apiUrl}/locations`).subscribe({
       next: (data) => { this.locations = data; this.locationsLoading = false; },
       error: () => this.locationsLoading = false
@@ -365,7 +328,114 @@ export class ManagerComponent implements OnInit {
     this.editingLocationId = null;
   }
 
+validateLocationForm(): boolean {
+  this.locationFormErrors = {};
+
+  if (!this.locationForm.name?.trim()) {
+    this.locationFormErrors.name = 'Название обязательно';
+  } else if (this.locationForm.name.trim().length < 2) {
+    this.locationFormErrors.name = 'Название должно содержать минимум 2 символа';
+  }
+
+  if (!this.locationForm.address?.trim()) {
+    this.locationFormErrors.address = 'Адрес обязателен';
+  } else if (this.locationForm.address.trim().length < 5) {
+    this.locationFormErrors.address = 'Адрес должен содержать минимум 5 символов';
+  }
+
+  if (!this.locationForm.city?.trim()) {
+    this.locationFormErrors.city = 'Город обязателен';
+  }
+
+  const phone = this.locationForm.contactPhone;
+
+  if (!phone?.trim()) {
+    this.locationFormErrors.contactPhone = 'Телефон обязателен';
+  } else if (!/^\+?[0-9\s\-()]{10,18}$/.test(phone.trim())) {
+    this.locationFormErrors.contactPhone = 'Неверный формат телефона';
+  }
+
+  const open = this.locationForm.openingTime;
+  const close = this.locationForm.closingTime;
+
+  if (open && close && open >= close) {
+    this.locationFormErrors.closingTime = 'Время открытия должно быть раньше времени закрытия';
+  }
+
+  return Object.keys(this.locationFormErrors).length === 0;
+}
+
+  onLocFormChange(): void {
+    this.locationFormErrors = {};
+  }
+
+  validateWorkplaceForm(): boolean {
+    this.wpFormErrors = {};
+
+    if (!this.wpForm.name?.trim()) {
+      this.wpFormErrors.name = 'Название обязательно';
+    } else if (this.wpForm.name.trim().length < 2) {
+      this.wpFormErrors.name = 'Название должно содержать минимум 2 символа';
+    }
+
+    if (!this.wpForm.locationId) {
+      this.wpFormErrors.locationId = 'Выберите локацию';
+    }
+
+    if (!this.wpForm.capacity || this.wpForm.capacity < 1) {
+      this.wpFormErrors.capacity = 'Вместимость должна быть не менее 1';
+    }
+
+    if (!this.wpForm.description?.trim()) {
+      this.wpFormErrors.description = 'Описание обязательно';
+    }
+
+    if (this.wpForm.priceForHour === null ||
+      this.wpForm.priceForHour === undefined ||
+      this.wpForm.priceForHour < 0) {
+      this.wpFormErrors.priceForHour = 'Цена не может быть отрицательной';
+    } else if (this.wpForm.priceForHour === 0) {
+      this.wpFormErrors.priceForHour = 'Цена должна быть больше 0';
+    }
+
+    return Object.keys(this.wpFormErrors).length === 0;
+  }
+
+  onWpFormChange(): void {
+    this.wpFormErrors = {};
+  }
+
+  validateServiceForm(): boolean {
+  this.svcFormErrors = {};
+
+  if (!this.svcForm.name?.trim()) {
+    this.svcFormErrors.name = 'Название обязательно';
+  } else if (this.svcForm.name.trim().length < 2) {
+    this.svcFormErrors.name = 'Название должно содержать минимум 2 символа';
+  }
+
+  if (!this.svcForm.description?.trim()) {
+    this.svcFormErrors.description = 'Описание обязательно';
+  }
+
+  if (this.svcForm.price === null ||
+      this.svcForm.price === undefined ||
+      this.svcForm.price < 0) {
+    this.svcFormErrors.price = 'Цена не может быть отрицательной';
+  } else if (this.svcForm.price === 0) {
+    this.svcFormErrors.price = 'Цена должна быть больше 0';
+  }
+
+  return Object.keys(this.svcFormErrors).length === 0;
+}
+
+  onSvcFormChange(): void {
+    this.svcFormErrors = {};
+  }
+
+
   saveLocation(): void {
+    if (!this.validateLocationForm()) return;
     const body = {
       branchName: this.locationForm.name,
       address: this.locationForm.address,
@@ -390,8 +460,6 @@ export class ManagerComponent implements OnInit {
       .subscribe({ next: () => this.loadLocations() });
   }
 
-  // ============ WORKPLACES ============
-
   loadWorkplaces(): void {
     this.wpLoading = true;
     const url = this.wpFilterLocation
@@ -406,7 +474,10 @@ export class ManagerComponent implements OnInit {
         }));
         this.wpLoading = false;
       },
-      error: () => this.wpLoading = false
+      error: (err) => {
+        console.error('Ошибка загрузки рабочих мест:', err);
+        this.wpLoading = false;
+      }
     });
   }
 
@@ -450,11 +521,15 @@ export class ManagerComponent implements OnInit {
   }
 
   toggleAvailability(wp: WorkPlaceItem): void {
-    this.http.patch(`${this.apiUrl}/workplaces/${wp.id}/toggle-availability`, {}, { headers: this.getHeaders() })
-      .subscribe({ next: () => this.loadWorkplaces() });
+    this.http.patch<WorkPlaceItem>(`${this.apiUrl}/workplaces/${wp.id}/toggle-availability`, {}, { headers: this.getHeaders() })
+      .subscribe({
+        next: () => this.loadWorkplaces(),
+        error: (err) => {
+          console.error('Ошибка переключения:', err);
+          alert('Не удалось изменить статус рабочего места');
+        }
+      });
   }
-
-  // ============ SERVICES ============
 
   loadServices(): void {
     this.svcLoading = true;
@@ -497,10 +572,29 @@ export class ManagerComponent implements OnInit {
       .subscribe({ next: () => this.loadServices() });
   }
 
-  // ============ BOOKINGS ============
+  loadAllBookings(): void {
+  this.bkLoading = true;
+  this.bkPage = 0;
+  this.showPendingOnly = false;
+  this.http.get<BookingItem[]>(`${this.apiUrl}/bookings`, {
+    headers: this.getHeaders()
+  }).subscribe({
+    next: (data) => {
+      this.bookings = data;
+      this.bkLoading = false;
+    },
+    error: (err) => {
+      console.error('Ошибка загрузки бронирований:', err);
+      this.bkLoading = false;
+      this.bookings = [];
+    }
+  });
+}
 
   loadActiveBookings(): void {
     this.bkLoading = true;
+    this.bkPage = 0;
+    this.showPendingOnly = false;
     this.http.get<BookingItem[]>(`${this.apiUrl}/bookings/active`, { headers: this.getHeaders() })
       .subscribe({ next: (data) => { this.bookings = data; this.bkLoading = false; }, error: () => this.bkLoading = false });
   }
@@ -508,19 +602,89 @@ export class ManagerComponent implements OnInit {
   loadBookingsByDateRange(): void {
     if (!this.dateStart || !this.dateEnd) return;
     this.bkLoading = true;
+    this.showPendingOnly = false;
     this.http.get<BookingItem[]>(`${this.apiUrl}/bookings/date-range?start=${this.dateStart}&end=${this.dateEnd}`, { headers: this.getHeaders() })
       .subscribe({ next: (data) => { this.bookings = data; this.bkLoading = false; }, error: () => this.bkLoading = false });
   }
 
-  // ============ CONTRACTS ============
+  loadAllContracts(): void {
+  this.ctLoading = true;
+  this.http.get<ContractItem[]>(`${this.apiUrl}/contracts`, {
+    headers: this.getHeaders()
+  }).subscribe({
+    next: (data) => {
+      this.contracts = data;
+      this.ctLoading = false;
+    },
+    error: (err) => {
+      console.error('Ошибка загрузки контрактов:', err);
+      this.ctLoading = false;
+      this.contracts = [];
+    }
+  });
+}
 
   loadPendingContracts(): void {
     this.ctLoading = true;
-    this.http.get<ContractItem[]>(`${this.apiUrl}/contracts/pending`, { headers: this.getHeaders() })
-      .subscribe({ next: (data) => { this.contracts = data; this.ctLoading = false; }, error: () => this.ctLoading = false });
+    this.http.get<ContractItem[]>(`${this.apiUrl}/contracts/pending`, {
+      headers: this.getHeaders()
+    }).subscribe({
+      next: (data) => {
+        this.contracts = data;
+        this.ctLoading = false;
+      },
+      error: (err) => {
+        console.error('Ошибка загрузки ожидающих контрактов:', err);
+        this.ctLoading = false;
+        this.contracts = [];
+      }
+    });
+  }
+  openBookingDetails(bk: any): void {
+    this.bookingDetailLoading = true;
+    this.bookingService.getBookingWithServices(bk.id).subscribe({
+      next: (data) => {
+        this.selectedBookingDetail = data;
+        this.bookingServicesDetail = data.services || [];
+        this.bookingDetailLoading = false;
+      },
+      error: () => {
+        this.selectedBookingDetail = bk;
+        this.bookingServicesDetail = [];
+        this.bookingDetailLoading = false;
+      }
+    });
   }
 
-  // ============ HELPERS ============
+  closeBookingDetails(): void {
+    this.selectedBookingDetail = null;
+    this.bookingServicesDetail = [];
+  }
+
+  openContractDetails(ct: any): void {
+    this.selectedContractDetail = ct;
+  }
+
+  closeContractDetails(): void {
+    this.selectedContractDetail = null;
+  }
+
+  prevPage(tab: string): void {
+  if (tab === 'locations' && this.locPage > 0) this.locPage--;
+  if (tab === 'workplaces' && this.wpPage > 0) this.wpPage--;
+  if (tab === 'services' && this.svcPage > 0) this.svcPage--;
+  if (tab === 'bookings' && this.bkPage > 0) this.bkPage--;
+  if (tab === 'contracts' && this.ctPage > 0) this.ctPage--;
+}
+
+nextPage(tab: string): void {
+  if (tab === 'locations' && (this.locPage + 1) * this.pageSize < this.filteredLocations.length) this.locPage++;
+  if (tab === 'workplaces' && (this.wpPage + 1) * this.pageSize < this.workplaces.length) this.wpPage++;
+  if (tab === 'services' && (this.svcPage + 1) * this.pageSize < this.services.length) this.svcPage++;
+  if (tab === 'bookings' && (this.bkPage + 1) * this.pageSize < this.filteredBookings.length) this.bkPage++;
+  if (tab === 'contracts' && (this.ctPage + 1) * this.pageSize < this.contracts.length) this.ctPage++;
+}
+
 
   formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleString('ru-RU', {
@@ -529,7 +693,34 @@ export class ManagerComponent implements OnInit {
   }
 
   getPaymentStatusLabel(status: string): string {
-    const map: { [key: string]: string } = { PAID: 'Оплачен', PENDING: 'Ожидает', CANCELLED: 'Отменён', COMPLETED: 'Завершён', REFUNDED: 'Возвращён' };
+    const map: { [key: string]: string } = {
+      PAID: 'Оплачен',
+      PENDING: 'Ожидает оплаты',
+      CANCELLED: 'Отменён',
+      COMPLETED: 'Завершён',
+      REFUNDED: 'Возвращён',
+      APPROVED: 'Одобрен'
+    };
     return map[status] || status;
+  }
+
+  getBookingStatusLabel(paymentStatus?: string, endTime?: string): string {
+    if (paymentStatus === 'CANCELLED') return 'Отменено';
+    if (paymentStatus === 'PAID') {
+        if (endTime && new Date(endTime) < new Date()) return 'Завершено';
+        return 'Оплачено';
+    }
+    if (paymentStatus === 'PENDING') {
+        if (endTime && new Date(endTime) < new Date()) return 'Просрочено';
+        return 'Ожидает оплаты';
+    }
+    return paymentStatus || 'Новое';
+}
+
+  getBookingCardClass(paymentStatus?: string): string {
+    if (paymentStatus === 'PAID') return 'booking-paid';
+    if (paymentStatus === 'CANCELLED') return 'booking-cancelled';
+    if (paymentStatus === 'APPROVED') return 'booking-approved';
+    return 'booking-pending';
   }
 }

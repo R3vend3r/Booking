@@ -6,37 +6,8 @@ import { LoginRequest } from '../../../models/auth.model';
 @Component({
   standalone: false,
   selector: 'app-login',
-  template: `
-    <div class="container" style="max-width: 400px; padding-top: 60px;">
-      <div class="card">
-        <h2 style="margin-bottom: 24px; text-align: center;">Вход</h2>
-        
-        <form (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Логин</label>
-            <input type="text" [(ngModel)]="request.login" name="login" required />
-          </div>
-          
-          <div class="form-group">
-            <label>Пароль</label>
-            <input type="password" [(ngModel)]="request.password" name="password" required />
-          </div>
-          
-          <div *ngIf="error" class="error" style="margin-bottom: 16px;">
-            {{ error }}
-          </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%;" [disabled]="loading">
-            {{ loading ? 'Вход...' : 'Войти' }}
-          </button>
-        </form>
-        
-        <p style="text-align: center; margin-top: 16px;">
-          Нет аккаунта? <a routerLink="/register">Зарегистрироваться</a>
-        </p>
-      </div>
-    </div>
-  `
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   request: LoginRequest = { login: '', password: '' };
@@ -49,6 +20,10 @@ export class LoginComponent {
   ) {}
 
   onSubmit(): void {
+    if (!this.validateInputs()) {
+      return;
+    }
+
     this.loading = true;
     this.error = '';
 
@@ -67,5 +42,41 @@ export class LoginComponent {
         this.loading = false;
       }
     });
+  }
+
+  private validateInputs(): boolean {
+    this.error = '';
+
+    if (!this.request.login || this.request.login.trim() === '') {
+      this.error = 'Пожалуйста, введите логин';
+      return false;
+    }
+
+    if (this.request.login.length < 3) {
+      this.error = 'Логин должен содержать минимум 3 символа';
+      return false;
+    }
+
+    if (this.request.login.length > 50) {
+      this.error = 'Логин не должен превышать 50 символов';
+      return false;
+    }
+
+    if (!this.request.password) {
+      this.error = 'Пожалуйста, введите пароль';
+      return false;
+    }
+
+    if (this.request.password.length < 6) {
+      this.error = 'Пароль должен содержать минимум 6 символов';
+      return false;
+    }
+
+    if (this.request.password.length > 100) {
+      this.error = 'Пароль не должен превышать 100 символов';
+      return false;
+    }
+
+    return true;
   }
 }

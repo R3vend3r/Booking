@@ -30,6 +30,7 @@ export class BookingsComponent implements OnInit {
   editWorkplacePricePerHour: number = 0;
   workplacePricePerHour: number = 0;
   Math = Math;
+  minDateTime = '';
   workplacePricesMap: Map<string, number> = new Map();
   bookingServicesTotal: Map<string, number> = new Map();
 
@@ -51,7 +52,7 @@ export class BookingsComponent implements OnInit {
     }
   });
   this.bookingService.getMyBookings().subscribe({
-    next: (data) => { 
+    next: (data) => {
       this.bookings = data;
       data.forEach(booking => {
         this.bookingService.getServicesByBooking(booking.id).subscribe({
@@ -76,7 +77,7 @@ export class BookingsComponent implements OnInit {
   const paymentStatus = booking.paymentStatus;
   const endTime = new Date(booking.endTime);
   const now = new Date();
-  
+
   if (paymentStatus === 'CANCELLED') return 'CANCELLED';
   if (paymentStatus === 'PAID') {
     return endTime < now ? 'COMPLETED' : 'PAID';
@@ -96,7 +97,7 @@ canPay(booking: Booking): boolean {
   const paymentStatus = booking.paymentStatus;
   const endTime = new Date(booking.endTime);
   const now = new Date();
-  
+
   return paymentStatus === 'PENDING' && endTime > now;
 }
 isCancelable(booking: Booking): boolean {
@@ -146,36 +147,79 @@ isCancelable(booking: Booking): boolean {
     this.editError = '';
     this.editAvailable = true;
     this.editAvailabilityChecked = false;
-    
-    const start = new Date(booking.startTime);
-    const end = new Date(booking.endTime);
+
+    const now = new Date();
+    const minStart = this.roundToNextHour(now);
+    this.minDateTime = this.formatDateTimeLocal(minStart);
+    let start = new Date(booking.startTime);
+    let end = new Date(booking.endTime);
+
+    if (start < minStart) {
+      start = new Date(minStart);
+      this.editError = 'Время начала бронирования в прошлом. Установлено текущее время';
+    }
+
     this.loadAllServicesForEdit();
     this.loadCurrentBookingServices(booking.id);
     this.bookingService.getWorkplaceById(booking.workPlaceId).subscribe(workplace => {
       this.editWorkplacePricePerHour = workplace.priceForHour;
     });
-    start.setMinutes(0, 0, 0);
-    end.setMinutes(0, 0, 0);
+
     if (end <= start) {
-      end.setHours(start.getHours() + 1);
+      end = new Date(start.getTime() + 3600000);
+      this.editError = 'Время окончания раньше начала. Автоматически установлено +1 час';
     }
-    
+
     this.editStart = this.formatDateTimeLocal(start);
     this.editEnd = this.formatDateTimeLocal(end);
     this.checkEditAvailability();
   }
+
+  private roundToNextHour(date: Date): Date {
+    const rounded = new Date(date);
+    rounded.setMinutes(0, 0, 0);
+    if (date.getMinutes() > 0 || date.getSeconds() > 0) {
+      rounded.setHours(rounded.getHours() + 1);
+    }
+    return rounded;
+  }
+
 formatDateTimeLocal(date: Date): string {
     const pad = (n: number) => n.toString().padStart(2, '0');
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:00`;
   }
 
   onEditTimesChange(): void {
+    this.editAvailabilityChecked = false;
+    this.editError = '';
+
+    if (!this.editingBooking || !this.editStart || !this.editEnd) return;
+
+    let startDate = new Date(this.editStart);
+    let endDate = new Date(this.editEnd);
+    const minStart = this.roundToNextHour(new Date());
+
+    if (startDate < minStart) {
+      startDate = new Date(minStart);
+      this.editStart = this.formatDateTimeLocal(startDate);
+      this.editError = 'Время начала не может быть в прошлом. Установлено текущее время';
+    }
+
+    if (endDate <= startDate) {
+      endDate = new Date(startDate.getTime() + 3600000);
+      this.editEnd = this.formatDateTimeLocal(endDate);
+      this.editError = 'Время окончания должно быть позже начала. Автоматически установлено +1 час';
+    }
+
+    this.editStart = this.formatDateTimeLocal(startDate);
+    this.editEnd = this.formatDateTimeLocal(endDate);
+
     this.checkEditAvailability();
   }
 
  checkEditAvailability(): void {
     if (!this.editingBooking || !this.editStart || !this.editEnd) return;
-    
+
     this.editAvailabilityChecked = false;
     this.bookingService.checkWorkplaceAvailability(
         this.editingBooking.workPlaceId,
@@ -196,12 +240,12 @@ formatDateTimeLocal(date: Date): string {
 
   saveEdit(): void {
   if (!this.editingBooking || !this.editStart || !this.editEnd) return;
-  
+
   if (!this.editAvailable) {
     this.editError = 'Это время уже занято';
     return;
   }
-  
+
 
   this.bookingService.updateBooking(this.editingBooking.id, {
     clientId: this.editingBooking.clientId,
@@ -213,28 +257,28 @@ formatDateTimeLocal(date: Date): string {
 
       this.updateBookingServices();
     },
-    error: (err) => { 
-      this.editError = err.error?.message || 'Ошибка при обновлении'; 
+    error: (err) => {
+      this.editError = err.error?.message || 'Ошибка при обновлении';
     }
   });
 }
 
 updateBookingServices(): void {
   if (!this.editingBooking) return;
-  
+
 
   this.bookingService.getServicesByBooking(this.editingBooking.id).subscribe({
     next: (currentServices) => {
       const currentServiceIds = new Set(currentServices.map(s => s.serviceId));
       const newServiceIds = new Set(this.editServices.keys());
-      
+
 
       currentServiceIds.forEach(serviceId => {
         if (!newServiceIds.has(serviceId)) {
           this.bookingService.removeServiceFromBooking(this.editingBooking!.id, serviceId).subscribe();
         }
       });
-      
+
 
       newServiceIds.forEach(serviceId => {
         const newQuantity = this.editServices.get(serviceId)!;
@@ -246,7 +290,7 @@ updateBookingServices(): void {
           this.bookingService.addServiceToBooking(this.editingBooking!.id, serviceId, newQuantity).subscribe();
         }
       });
-      
+
 
       this.cancelEdit();
       this.loadBookings();
@@ -295,23 +339,23 @@ loadAllServicesForEdit(): void {
 loadCurrentBookingServices(bookingId: string): void {
   console.log('=== loadCurrentBookingServices START ===');
   console.log('bookingId:', bookingId);
-  
+
   this.bookingService.getServicesByBooking(bookingId).subscribe({
     next: (services) => {
       console.log('getServicesByBooking ответ:', services);
       console.log('Тип ответа:', typeof services);
       console.log('Массив?', Array.isArray(services));
-      
+
       if (!services || services.length === 0) {
         console.log('Нет услуг для этого бронирования');
         return;
       }
-      
+
       services.forEach((service, index) => {
         console.log(`Услуга ${index}:`, service);
         console.log(`service.serviceId = ${service.serviceId}`);
         console.log(`service.quantity = ${service.quantity}`);
-        
+
         if (service.serviceId) {
           this.editServices.set(service.serviceId, service.quantity);
           this.editServicesQuantities[service.serviceId] = service.quantity;
@@ -320,7 +364,7 @@ loadCurrentBookingServices(bookingId: string): void {
           console.error('Нет serviceId у услуги!', service);
         }
       });
-      
+
       console.log('Итоговый editServices:', Array.from(this.editServices.entries()));
       console.log('=== loadCurrentBookingServices END ===');
     },
@@ -365,23 +409,22 @@ getEditServicesTotal(): number {
 getEditWorkplacePrice(): number {
   if (!this.editingBooking || !this.editStart || !this.editEnd) return 0;
   if (this.editWorkplacePricePerHour === 0) return 0;
-  
+
   const start = new Date(this.editStart);
   const end = new Date(this.editEnd);
   const hours = Math.max(1, Math.round((end.getTime() - start.getTime()) / 3600000));
-  
+
   return this.editWorkplacePricePerHour * hours;
- }
+}
 
-  get paginatedBookings(): Booking[] {
-    return this.bookings.slice(this.page * this.pageSize, (this.page + 1) * this.pageSize);
-  }
+get paginatedBookings(): Booking[] {
+  return this.bookings.slice(this.page* this.pageSize, (this.page + 1) * this.pageSize);
+}
+prevPage(): void {
+  if (this.page > 0) this.page--;
+}
 
-  prevPage(): void {
-    if (this.page > 0) this.page--;
-  }
-
-  nextPage(): void {
-    if ((this.page + 1) * this.pageSize < this.bookings.length) this.page++;
-  }
+nextPage(): void {
+  if ((this.page + 1) * this.pageSize < this.bookings.length) this.page++;
+}
 }
